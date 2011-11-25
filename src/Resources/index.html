@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<title>GTD Tool</title>		
+		<script type="text/javascript" src="js/prototype.js"></script>
+		<!--<script type="text/javascript" src="js/github_api.js"></script>-->
+		<script type="text/javascript" src="js/database.js"></script>
+		<script type="text/javascript" src="js/gtdclient.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+	
+	</head>
+	<body style="background-color:#1c1c1c;margin:30px;color:#fff;">
+		<div id="welcome">
+			<h1>Welcome</h1>
+		</div>		
+		<div id="container"></div>
+		<h1>Prototyp GitHubAPI</h1>
+		<label for="username">Uzivatel:</label>&nbsp;<input type="text" id="username" name="username" value="" /><br />
+		<label for="password">Heslo:</label>&nbsp;<input type="text" id="password" name="password" value="" />
+		<button class="authenticate">Prihlasit se</button>
+		<!--<button class="myIssues">Moje issues</button>-->
+		<h2>Repozitare uzivatele - <button class="loadRepos">load</button></h2>
+		<ul id="projects"></ul>		
+		<h2>Issues vybraneho projektu</h2>
+		<ul id="issues"></ul>
+		<h2>Spolupracovnici vybraneho projektu</h2>
+		<ul id="users"></ul>
+	</body>
+</html>
