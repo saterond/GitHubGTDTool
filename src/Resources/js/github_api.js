@@ -1,3 +1,5 @@
+jQuery.noConflict();
+
 function GitHubAPI(){}
 
 GitHubAPI.Authenticate = function(username, password, callback) {
@@ -8,7 +10,7 @@ GitHubAPI.Authenticate = function(username, password, callback) {
 	}, function(response) {
 		callback(response);
 	});*/
-	$.ajax({		
+	jQuery.ajax({		
 		url: requestURL,
 		username: username,
 		password: password,
@@ -21,7 +23,7 @@ GitHubAPI.Authenticate = function(username, password, callback) {
 			
 GitHubAPI.Repos = function(username, callback){
 	requestURL = "https://api.github.com/users/" + username + "/repos?callback=?";
-	$.ajax({
+	jQuery.ajax({
 		url: requestURL,
 		dataType: "jsonp",
 		success: function(response) {
@@ -32,7 +34,7 @@ GitHubAPI.Repos = function(username, callback){
 
 GitHubAPI.MyIssues = function(username, callback){
 	requestURL = "https://api.github.com/issues?callback=?";
-	$.ajax({
+	jQuery.ajax({
 		url: requestURL,
 		dataType: "jsonp",
 		success: function(response) {
@@ -43,7 +45,7 @@ GitHubAPI.MyIssues = function(username, callback){
 
 GitHubAPI.Issues = function(username, repo, callback){
 	requestURL = "https://api.github.com/repos/" + username + "/" + repo + "/issues?callback=?";
-	$.ajax({
+	jQuery.ajax({
 		url: requestURL,
 		dataType: "jsonp",
 		success: function(response) {
@@ -55,7 +57,7 @@ GitHubAPI.Issues = function(username, repo, callback){
 
 GitHubAPI.ProjectIssues = function(username, repo, callback){
 	requestURL = "https://api.github.com/repos/" + username + "/" + repo + "/issues";
-	$.ajax({
+	jQuery.ajax({
 		url: requestURL,
 		dataType: "jsonp",
 		data: "asignee=none&callback=?",
@@ -69,7 +71,7 @@ GitHubAPI.ProjectIssues = function(username, repo, callback){
 GitHubAPI.ProjectUsers = function(username, repo, callback) {
 	requestURL = "https://api.github.com/repos/" + username + "/" + repo + "/collaborators";
 	console.log("URL: " + requestURL);
-	$.ajax({
+	jQuery.ajax({
 		url: requestURL,
 		dataType: "jsonp",
 		data: "callback=?",
@@ -80,30 +82,30 @@ GitHubAPI.ProjectUsers = function(username, repo, callback) {
 	});
 }
 
-$(".authenticate").click(function() {				
-	var username = $("#username").val();
-	var password = $("#password").val();
+jQuery(".authenticate").click(function() {				
+	var username = jQuery("#username").val();
+	var password = jQuery("#password").val();
 	if (username == '' || password == '') {
 		alert('Musite vyplnit udaje');
 		return;
 	}
-	$(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
+	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
 	GitHubAPI.Authenticate(username, password, function(json){					
 		console.log(json);
 		$("img.loader").remove();
 	});	
 });
 
-$(".loadRepos").click(function() {
-	var username = $("#username").val();
+jQuery(".loadRepos").click(function() {
+	var username = jQuery("#username").val();
 	if (username == '') {
 		alert('Musite vyplnit jmeno');
 		return;
 	}
-	$(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
+	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
 	GitHubAPI.Repos(username, function(json){					
 		var content = "";					
-		$.each(json.data, function(i){
+		jQuery.each(json.data, function(i){
 			projectName = json.data[i].name;
 			content += "<li class=\"project\">" + projectName + " - ";
 			content += '<button class="loadIssues" data-key="'+projectName+'">load my issues</button>';
@@ -111,38 +113,38 @@ $(".loadRepos").click(function() {
 			content += '<button class="loadProjectUsers" data-key="'+projectName+'">load all collaborators</button>';
 			content += '</li>';
 		});
-		$("ul#projects").empty();
-		$("ul#issues").empty();
-		$("ul#projects").html(content);
-		$("img.loader").remove();
+		jQuery("ul#projects").empty();
+		jQuery("ul#issues").empty();
+		jQuery("ul#projects").html(content);
+		jQuery("img.loader").remove();
 	});					
 });
 
-$(".loadIssues").live('click', function() {		
-	$(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
-	var name = $(this).attr("data-key");
-	var username = $("#username").val();
+jQuery(".loadIssues").live('click', function() {		
+	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
+	var name = jQuery(this).attr("data-key");
+	var username = jQuery("#username").val();
 	GitHubAPI.Issues(username, name, function(json) {
 		var content = "";
 		if (json.meta.status == "404") {
 			content = "<li class=\"issue\">nemate zadne issues pridelene</li>";						
 		} else {
-			$.each(json.data, function(i){
+			jQuery.each(json.data, function(i){
 				issueTitle = json.data[i].title;
 				content += "<li class=\"issue\">" + issueTitle;
 				content += '</li>';
 			});
 		}
-		$("ul#issues").empty();
-		$("ul#issues").html(content);
-		$("img.loader").remove();
+		jQuery("ul#issues").empty();
+		jQuery("ul#issues").html(content);
+		jQuery("img.loader").remove();
 	});
 });
 
-$(".loadProjectIssues").live('click', function() {		
-	$(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader-issues">');
-	var name = $(this).attr("data-key");
-	var username = $("#username").val();
+jQuery(".loadProjectIssues").live('click', function() {		
+	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader-issues">');
+	var name = jQuery(this).attr("data-key");
+	var username = jQuery("#username").val();
 	GitHubAPI.ProjectIssues(username, name, function(json) {
 		var content = "";
 		if (json.meta.status == "404") {
@@ -151,23 +153,23 @@ $(".loadProjectIssues").live('click', function() {
 			if (json.data.length == 0) {
 				content = "<li class=\"user\">projekt nema zadne spolupracovniky</li>";
 			} else {
-				$.each(json.data, function(i){
+				jQuery.each(json.data, function(i){
 					issueTitle = json.data[i].title;
 					content += "<li class=\"issue\">" + issueTitle;
 					content += '</li>';
 				});
 			}
 		}
-		$("ul#issues").empty();
-		$("ul#issues").html(content);
-		$("img.loader-issues").remove();
+		jQuery("ul#issues").empty();
+		jQuery("ul#issues").html(content);
+		jQuery("img.loader-issues").remove();
 	});
 });			
 
-$(".loadProjectUsers").live('click', function() {
-	$(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader-user">');
-	var name = $(this).attr("data-key");
-	var username = $("#username").val();
+jQuery(".loadProjectUsers").live('click', function() {
+	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader-user">');
+	var name = jQuery(this).attr("data-key");
+	var username = jQuery("#username").val();
 	GitHubAPI.ProjectUsers(username, name, function(json) {
 		var content = "";
 		if (json.meta.status == "404") {
@@ -176,7 +178,7 @@ $(".loadProjectUsers").live('click', function() {
 			if (json.data.length == 0) {
 				content = "<li class=\"user\">projekt nema zadne spolupracovniky</li>";
 			} else {
-				$.each(json.data, function(i){
+				jQuery.each(json.data, function(i){
 					userLogin = json.data[i].login;
 					avatar = json.data[i].avatar_url;
 					content += "<li class=\"user\">";
@@ -186,29 +188,29 @@ $(".loadProjectUsers").live('click', function() {
 				});
 			}
 		}
-		$("ul#users").empty();
-		$("ul#users").html(content);
-		$("img.loader-user").remove();
+		jQuery("ul#users").empty();
+		jQuery("ul#users").html(content);
+		jQuery("img.loader-user").remove();
 	});
 });
 
-$(".myIssues").click(function() {
+jQuery(".myIssues").click(function() {
 	var username = $("#username").val();
 	if (username == '') {
 		alert('Musite vyplnit jmeno');
 		return;
 	}
-	$(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
+	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
 	GitHubAPI.MyIssues(username, function(json){					
 		var content = "";					
-		$.each(json.data, function(i){
+		jQuery.each(json.data, function(i){
 			console.log(json.data);
 			issueTitle = json.data[i].title;
 			content += "<li class=\"issue\">" + issueTitle + " - ";
 			content += '</li>';
 		});					
-		$("ul#issues").empty();
-		$("ul#issues").html(content);
-		$("img.loader").remove();
+		jQuery("ul#issues").empty();
+		jQuery("ul#issues").html(content);
+		jQuery("img.loader").remove();
 	});	
 });

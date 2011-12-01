@@ -1,28 +1,48 @@
 Event.observe(window, 'load', function() {
-		/*var db = new GTDDatabase('gtdtoolDB');
-		var projectsRS = db.executeQuery('SELECT name FROM project');
-		
-		while(row = projectsRS.getRow()) {
-			var name = row.fieldByName("name");
-			alert(name);
+	var app = new GTDApplication();
+   	if (app.dbOk) {
+	   	var db = app.getDb();
+	   	
+		var projectsRS = db.execute("SELECT * FROM Project");
+		var content = "";		
+		while (projectsRS.isValidRow()) {			
+			var projectId = projectsRS.fieldByName('project_id');
+			var projectName = projectsRS.fieldByName('name');
+			content += "<li class=\"project\">" + projectName + " - ";
+			content += '<button class="loadIssues" data-key="'+projectName+'">nacti ukoly</button>';			
+			content += '</li>';		
+			projectsRS.next();
 		}
-		db.close();*/
+		projectsRS.close();
+		jQuery.noConflict();
 		
-		var initOptions = {
-			url: "https://api.github.com",
-			method: "get",
-			timeout: 1000
-		};
+		jQuery("ul#projects").empty();
+		jQuery("ul#issues").empty();
+		jQuery("ul#projects").html(content);					
+	}
+	
+	jQuery(".loadRepos").click(function() {			   
+	    var configStream = Titanium.Filesystem.getFileStream(Titanium.Filesystem.getFile(Titanium.Filesystem.getResourcesDirectory(), 'config.json'));		
+        var config = Titanium.JSON.parse(configStream.read());
+		var db = Titanium.Database.open(config.database);
 		
-		var client = new GTDClient(initOptions);
+		var username = config.username;
 		
-		var params = {			
-		};
-		
-		var response = client.call(params);		
-		if (response == false) {
-			alert("chyba");
-		} else {
-			alert("OK");
-		}
+		jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
+		GitHubAPI.Repos(username, function(json){					
+			var content = "";					
+			var j = 2;			
+			jQuery.each(json.data, function(i){
+				projectName = json.data[i].name;				
+				db.execute("INSERT INTO Project (project_id,name) VALUES (?,?)", j, projectName);							
+				j = j + 1; 											
+			});	
+			db.close();		
+			jQuery("img.loader").remove();
+		});					
+	});	
+});
+
+Event.observe(window, 'load', function() {
+	db.close();
 });

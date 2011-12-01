@@ -12,6 +12,13 @@ var GTDDatabase = Class.create({
 		var q = this.instance.execute(sql);		
 		return new GTDQuery(q);
 	},
+	executeUpdate: function(sql) {
+		Titanium.API.info("update executed");
+		this.instance.execute(sql);
+	},
+	getInstance: function() {
+		return this.instance;
+	},
 	close: function() {
 		this.instance.close();
 	}
