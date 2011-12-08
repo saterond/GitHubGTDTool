@@ -2,44 +2,18 @@ jQuery.noConflict();
 
 function GitHubAPI(){}
 
-GitHubAPI.Authenticate = function(username, password, callback) {
-	requestURL = "https://api.github.com";
-	/*$.getJSON(requestURL, {
-		username: username,
-		password: password
-	}, function(response) {
-		callback(response);
-	});*/
-	jQuery.ajax({		
-		url: requestURL,
-		username: username,
-		password: password,
-		dataType: "jsonp",		
-		success: function(response) {
-			callback(response);
-		}  
-	});
-}
-			
 GitHubAPI.Repos = function(username, callback){
 	requestURL = "https://api.github.com/users/" + username + "/repos?callback=?";
 	jQuery.ajax({
 		url: requestURL,
 		dataType: "jsonp",
 		success: function(response) {
-			callback(response);						
-		}					 
-	});
-}
-
-GitHubAPI.MyIssues = function(username, callback){
-	requestURL = "https://api.github.com/issues?callback=?";
-	jQuery.ajax({
-		url: requestURL,
-		dataType: "jsonp",
-		success: function(response) {
-			callback(response);						
-		}					 
+			Titanium.API.info("Done loading repos");
+			callback(response);			
+		},
+		error: function(e) {
+			Titanium.API.info("Error with loading repos");
+		}
 	});
 }
 
@@ -50,20 +24,7 @@ GitHubAPI.Issues = function(username, repo, callback){
 		dataType: "jsonp",
 		success: function(response) {
 			console.log(response);
-			callback(response);						
-		}					 
-	});
-}
-
-GitHubAPI.ProjectIssues = function(username, repo, callback){
-	requestURL = "https://api.github.com/repos/" + username + "/" + repo + "/issues";
-	jQuery.ajax({
-		url: requestURL,
-		dataType: "jsonp",
-		data: "asignee=none&callback=?",
-		success: function(response) {
-			console.log(response);
-			callback(response);						
+			callback(response, repo);
 		}					 
 	});
 }
@@ -82,135 +43,18 @@ GitHubAPI.ProjectUsers = function(username, repo, callback) {
 	});
 }
 
-jQuery(".authenticate").click(function() {				
-	var username = jQuery("#username").val();
-	var password = jQuery("#password").val();
-	if (username == '' || password == '') {
-		alert('Musite vyplnit udaje');
-		return;
-	}
-	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
-	GitHubAPI.Authenticate(username, password, function(json){					
-		console.log(json);
-		$("img.loader").remove();
-	});	
-});
-
-jQuery(".loadRepos").click(function() {
-	var username = jQuery("#username").val();
-	if (username == '') {
-		alert('Musite vyplnit jmeno');
-		return;
-	}
-	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
-	GitHubAPI.Repos(username, function(json){					
-		var content = "";					
-		jQuery.each(json.data, function(i){
-			projectName = json.data[i].name;
-			content += "<li class=\"project\">" + projectName + " - ";
-			content += '<button class="loadIssues" data-key="'+projectName+'">load my issues</button>';
-			content += '<button class="loadProjectIssues" data-key="'+projectName+'">load all issues</button>';
-			content += '<button class="loadProjectUsers" data-key="'+projectName+'">load all collaborators</button>';
-			content += '</li>';
-		});
-		jQuery("ul#projects").empty();
-		jQuery("ul#issues").empty();
-		jQuery("ul#projects").html(content);
-		jQuery("img.loader").remove();
-	});					
-});
-
-jQuery(".loadIssues").live('click', function() {		
-	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
-	var name = jQuery(this).attr("data-key");
-	var username = jQuery("#username").val();
-	GitHubAPI.Issues(username, name, function(json) {
-		var content = "";
-		if (json.meta.status == "404") {
-			content = "<li class=\"issue\">nemate zadne issues pridelene</li>";						
-		} else {
-			jQuery.each(json.data, function(i){
-				issueTitle = json.data[i].title;
-				content += "<li class=\"issue\">" + issueTitle;
-				content += '</li>';
-			});
-		}
-		jQuery("ul#issues").empty();
-		jQuery("ul#issues").html(content);
-		jQuery("img.loader").remove();
+GitHubAPI.CloseIssue = function(auth, username, repo, id, callback) {	
+	var requestURL = "https://api.github.com/repos/" + username + "/" + repo + "/issues/" + id;
+	var dataToSend = '{"state": "closed"}';	
+	jQuery.ajax({
+		url: requestURL,		
+		data: dataToSend,
+		type: "PATCH",
+		beforeSend : function(req) {
+            req.setRequestHeader('Authorization', auth);
+       	},
+		success: function(response) {			
+			callback(response, id);
+		}					 
 	});
-});
-
-jQuery(".loadProjectIssues").live('click', function() {		
-	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader-issues">');
-	var name = jQuery(this).attr("data-key");
-	var username = jQuery("#username").val();
-	GitHubAPI.ProjectIssues(username, name, function(json) {
-		var content = "";
-		if (json.meta.status == "404") {
-			content = "<li class=\"issue\">projekt nema zadne issues</li>";						
-		} else {
-			if (json.data.length == 0) {
-				content = "<li class=\"user\">projekt nema zadne spolupracovniky</li>";
-			} else {
-				jQuery.each(json.data, function(i){
-					issueTitle = json.data[i].title;
-					content += "<li class=\"issue\">" + issueTitle;
-					content += '</li>';
-				});
-			}
-		}
-		jQuery("ul#issues").empty();
-		jQuery("ul#issues").html(content);
-		jQuery("img.loader-issues").remove();
-	});
-});			
-
-jQuery(".loadProjectUsers").live('click', function() {
-	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader-user">');
-	var name = jQuery(this).attr("data-key");
-	var username = jQuery("#username").val();
-	GitHubAPI.ProjectUsers(username, name, function(json) {
-		var content = "";
-		if (json.meta.status == "404") {
-			content = "<li class=\"user\">projekt nema zadne spolupracovniky</li>";						
-		} else {
-			if (json.data.length == 0) {
-				content = "<li class=\"user\">projekt nema zadne spolupracovniky</li>";
-			} else {
-				jQuery.each(json.data, function(i){
-					userLogin = json.data[i].login;
-					avatar = json.data[i].avatar_url;
-					content += "<li class=\"user\">";
-					content += userLogin;
-					content += ', avatar URL: ' + avatar;							
-					content += '</li>';
-				});
-			}
-		}
-		jQuery("ul#users").empty();
-		jQuery("ul#users").html(content);
-		jQuery("img.loader-user").remove();
-	});
-});
-
-jQuery(".myIssues").click(function() {
-	var username = $("#username").val();
-	if (username == '') {
-		alert('Musite vyplnit jmeno');
-		return;
-	}
-	jQuery(this).after('<img src="images/ajax-loader.gif" height="16" width="16" class="loader">');
-	GitHubAPI.MyIssues(username, function(json){					
-		var content = "";					
-		jQuery.each(json.data, function(i){
-			console.log(json.data);
-			issueTitle = json.data[i].title;
-			content += "<li class=\"issue\">" + issueTitle + " - ";
-			content += '</li>';
-		});					
-		jQuery("ul#issues").empty();
-		jQuery("ul#issues").html(content);
-		jQuery("img.loader").remove();
-	});	
-});
+}

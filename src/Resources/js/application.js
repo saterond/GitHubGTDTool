@@ -27,5 +27,13 @@ var GTDApplication = Class.create({
 	},
 	getConfig: function() {
 		return this.config;
+	},
+	saveAuth: function(username, password) {
+		Titanium.API.info("ukladam hash pro username " + username);
+		var tok = username + ':' + password;
+		var hash = Base64.encode(tok);
+		var auth = "Basic " + hash;
+				
+		Titanium.API.info(auth);
 	}
 });

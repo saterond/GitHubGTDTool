@@ -1,5 +1,5 @@
 {
 	"database": "gtdtoolDB",
-	"username": "saterond",
-	"password": "" 
+	"username": "saterond",	
+	"auth" : "Basic c2F0ZXJvbmQ6MmFiYzVqa2w=" 
 }
