@@ -19,7 +19,22 @@ $('setAuth').observe('click', function(evt) {
 		url: "app://dialogs/auth.html",
 		baseURL: "app://",
 		width: 200,
-		height: 140,
+		height: 150,
+		visible: true,
+		closeable: true,
+		maximizable: false,
+		resizable: false,
+		topMost: true
+	});
+});
+
+$('saveNewIssue').observe('click', function(evt) {	
+	Titanium.UI.showDialog({
+		id: "issueDialog",		
+		url: "app://dialogs/newIssue.html",
+		baseURL: "app://",
+		width: 200,
+		height: 150,
 		visible: true,
 		closeable: true,
 		maximizable: false,
@@ -38,7 +53,7 @@ var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', function
 handlerSyncIssues.stop();
 handlerSyncIssues.start();
 
-var handlerLoadIssues = document.on('click', 'button[id="loadIssues"]', function(event, element) {    	
+var handlerLoadIssues = document.on('click', 'button[id="loadIssues"]', function(event, element) {   	
 		var viewer = Titanium.API.get("viewer");
 		var repo = element.readAttribute("data-key");
 		
