@@ -1,0 +1,126 @@
+body {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	background: #fff url(../src/bg.gif) left repeat-y;
+}
+#sidebar {
+	width: 270px;
+	padding: 10px;
+	float: left;
+}
+#content {
+	width: 100%;
+}
+#content .inner {
+	padding: 10px 10px 10px 300px;
+}
+h2 {margin-bottom: 5px;}
+h3 {margin-bottom: 7px;}
+.clear {display: block; width: 100%; clear: both;}
+.divider {width: 100%; display: block; height: 1px; background: #a0a0a0; margin: 10px 0;}
+#sidebar ul.items {list-style-type: none; padding: 0; width: 100%;}
+#sidebar ul.items li {
+	background: #fff url(../src/thin_right_arrow.png) 98% 50% no-repeat;
+	padding: 8px 5px; margin-bottom: 3px;
+	font-weight: bold;
+	-webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+#sidebar ul.items li:hover {
+	background: #666 url(../src/thin_right_arrow_white.png) 98% 50% no-repeat;
+	color: #fff;
+	cursor: pointer;
+}
+.search input {
+	line-height: 35px;
+	padding-left: 35px;
+	background: url(../src/search.png) 1% 50% no-repeat;
+}
+.labels {
+	height: 26px;
+}
+.labels .label {
+	float: left;
+	padding: 3px 5px;
+	background: #ccc;
+	margin-right: 5px;
+	-webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+.labels .label.global {
+	background: #6699FF;
+	color: #fff;
+}
+/* --------------------------
+		BUTTONS
+----------------------------*/
+button.button-big {
+	background: #e5e5e5;
+	color: #333; font-weight: bold;
+	width: 80px; height: 50px;
+	border: 1px #a6a6a6 solid;
+	margin-right: 7px;
+	-moz-box-shadow: 2px 2px 5px #888;
+	-webkit-box-shadow: 2px 2px 5px#888;
+	box-shadow: 2px 2px 5px #888;
+	-webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+	cursor: pointer;
+}
+button.cupid-green {
+  background-color: #7fbf4d;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7fbf4d), color-stop(100%, #63a62f));
+  background-image: -webkit-linear-gradient(top, #7fbf4d, #63a62f);
+  background-image: -moz-linear-gradient(top, #7fbf4d, #63a62f);
+  background-image: -ms-linear-gradient(top, #7fbf4d, #63a62f);
+  background-image: -o-linear-gradient(top, #7fbf4d, #63a62f);
+  background-image: linear-gradient(top, #7fbf4d, #63a62f);
+  border: 1px solid #63a62f;
+  border-bottom: 1px solid #5b992b;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 0 0 #96ca6d;
+  -moz-box-shadow: inset 0 1px 0 0 #96ca6d;
+  -ms-box-shadow: inset 0 1px 0 0 #96ca6d;
+  -o-box-shadow: inset 0 1px 0 0 #96ca6d;
+  box-shadow: inset 0 1px 0 0 #96ca6d;
+  color: #fff;
+  font: bold 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  line-height: 1;
+  padding: 7px 0 8px 0;
+  text-align: center;
+  text-shadow: 0 -1px 0 #4c9021;
+  width: 250px; }
+  button.cupid-green:hover {
+    background-color: #76b347;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #76b347), color-stop(100%, #5e9e2e));
+    background-image: -webkit-linear-gradient(top, #76b347, #5e9e2e);
+    background-image: -moz-linear-gradient(top, #76b347, #5e9e2e);
+    background-image: -ms-linear-gradient(top, #76b347, #5e9e2e);
+    background-image: -o-linear-gradient(top, #76b347, #5e9e2e);
+    background-image: linear-gradient(top, #76b347, #5e9e2e);
+    -webkit-box-shadow: inset 0 1px 0 0 #8dbf67;
+    -moz-box-shadow: inset 0 1px 0 0 #8dbf67;
+    -ms-box-shadow: inset 0 1px 0 0 #8dbf67;
+    -o-box-shadow: inset 0 1px 0 0 #8dbf67;
+    box-shadow: inset 0 1px 0 0 #8dbf67;
+    cursor: pointer; }
+  button.cupid-green:active {
+    border: 1px solid #5b992b;
+    border-bottom: 1px solid #538c27;
+    -webkit-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
+    -moz-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
+    -ms-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
+    -o-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
+    box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee; }
