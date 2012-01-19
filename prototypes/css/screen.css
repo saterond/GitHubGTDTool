@@ -1,6 +1,7 @@
 body {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	background: #fff url(../src/bg.gif) left repeat-y;
+	padding: 0; margin: 0;
 }
 #sidebar {
 	width: 270px;
@@ -17,6 +18,8 @@ h2 {margin-bottom: 5px;}
 h3 {margin-bottom: 7px;}
 .clear {display: block; width: 100%; clear: both;}
 .divider {width: 100%; display: block; height: 1px; background: #a0a0a0; margin: 10px 0;}
+
+#sidebar h3 {color: #fff;}
 #sidebar ul.items {list-style-type: none; padding: 0; width: 100%;}
 #sidebar ul.items li {
 	background: #fff url(../src/thin_right_arrow.png) 98% 50% no-repeat;
@@ -38,6 +41,14 @@ h3 {margin-bottom: 7px;}
 	padding-left: 35px;
 	background: url(../src/search.png) 1% 50% no-repeat;
 }
+
+h2.github, h2.gcode, h2.assembla {padding-left: 40px; margin-bottom: 10px;}
+h2.github {background: url(../src/github.gif) left center no-repeat;}
+h2.gcode {background: url(../src/gcode.gif) left center no-repeat;}
+h2.assembla {background: url(../src/assembla_big.gif) left center no-repeat;}
+/*---------------------------
+		GLOBAL LABELS
+----------------------------*/
 .labels {
 	height: 26px;
 }
@@ -56,6 +67,80 @@ h3 {margin-bottom: 7px;}
 	background: #6699FF;
 	color: #fff;
 }
+/*---------------------------
+		BROWSE ISSUE
+----------------------------*/
+.issue {
+	height: 40px;
+	margin-top: 6px;
+	padding: 8px 5px;
+	background-color: #DADADA;
+	-webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+.issue .handle {
+	float: left; display: block;
+	width: 24px; height: 38px;
+	margin-right: 5px;
+	background: url(../src/move.png) left center no-repeat;
+}
+.issue .handle:hover {
+	cursor: move;
+}
+.issue .title {
+	font-size: 120%; font-weight: bold;
+}
+.issue .labels {
+	float: right;
+	padding: 12px 15px 0 0;
+}
+.issue .labels a {
+	background: #999;
+	padding: 3px 8px;	margin-right: 5px;
+	color: #fff; text-decoration: none;
+	-webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+.issue .labels a:hover {text-decoration: underline;}
+.issue button {
+	float: right;
+	margin-top: 5px;
+}
+.issue .description {
+	float: left;
+	width: 700px; height: 8px;
+	overflow: hidden;
+	margin: 0; padding: 8px 5px 8px 0px;
+	font-style: italic;
+}
+/* --------------------------
+		ISSUE FORM
+----------------------------*/
+.issueTable {
+	width: 500px;
+	border: 1px #999 solid;
+	-webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+.issueTable input.issueTitle {
+	line-height: 30px;
+	font-size: 20px;
+}
+.issueTable .labels span {
+	display: block;
+	padding: 5px 8px;
+	float: left;
+	font-weight: bold;
+}
 /* --------------------------
 		BUTTONS
 ----------------------------*/
@@ -65,14 +150,14 @@ button.button-big {
 	width: 80px; height: 50px;
 	border: 1px #a6a6a6 solid;
 	margin-right: 7px;
-	-moz-box-shadow: 2px 2px 5px #888;
-	-webkit-box-shadow: 2px 2px 5px#888;
-	box-shadow: 2px 2px 5px #888;
-	-webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
+	-moz-box-shadow: 2px 2px 5px #888; -webkit-box-shadow: 2px 2px 5px#888;	box-shadow: 2px 2px 5px #888;
+	-webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px;
+	cursor: pointer;
+}
+button.big-blue-arrow {
+	border: 0;
+	width: 26px; height: 26px;
+	background: url(../src/arrow_right_blue.png) right center no-repeat;
 	cursor: pointer;
 }
 button.cupid-green {
@@ -83,24 +168,13 @@ button.cupid-green {
   background-image: -ms-linear-gradient(top, #7fbf4d, #63a62f);
   background-image: -o-linear-gradient(top, #7fbf4d, #63a62f);
   background-image: linear-gradient(top, #7fbf4d, #63a62f);
-  border: 1px solid #63a62f;
-  border-bottom: 1px solid #5b992b;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: inset 0 1px 0 0 #96ca6d;
-  -moz-box-shadow: inset 0 1px 0 0 #96ca6d;
-  -ms-box-shadow: inset 0 1px 0 0 #96ca6d;
-  -o-box-shadow: inset 0 1px 0 0 #96ca6d;
-  box-shadow: inset 0 1px 0 0 #96ca6d;
-  color: #fff;
-  font: bold 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-  line-height: 1;
+  border: 1px solid #63a62f; border-bottom: 1px solid #5b992b;
+  -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 0 0 #96ca6d; -moz-box-shadow: inset 0 1px 0 0 #96ca6d; -ms-box-shadow: inset 0 1px 0 0 #96ca6d;
+  -o-box-shadow: inset 0 1px 0 0 #96ca6d; box-shadow: inset 0 1px 0 0 #96ca6d;
+  color: #fff; font: bold 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  line-height: 1; text-align: center; text-shadow: 0 -1px 0 #4c9021;
   padding: 7px 0 8px 0;
-  text-align: center;
-  text-shadow: 0 -1px 0 #4c9021;
   width: 250px; }
   button.cupid-green:hover {
     background-color: #76b347;
@@ -110,17 +184,33 @@ button.cupid-green {
     background-image: -ms-linear-gradient(top, #76b347, #5e9e2e);
     background-image: -o-linear-gradient(top, #76b347, #5e9e2e);
     background-image: linear-gradient(top, #76b347, #5e9e2e);
-    -webkit-box-shadow: inset 0 1px 0 0 #8dbf67;
-    -moz-box-shadow: inset 0 1px 0 0 #8dbf67;
-    -ms-box-shadow: inset 0 1px 0 0 #8dbf67;
-    -o-box-shadow: inset 0 1px 0 0 #8dbf67;
-    box-shadow: inset 0 1px 0 0 #8dbf67;
+    -webkit-box-shadow: inset 0 1px 0 0 #8dbf67; -moz-box-shadow: inset 0 1px 0 0 #8dbf67; -ms-box-shadow: inset 0 1px 0 0 #8dbf67;
+    -o-box-shadow: inset 0 1px 0 0 #8dbf67; box-shadow: inset 0 1px 0 0 #8dbf67;
     cursor: pointer; }
   button.cupid-green:active {
-    border: 1px solid #5b992b;
-    border-bottom: 1px solid #538c27;
-    -webkit-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
-    -moz-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
-    -ms-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
-    -o-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
+    border: 1px solid #5b992b; border-bottom: 1px solid #538c27;
+    -webkit-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee; -moz-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
+    -ms-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee; -o-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
     box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee; }
+button.minimal {
+  background: #e3e3e3;
+  border: 1px solid #bbb;
+  -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6; -moz-box-shadow: inset 0 0 1px 1px #f6f6f6; -ms-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  -o-box-shadow: inset 0 0 1px 1px #f6f6f6; box-shadow: inset 0 0 1px 1px #f6f6f6;
+  color: #333; font: bold 12px "helvetica neue", helvetica, arial, sans-serif;
+  line-height: 1; text-align: center; text-shadow: 0 1px 0 #fff;
+  padding: 5px 0 6px; width: 80px; }
+  button.minimal:hover {
+    background: #d9d9d9; color: #222;
+		-webkit-box-shadow: inset 0 0 1px 1px #eaeaea; -moz-box-shadow: inset 0 0 1px 1px #eaeaea; -ms-box-shadow: inset 0 0 1px 1px #eaeaea;
+    -o-box-shadow: inset 0 0 1px 1px #eaeaea; box-shadow: inset 0 0 1px 1px #eaeaea;
+    cursor: pointer; }
+  button.minimal:active {
+    background: #d0d0d0;
+    -webkit-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    -moz-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    -ms-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    -o-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    box-shadow: inset 0 0 1px 1px #e3e3e3;
+    color: #000; }

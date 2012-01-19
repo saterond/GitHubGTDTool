@@ -2,17 +2,16 @@
 <html lang="cs">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
-		<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="css/blueprint/src/typography.css" type="text/css" media="screen, projection">
 		<link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection">
-		<!--[if lt IE 8]>
-		  <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
-		<![endif]-->
-    <title>GTD ukolovnik</title>
+		<title>GTD ukolovnik</title>
   </head>
 	<body>
 		<div id="sidebar">
-			<button class="cupid-green">Create new project</button>
+			<ul class="items">
+				<li>INBOX</li>
+			</ul>
+   		<button class="cupid-green">Create new project</button>
 			<span class="divider"></span>
 			<h3>Projects</h3>
 			<ul class="items">
@@ -34,15 +33,41 @@
 
 		<div id="content">
     	<div class="inner">
-        <h2>Opened project name</h2>
-				<div class="labels">
+				<div class="projectHeader">
+					<h2 class="github" title="GitHub project">Opened project name <img src="src/edit.png" alt="Edit project" title="Edit project" height="21" width="60" class="editProject"></h2>
+				</div>
+        <div class="labels">
         	<span class="label global">Work</span>
 					<span class="label global">School</span>
 					<span class="label">Freetime</span>
 					<span class="clear"></span>
         </div>
 				<span class="divider"></span>
-				<button class="cupid-green">Add new issue</button>
+				<button class="cupid-green" onclick="window.location.href = 'issue.html';">Add new issue</button>
+				<br>
+				<div class="issue">
+					<span class="handle"></span>
+					<span class="title github">Really long issue title that could cause some problems</span>
+					<button class="big-blue-arrow"></button>
+					<span class="labels"><a href="#">bla</a><a href="#">bla</a><a href="#">bla</a></span>
+					<br />
+					<div class="description">description and description and description and description and description and description and description and description and description and </div>
+        </div>
+				<div class="issue">
+					<span class="handle"></span>
+					<span class="title gcode">Issue title</span>
+					<button class="big-blue-arrow"></button>
+					<span class="labels"><a href="#">bla</a><a href="#">bla</a></span>
+					<br>
+					<div class="description">description</div>
+        </div>
+				<div class="issue">
+					<span class="handle"></span>
+					<span class="title assembla">Issue title</span>
+					<button class="big-blue-arrow"></button>
+					<br>
+					<div class="description">description</div>
+        </div>
      	</div>
     </div>
 	</body>
