@@ -4,14 +4,16 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="css/blueprint/src/typography.css" type="text/css" media="screen, projection">
 		<link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection">
-		<title>GTD ukolovnik</title>
+		<script src="scripts/prototype.js" type="text/javascript" language="JavaScript"></script>
+		<script src="scripts/scripts.js" type="text/javascript" language="JavaScript"></script>
+    <title>GTD ukolovnik</title>
   </head>
 	<body>
 		<div id="sidebar">
 			<ul class="items">
 				<li>INBOX</li>
 			</ul>
-   		<button class="cupid-green">Create new project</button>
+   		<button class="cupid-green" onclick="window.location.href = 'project.html';">Create new project</button>
 			<span class="divider"></span>
 			<h3>Projects</h3>
 			<ul class="items">
@@ -34,7 +36,7 @@
 		<div id="content">
     	<div class="inner">
 				<div class="projectHeader">
-					<h2 class="github" title="GitHub project">Opened project name <img src="src/edit.png" alt="Edit project" title="Edit project" height="21" width="60" class="editProject"></h2>
+					<h2 class="github" title="GitHub project">Opened project name</h2>
 				</div>
         <div class="labels">
         	<span class="label global">Work</span>
@@ -46,28 +48,153 @@
 				<button class="cupid-green" onclick="window.location.href = 'issue.html';">Add new issue</button>
 				<br>
 				<div class="issue">
-					<span class="handle"></span>
-					<span class="title github">Really long issue title that could cause some problems</span>
-					<button class="big-blue-arrow"></button>
-					<span class="labels"><a href="#">bla</a><a href="#">bla</a><a href="#">bla</a></span>
-					<br />
-					<div class="description">description and description and description and description and description and description and description and description and description and </div>
-        </div>
+					<div class="issueHeader">
+						<span class="handle"></span>
+						<span class="title github">Really long issue title that could cause some problems</span>
+						<button class="big-blue-arrow up showInfo" type="button" data-key="1"></button>
+						<span class="labels"><a href="#">bla</a><a href="#">bla</a><a href="#">bla</a></span>
+						<br />
+						<div class="description">description and description and description and description and description and description and description and description and description and</div>
+	        </div>
+					<div class="issueInfo" id="info_1">
+						<div class="description">description and description and description and description and description and description and description and description and description and</div>
+						<table>
+							<tr>
+								<td>
+									<label for="state_1">Change state:</label>
+									<select name="state" id="state_1">
+                   <option value="0">active</option>
+                   <option value="1">completed</option>
+                  </select>
+								</td>
+								<td>
+									<label for="assignee_1">Change assignee:</label>
+									<select name="assignee" id="assignee_1">
+                   <option value="0">coworker 1</option>
+                   <option value="1">coworker 2</option>
+									 <option value="1">coworker 3</option>
+                  </select>
+								</td>
+								<td>
+									<span class="issueComplete now75">Milestone 75%</span>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<ul class="issueCommits">
+                   <li><strong>#1</strong> <em>username</em>: commit message</li>
+                   <li><strong>#2</strong> <em>username</em>: commit message</li>
+                   <li><strong>#3</strong> <em>username</em>: commit message</li>
+                  </ul>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3" align="right">
+									<button class="cupid-green" onclick="window.location.href = 'issue.html';">Edit issue</button>
+								</td>
+							</tr>
+            </table>
+	        </div>
+				</div>
+
 				<div class="issue">
-					<span class="handle"></span>
-					<span class="title gcode">Issue title</span>
-					<button class="big-blue-arrow"></button>
-					<span class="labels"><a href="#">bla</a><a href="#">bla</a></span>
-					<br>
-					<div class="description">description</div>
-        </div>
+					<div class="issueHeader assigned">
+						<span class="handle"></span>
+						<span class="title gcode">Issue title</span>
+						<button class="big-blue-arrow showInfo" type="button" data-key="2"></button>
+						<span class="labels"><a href="#">bla</a><a href="#">bla</a></span>
+						<br>
+						<div class="description">description</div>
+	        </div>
+					<div class="issueInfo hidden" id="info_2">
+						<div class="description">description and description and description and description and description and description and description and description and description and</div>
+						<table>
+							<tr>
+								<td>
+									<label for="state_2">Change state:</label>
+									<select name="state" id="state_2">
+                   <option value="0">active</option>
+                   <option value="1">completed</option>
+                  </select>
+								</td>
+								<td>
+									<label for="assignee_2">Change assignee:</label>
+									<select name="assignee" id="assignee_2">
+                   <option value="0">coworker 1</option>
+                   <option value="1">coworker 2</option>
+									 <option value="1">coworker 3</option>
+                  </select>
+								</td>
+								<td>
+									<span class="issueComplete now25">Milestone 25%</span>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<ul class="issueCommits">
+                   <li><strong>#1</strong> <em>username</em>: commit message</li>
+                   <li><strong>#2</strong> <em>username</em>: commit message</li>
+                   <li><strong>#3</strong> <em>username</em>: commit message</li>
+                  </ul>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3" align="right">
+									<button class="cupid-green" onclick="window.location.href = 'issue.html';">Edit issue</button>
+								</td>
+							</tr>
+            </table>
+	        </div>
+				</div>
+
 				<div class="issue">
-					<span class="handle"></span>
-					<span class="title assembla">Issue title</span>
-					<button class="big-blue-arrow"></button>
-					<br>
-					<div class="description">description</div>
-        </div>
+					<div class="issueHeader">
+						<span class="handle"></span>
+						<span class="title assembla">Issue title</span>
+						<button class="big-blue-arrow showInfo" type="button" data-key="3"></button>
+						<br>
+						<div class="description">description</div>
+	        </div>
+					<div class="issueInfo hidden" id="info_3">
+						<div class="description">description and description and description and description and description and description and description and description and description and</div>
+						<table>
+							<tr>
+								<td>
+									<label for="state_3">Change state:</label>
+									<select name="state" id="state_3">
+                   <option value="0">active</option>
+                   <option value="1">completed</option>
+                  </select>
+								</td>
+								<td>
+									<label for="assignee_3">Change assignee:</label>
+									<select name="assignee" id="assignee_3">
+                   <option value="0">coworker 1</option>
+                   <option value="1">coworker 2</option>
+									 <option value="1">coworker 3</option>
+                  </select>
+								</td>
+								<td>
+									<span class="issueComplete now0">Milestone 0%</span>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<ul class="issueCommits">
+                   <li><strong>#1</strong> <em>username</em>: commit message</li>
+                   <li><strong>#2</strong> <em>username</em>: commit message</li>
+                   <li><strong>#3</strong> <em>username</em>: commit message</li>
+                  </ul>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3" align="right">
+									<button class="cupid-green" onclick="window.location.href = 'issue.html';">Edit issue</button>
+								</td>
+							</tr>
+            </table>
+	        </div>
+				</div>
      	</div>
     </div>
 	</body>

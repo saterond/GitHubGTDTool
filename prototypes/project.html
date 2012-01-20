@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="css/blueprint/src/typography.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection">
+		<title>GTD ukolovnik</title>
+  </head>
+	<body>
+		<div id="sidebar">
+			<ul class="items">
+				<li>INBOX</li>
+			</ul>
+   		<button class="cupid-green">Create new project</button>
+			<span class="divider"></span>
+			<h3>Projects</h3>
+			<ul class="items">
+				<li>Project name</li>
+				<li>Project name</li>
+				<li>Project name</li>
+			</ul>
+			<h3>Reviews</h3>
+			<ul class="items">
+				<li>Day review</li>
+				<li>Week review</li>
+				<li>Month review</li>
+			</ul>
+			<span class="divider"></span>
+			<button class="button-big">Archive</button>
+			<button class="button-big">Trash</button>
+			<button class="button-big">Settings</button>
+  	</div>
+
+		<div id="content">
+    	<div class="inner">
+				<div class="projectHeader">
+					<h2>New project</h2>
+				</div>
+        <form method="post">
+					<table class="issueTable">
+						<tr>
+							<td colspan="2"><input type="text" name="title" size="65" placeholder="Project name / title" class="issueTitle"></td>
+						</tr>
+						<tr>
+							<td>
+								<input type="text" name="label" placeholder="new label">
+								<button class="minimal">Add</button>
+							<td>
+								<div class="labels"><span>one</span><span>two</span><span>three</span></div>
+              </td>
+						</tr>
+						<tr>
+							<td rowspan="3"><textarea name="description" rows="10" cols="50"></textarea></td>
+							<td>
+								<label for="state">State</label><br>
+								<select name="state" id="state">
+									<option value="1">active</option>
+									<option value="2">completed</option>
+                </select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="type">Type</label><br>
+								<select name="type" id="type">
+									<option value="1">GitHub</option>
+									<option value="2">Assembla</option>
+									<option value="3">Google Code</option>
+                </select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="repository">Repository / space</label><br>
+								<select name="repository" id="repository">
+									<option value="1">Repository name</option>
+									<option value="2">Repository name</option>
+									<option value="3">Repository name</option>
+                </select>
+							</td>
+						</tr>
+						<tr>
+							<td><button type="submit" class="cupid-green">Add / edit project</button></td>
+							<td align="right"><button class="minimal" type="button" onclick="window.location.href = 'index.html';">Storno</button></td>
+						</tr>
+          </table>
+				</form>
+     	</div>
+    </div>
+	</body>
+</html>
