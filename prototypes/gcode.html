@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Komunikace s Google Code</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript">
+			function createXMLHttpRequest() {
+				try { return new XMLHttpRequest(); } catch(e) {}
+				try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {}
+				alert("XMLHttpRequest not supported");
+				return null;
+			}
+
+      function getToken() {
+				var requestURL = "https://www.google.com/accounts/ClientLogin";
+				var dataToSend = "?accountType=GOOGLE&Email=ondrej.satera@gmail.com&Passwd=2abc5jkl&service=code&source=ctuFee-gtdDeveloperTasks-0";
+				jQuery.ajax({
+					url: requestURL,
+					type: "POST",
+					data: dataToSend,
+					dataType: "jsonp text",
+					success: function(response) {
+							console.log(response);
+					}
+				});
+			}
+
+			function getIssues() {
+				var requestURL = "https://code.google.com/feeds/issues/p/gtd-developer-tasks/issues/full";
+				jQuery.ajax({
+					url: requestURL,
+					type: "GET",
+					dataType: "text",
+					success: function(response) {
+							parser = new DOMParser();
+					  	xmlDoc = parser.parseFromString(response,"text/xml");
+							var entries = xmlDoc.getElementsByTagName("entry");
+							var count = parseInt(entries.length);
+							for (i = 0; i < count; i++) {
+								title = entries[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+								id = entries[i].getElementsByTagNameNS("http://schemas.google.com/projecthosting/issues/2009","id")[0].childNodes[0].nodeValue;
+								status = entries[i].getElementsByTagNameNS("http://schemas.google.com/projecthosting/issues/2009","state")[0].childNodes[0].nodeValue;
+								console.log(id + ": " + title + " (" + status + ")");
+							}
+					}
+				});
+			}
+    </script>
+	</head>
+	<body>
+   	<button onclick="getToken();">get token</button>
+		<button onclick="getIssues();">get issues</button>
+  </body>
+</html>
