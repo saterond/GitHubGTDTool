@@ -8,136 +8,71 @@ var AssemblaAPI = Class.create(API, {
 	username: "",
 	password: "",
 	user_id: "",
+	restClient: null,
 	initialize : function(_username, _password, _user_id) {
 		this.username = _username;
 		this.password = _password;
 		this.user_id = _user_id;
-	},
-	makeAPICall: function(_url) {
-		var requestURL = _url;
-		client = Titanium.Network.createHTTPClient();
-		
-		client.onload = function() {
-			var xmlText = this.responseText;			
-			var parser = new DOMParser();
-		  	var xmlDoc = parser.parseFromString(xmlText,"text/xml");
-		  	return xmlDoc;			
-		}
-		client.onreadystatechange = function() {console.log(this.status + ": " + this.statusText);}
-		client.onerror = function() {Titanium.API.info("error");}
-		if (!client.open("GET", requestURL, true)) {
-			Titanium.API.info("Connection with Assembla failed");
-		} else {
-			authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
-	    	client.setRequestHeader("Authorization", authstr);
-	    	client.setRequestHeader("Accept", "application/xml");    	
-	    	
-	    	client.send(); 
-		}	
+		this.restClient = new RestClient(_username, _password);
 	},
 	getProjects : function(callback) {
 		var requestURL = "https://www.assembla.com/spaces/my_spaces";		
-		client = Titanium.Network.createHTTPClient();
-		
-		client.onload = function() {
-			var xmlText = this.responseText;
-			var parser = new DOMParser();
-		  	var xmlDoc = parser.parseFromString(xmlText,"text/xml");
-			var spaces = xmlDoc.getElementsByTagName("space");
-			var name, description, project;
-			var projects = new Array();
-			var count = spaces.length;
-			for(i = 0; i < count; i++) {				
-				name = spaces[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
-				description = "Assembla space";
-				project = new Project(name, description);
-				projects[i] = project;
-			}
-			callback(projects);		
-		}
-		client.onreadystatechange = function() {console.log(this.status + ": " + this.statusText);}
-		client.onerror = function() {Titanium.API.info("error");}
-		if (!client.open("GET", requestURL, true)) {
-			Titanium.API.info("Connection with Assembla failed");
-		} else {
-			authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
-	    	client.setRequestHeader("Authorization", authstr);
-	    	client.setRequestHeader("Accept", "application/xml");    	
-	    	
-	    	client.send(); 
-		}
+		this.restClient.sendRequest(requestURL, "GET", this.parseProjects, callback);
+	},
+	parseProjects: function(xmlDoc, callback) {
+		var spaces = xmlDoc.getElementsByTagName("space");
+		var name, description, project;
+		var projects = new Array();
+		var count = spaces.length;
+		for(i = 0; i < count; i++) {				
+			name = spaces[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
+			description = "Assembla space";
+			project = new Project(name, description);
+			projects[i] = project;
+		}		
+		callback(projects);	
 	},
 	getIssues: function(project, callback) {
 		var name = project.getName();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets/";
-		client = Titanium.Network.createHTTPClient();
-		
-		client.onload = function() {
-			var xmlText = this.responseText;
-			var parser = new DOMParser();
-		  	var xmlDoc = parser.parseFromString(xmlText,"text/xml");
-			var tickets = xmlDoc.getElementsByTagName("ticket");
-			var name, description, project, status, id;
-			var issues = new Array();
-			var count = tickets.length;
-			for(i = 0; i < count; i++) {				
-				id = tickets[i].getElementsByTagName("number")[0].childNodes[0].nodeValue;
-				name = tickets[i].getElementsByTagName("summary")[0].childNodes[0].nodeValue;
-				description = tickets[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;
-				status = tickets[i].getElementsByTagName("status-name")[0].childNodes[0].nodeValue;
-				project = tickets[i].getElementsByTagName("space-id")[0].childNodes[0].nodeValue;
-				issue = new Issue(id, name, description);
-				issue.status = status;
-				issue.project = project;
-				issues[i] = issue;
-			}
-			callback(issues);
+		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback);				
+	},
+	parseIssues: function(xmlDoc, callback) {
+		var tickets = xmlDoc.getElementsByTagName("ticket");
+		var name, description, project, status, id;
+		var issues = new Array();
+		var count = tickets.length;
+		for(i = 0; i < count; i++) {				
+			id = tickets[i].getElementsByTagName("number")[0].childNodes[0].nodeValue;
+			name = tickets[i].getElementsByTagName("summary")[0].childNodes[0].nodeValue;
+			description = tickets[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;
+			status = tickets[i].getElementsByTagName("status-name")[0].childNodes[0].nodeValue;
+			project = tickets[i].getElementsByTagName("space-id")[0].childNodes[0].nodeValue;
+			issue = new Issue(id, name, description);
+			issue.status = status;
+			issue.project = project;
+			issues[i] = issue;
 		}
-		client.onreadystatechange = function() {console.log(this.status + ": " + this.statusText);}
-		client.onerror = function() {Titanium.API.info("error");}
-		if (!client.open("GET", requestURL, true)) {
-			Titanium.API.info("Connection with Assembla failed");
-		} else {
-			authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
-	    	client.setRequestHeader("Authorization", authstr);
-	    	client.setRequestHeader("Accept", "application/xml");    	
-	    	
-	    	client.send(); 
-		}
+		callback(issues);
 	},
 	getUsers: function(project, callback) {
 		var name = project.getName();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/users/";
-		client = Titanium.Network.createHTTPClient();
-		
-		client.onload = function() {
-			var xmlText = this.responseText;			
-			var parser = new DOMParser();
-		  	var xmlDoc = parser.parseFromString(xmlText,"text/xml");
-			var workers = xmlDoc.getElementsByTagName("user");
-			var name, email, project;
-			var users = new Array();
-			var count = users.length;
-			for(i = 0; i < count; i++) {				
-				name = workers[i].getElementsByTagName("login")[0].childNodes[0].nodeValue;
-				email = workers[i].getElementsByTagName("email")[0].childNodes[0].nodeValue;
-				project = project.getName();
-				user = new User(name, email, project);
-				users[i] = user;
-			}
-			callback(users);
+		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback);		
+	},
+	parseUsers: function(xmlDoc, callback) {
+		var workers = xmlDoc.getElementsByTagName("user");
+		var name, email, project;
+		var users = new Array();
+		var count = users.length;
+		for(i = 0; i < count; i++) {				
+			name = workers[i].getElementsByTagName("login")[0].childNodes[0].nodeValue;
+			email = workers[i].getElementsByTagName("email")[0].childNodes[0].nodeValue;
+			project = project.getName();
+			user = new User(name, email, project);
+			users[i] = user;
 		}
-		client.onreadystatechange = function() {console.log(this.status + ": " + this.statusText);}
-		client.onerror = function() {Titanium.API.info("error");}
-		if (!client.open("GET", requestURL, true)) {
-			Titanium.API.info("Connection with Assembla failed");
-		} else {
-			authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
-	    	client.setRequestHeader("Authorization", authstr);
-	    	client.setRequestHeader("Accept", "application/xml");    	
-	    	
-	    	client.send(); 
-		}
+		callback(users);
 	},
 	getLabels: function(project, callback) {
 		Titanium.info("Assembla doesn't support labels");
@@ -230,26 +165,12 @@ var AssemblaAPI = Class.create(API, {
 		
 		var fullContent = header + content + "\r\n--" + boundary + "--";
 		
-		client = Titanium.Network.createHTTPClient();
-		
-		client.onload = function() {
-			console.log(this.responseText);
-			var message = "Issue created";
-			callback(message);
-		}
-		client.onreadystatechange = function() {console.log(this.status + ": " + this.statusText);}
-		client.onerror = function() {callback("error " + this.status + ": " + this.statusText);}
-		if (!client.open("POST", requestURL, true)) {
-			Titanium.API.info("Connection with Assembla failed");
-		} else {
-			authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
-	    	client.setRequestHeader("Authorization", authstr);
-	    	client.setRequestHeader("Accept", "application/xml");    	
-	    	
-	    	client.setRequestHeader("Content-type", "application/xml; boundary=\"" + boundary + "\"");
-			client.setRequestHeader("Connection", "close");
-			client.send(fullContent);
-		}
+		this.restClient.sendFile(requestURL, "POST", fullContent, boundary, this.confirmNewIssue, callback);		
+	},
+	confirmNewIssue: function(response, callback) {
+		console.log(response);
+		var message = "Issue created";
+		callback(message);
 	},
 	editIssue: function(issue, callback) {
 		var name = issue.project;
@@ -282,48 +203,21 @@ var AssemblaAPI = Class.create(API, {
 		
 		var fullContent = header + content + "\r\n--" + boundary + "--";
 		
-		client = Titanium.Network.createHTTPClient();
-		
-		client.onload = function() {
-			console.log(this.responseText);
-			var message = "Issue changed";
-			callback(message);
-		}
-		client.onreadystatechange = function() {console.log(this.status + ": " + this.statusText);}
-		client.onerror = function() {callback("error " + this.status + ": " + this.statusText);}
-		if (!client.open("PUT", requestURL, true)) {
-			Titanium.API.info("Connection with Assembla failed");
-		} else {
-			authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
-	    	client.setRequestHeader("Authorization", authstr);
-	    	client.setRequestHeader("Accept", "application/xml");    	
-	    	
-	    	client.setRequestHeader("Content-type", "application/xml; boundary=\"" + boundary + "\"");
-			client.setRequestHeader("Connection", "close");
-			client.send(fullContent);
-		}
+		this.restClient.sendFile(requestURL, "PUT", fullContent, boundary, this.confirmEditIssue, callback);			
+	},
+	confirmEditIssue: function(response, callback) {
+		console.log(response);
+		var message = "Issue changed";
+		callback(message);
 	},
 	deleteIssue: function(issue, callback) {
 		var name = issue.project;
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets/"+issue.id;
 		
-		client = Titanium.Network.createHTTPClient();
-		
-		client.onload = function() {
-			console.log(this.responseText);
-			var message = "Issue deleted";
-			callback(message);
-		}
-		client.onreadystatechange = function() {console.log(this.status + ": " + this.statusText);}
-		client.onerror = function() {callback("error " + this.status + ": " + this.statusText);}
-		if (!client.open("DELETE", requestURL, true)) {
-			Titanium.API.info("Connection with Assembla failed");
-		} else {
-			authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
-	    	client.setRequestHeader("Authorization", authstr);
-	    	client.setRequestHeader("Accept", "application/xml");    	
-	    	
-	    	client.send();
-		}
+		this.restClient.sendRequest(requestURL, "DELETE", this.confirmDeleteIssue, callback);		
+	},
+	confirmDeleteIssue: function(response, callback) {
+		var message = "Issue deleted";
+		callback(message);
 	}
 });
