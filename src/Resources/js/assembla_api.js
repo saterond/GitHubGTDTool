@@ -219,5 +219,105 @@ var AssemblaAPI = Class.create(API, {
 	confirmDeleteIssue: function(response, callback) {
 		var message = "Issue deleted";
 		callback(message);
+	},
+	getMilestones: function(project, callback) {
+		var name = project.getName();
+		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/";
+		
+		this.restClient.sendRequest(requestURL, "GET", this.parseMilestones, callback);
+	},
+	parseMilestones: function(xmlDoc, callback) {
+		var stones = xmlDoc.getElementsByTagName("milestone");
+		var title, date, id;
+		var milestones = new Array();
+		var count = stones.length;
+		for(i = 0; i < count; i++) {
+			id = stones[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
+			title = stones[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+			date = stones[i].getElementsByTagName("due-date")[0].childNodes[0].nodeValue;
+			milestone = new Milestone(id, title, date, null);
+			users[i] = user;
+		}
+		callback(milestones);
+	},
+	addMilestone: function(milestone, callback) {
+		var name = milestone.project;
+		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/";
+		
+		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
+		data += "<milestone>";
+		data += "<title>" + milestone.title + "</title>";
+		data += "<due-date>" + milestone.date + "</due-date>";
+		data += "</milestone>";
+		
+		var file = Titanium.Filesystem.createTempFile();
+		file.write(data);
+		var full_filename = file.toString();
+		var arr = full_filename.split("\\");
+		var index = arr.length - 1;
+		var filename = arr[index];
+		var boundary = '----12345568790';
+		header = "--" + boundary + "\r\n";
+		header += 'Content-Disposition: form-data; name="'+filename+'"; filename="'+filename+'"';		
+		header += "Content-Type: application/xml\r\n\r\n";		
+		
+		var uploadStream = Titanium.Filesystem.getFileStream(file);
+		
+		uploadStream.open(Titanium.Filesystem.MODE_READ);
+		content = uploadStream.read();
+		uploadStream.close();
+		
+		var fullContent = header + content + "\r\n--" + boundary + "--";
+		
+		this.restClient.sendFile(requestURL, "POST", fullContent, boundary, this.confirmNewMilestone, callback);
+	},
+	confirmNewMilestone: function(response, callback) {
+		var message = "Milestone created";
+		callback(message);
+	},
+	editMilestone: function(milestone, callback) {
+		var name = milestone.project;
+		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/"+milestone.id;
+		
+		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
+		data += "<milestone>";
+		data += "<title>" + milestone.title + "</title>";
+		data += "<due-date>" + milestone.date + "</due-date>";
+		data += "</milestone>";
+		
+		var file = Titanium.Filesystem.createTempFile();
+		file.write(data);
+		var full_filename = file.toString();
+		var arr = full_filename.split("\\");
+		var index = arr.length - 1;
+		var filename = arr[index];
+		var boundary = '----12345568790';
+		header = "--" + boundary + "\r\n";
+		header += 'Content-Disposition: form-data; name="'+filename+'"; filename="'+filename+'"';		
+		header += "Content-Type: application/xml\r\n\r\n";		
+		
+		var uploadStream = Titanium.Filesystem.getFileStream(file);
+		
+		uploadStream.open(Titanium.Filesystem.MODE_READ);
+		content = uploadStream.read();
+		uploadStream.close();
+		
+		var fullContent = header + content + "\r\n--" + boundary + "--";
+		
+		this.restClient.sendFile(requestURL, "PUT", fullContent, boundary, this.confirmEditMilestone, callback);
+	},
+	confirmEditMilestone: function(response, callback) {
+		var message = "Milestone changed";
+		callback(message);
+	},
+	deleteMilestone: function(milestone, callback) {
+		var name = milestone.project;
+		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/"+milestone.id;
+		
+		this.restClient.sendRequest(requestURL, "DELETE", this.confirmDeleteMilestone, callback);
+	},
+	confirmDeleteMilestone: function(response, callback) {
+		var message = "Milestone deleted";
+		callback(message);
 	}
 });

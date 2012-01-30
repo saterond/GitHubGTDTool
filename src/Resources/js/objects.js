@@ -61,3 +61,21 @@ var User = Class.create({
 		this.project = _project;
 	}
 });
+
+/**
+ * Trida predstavujici jeden milnik/milestone
+ * 
+ * @author Ondrej Satera
+ */
+var Milestone = Class.create({
+	id: 0,
+	title: "",
+	date: "",
+	project: "",
+	initialize: function(_id, _title, _date, _project) {
+		this.id = _id;
+		this.title = _title;
+		this.date = _date;
+		this.project = _project; 
+	}
+});
