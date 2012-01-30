@@ -4,9 +4,13 @@
 var RestClient = Class.create({
 	username: "",
 	password: "",	
+	auth: "",
 	initialize: function(_username, _password) {
 		this.username = _username;
 		this.password = _password;		
+	},
+	setAuth: function(_auth) {
+		this.auth = _auth;
 	},
 	sendRequest: function(_url, _method, callback, returnFunction) {
 		var requestURL = _url;
@@ -26,10 +30,16 @@ var RestClient = Class.create({
 		}
 		if (!client.open(_method, requestURL, true)) {
 			Titanium.API.error("Connection with server failed");
-		} else {
-			authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
-	    	client.setRequestHeader("Authorization", authstr);
-	    	client.setRequestHeader("Accept", "application/xml");    	
+		} else {			
+			if (this.auth != "") {
+				//vola se Google Code API
+				client.setRequestHeader("Authorization", this.auth);
+			} else {
+				//vola se Assembla API
+				authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
+		    	client.setRequestHeader("Authorization", authstr);	    	
+		    	client.setRequestHeader("Accept", "application/xml");
+	    	}
 	    	
 	    	client.send(); 
 		}
