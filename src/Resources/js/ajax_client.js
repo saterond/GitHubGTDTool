@@ -27,5 +27,26 @@ var Ajax_client = Class.create({
 		} else {			
 			client.send(); 
 		}	
+	},
+	sendData: function(_requestURL, _method, _data, callback, returnFunction) {
+		client = Titanium.Network.createHTTPClient();
+		client.onload = function() {
+			var response = this.responseText;
+			var json = Titanium.JSON.parse(response);
+			callback(json, returnFunction);
+		}
+		client.onerror = function() {
+			Titanium.API.info("error");
+		}
+		client.onreadystatechange = function() {
+			Titanium.API.info(this.status + ": " + this.statusText);
+		}
+		if (!client.open(_method, _requestURL, true)) {
+			Titanium.API.info("spojeni se nepodarilo");
+		}
+		client.setRequestHeader('Authorization', this.auth);
+		if (!client.send(_data)) {
+			Titanium.API.info("data nebyla odeslana");
+		}
 	}
 });

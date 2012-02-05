@@ -37,11 +37,14 @@ var Issue = Class.create({
 	dueDate: "",
 	status: "",
 	project: "",
+	state: "",
+	milestone: null,
 	initialize: function(_id, _title, _description) {
 		this.id = _id;
 		this.title = _title;
 		this.description = _description;
 		this.labels = [];
+		this.state = 1;
 	}
 });
 
