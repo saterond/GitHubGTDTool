@@ -4,6 +4,7 @@
 var GCodeAPI = Class.create({
 	authHeader: "",
 	restClient: null,
+	username: "",
 	setAuthHeader: function(_auth) {
 		this.authHeader = _auth;
 	},
@@ -11,6 +12,7 @@ var GCodeAPI = Class.create({
 		this.restClient = _client;
 	},	
 	initialize: function(_email, _password) {
+		this.email = _email;
 		var requestURL = "https://www.google.com/accounts/ClientLogin";
 		var dataToSend = "?accountType=GOOGLE&Email="+_email+"&Passwd="+_password+"&service=code&source=ctuFee-gtdDeveloperTasks-0";
 		
@@ -36,6 +38,35 @@ var GCodeAPI = Class.create({
 			this.restClient.setAuth('GoogleLogin ' + this.authHeader);
 		}				
 	},
+	convertIssueToPOSTRequest: function(issue) {
+		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
+		data += '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:issues="http://schemas.google.com/projecthosting/issues/2009">';
+		if (issue.id != 0) {
+			var id = "https://code.google.com/feeds/issues/p/" + issue.project + "/issues/full/" + issue.id;
+			data += "<id>" + id + "</id>";
+		}
+		data += "<content type='html'>" + issue.description + "</content>";
+		data += "<title>" + issue.title + "</title>";
+		data += "<author>";
+	    data += "<name>" + this.username + "</name>";
+	  	data += "</author>";
+		issue.labels.each(function(item) {
+			data += "<issues:label>"+item+"</issues:label>";
+		});		
+		if (issue.status != "") {
+			data += "<issues:status>"+issue.status+"</issues:status>";
+		}
+		data += "</entry>";
+		
+		var file = Titanium.Filesystem.createTempFile();
+		file.write(data);
+		var uploadStream = Titanium.Filesystem.getFileStream(file);
+		uploadStream.open(Titanium.Filesystem.MODE_READ);
+		var content = uploadStream.read();
+		uploadStream.close();
+		
+		return content;
+	},
 	getIssues: function(project, callback) {		
 		var name = project.getName();		
 		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full";		
@@ -60,5 +91,38 @@ var GCodeAPI = Class.create({
 			issues[i] = issue;
 		}
 		callback(issues);
+	},
+	getProjects: function(callback) {
+		var projects = new Array();
+		callback(projects);
+	},
+	addIssue: function(issue, callback) {
+		var name = issue.project;
+		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full";		
+		var content = this.convertIssueToPOSTRequest(issue);
+		
+		this.restClient.sendFile(requestURL, "POST", content, "", this.confirmNewIssue, callback);
+	},
+	confirmNewIssue: function(xmlDoc, callback) {
+		var entries = xmlDoc.getElementsByTagName("entry");
+		var count = entries.length;
+		var id_full, parts, number;
+		for(i = 0; i < count; i++) {
+			id_full = entries[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
+			parts = id_full.split('/');
+			number = parts[parts.length - 1];					
+		}		
+		
+		callback(number);
+	},
+	editIssue: function(issue, callback) {
+		var name = issue.project;
+		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full/" + issue.id;		
+		var content = this.convertIssueToPOSTRequest(issue);
+		
+		this.restClient.sendFile(requestURL, "POST", content, "", this.confirmEditIssue, callback);
+	},
+	confirmEditIssue: function(xmlDoc, callback) {
+		callback("Ticket changed");
 	}
 });
