@@ -49,8 +49,10 @@ var RestClient = Class.create({
 		client = Titanium.Network.createHTTPClient();
 		
 		client.onload = function() {
-			var response = this.responseText;			
-			callback(response, returnFunction);
+			var xmlText = this.responseText;
+			var parser = new DOMParser();
+		  	var xmlDoc = parser.parseFromString(xmlText,"text/xml");
+		  	callback(xmlDoc, returnFunction);			
 		}
 		client.onreadystatechange = function() {
 			Titanium.API.info(this.status + ": " + this.statusText);
@@ -61,13 +63,24 @@ var RestClient = Class.create({
 		if (!client.open(_method, requestURL, true)) {
 			Titanium.API.error("Connection with server failed");
 		} else {
-			authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
-	    	client.setRequestHeader("Authorization", authstr);
-	    	client.setRequestHeader("Accept", "application/xml");    	
-	    
-	    	client.setRequestHeader("Content-type", "application/xml; boundary=\"" + _boundary + "\"");
-			client.setRequestHeader("Connection", "close");
-			client.send(_data);		    	
+			if (this.auth != "") {
+				//vola se Google Code API
+				client.setRequestHeader("Authorization", this.auth);
+		    
+		    	client.setRequestHeader("Content-type", "application/atom+xml");
+				client.setRequestHeader("Connection", "close");
+				client.send(_data);
+			} else {
+				//vola se Assembla API
+				authstr = "Basic " + Titanium.Codec.encodeBase64(this.username + ":" + this.password);
+		    	client.setRequestHeader("Authorization", authstr);
+		    	client.setRequestHeader("Accept", "application/xml");    	
+		    
+		    	client.setRequestHeader("Content-type", "application/xml; boundary=\"" + _boundary + "\"");
+				client.setRequestHeader("Connection", "close");
+				client.send(_data);
+	    	}
+					    	
 		}
 	}
 });

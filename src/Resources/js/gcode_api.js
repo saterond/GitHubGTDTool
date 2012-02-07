@@ -92,10 +92,6 @@ var GCodeAPI = Class.create({
 		}
 		callback(issues);
 	},
-	getProjects: function(callback) {
-		var projects = new Array();
-		callback(projects);
-	},
 	addIssue: function(issue, callback) {
 		var name = issue.project;
 		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full";		
@@ -124,5 +120,82 @@ var GCodeAPI = Class.create({
 	},
 	confirmEditIssue: function(xmlDoc, callback) {
 		callback("Ticket changed");
-	}
+	},
+	getUsers: function(project, callback) {
+		var name = project.getName();		
+		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full";		
+		this.restClient.sendRequest(requestURL, "GET", this.parseUsers, callback);
+	},
+	parseUsers: function(xmlDoc, callback) {
+		var entries = xmlDoc.getElementsByTagName("entry");
+		var name, email, user;
+		var users = new Array();
+		var count = entries.length;
+		for(i = 0; i < count; i++) {
+			name = entries[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
+			email = "";
+			users[i] = new User(name, email, "");
+		}
+		callback(users);
+	},
+	getLabels: function(issue, callback) {
+		var name = issue.project;
+		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full?id=" + issue.id;		
+		
+		this.restClient.sendRequest(requestURL, "GET", this.parseLabels, callback);
+	},
+	parseLabels: function(xmlDoc, callback) {
+		var entries = xmlDoc.getElementsByTagName("entry");
+		var count = entries.length;
+		var label, k = 0;
+		var labels = new Array();
+		for(i = 0; i < count; i++) {
+			all_labels = entries[i].getElementsByTagNameNS("http://schemas.google.com/projecthosting/issues/2009","label");
+			var lcount = all_labels.length;
+			for(j = 0; j < lcount; j++) {
+				label = all_labels[j].childNodes[0].nodeValue;
+				labels[k] = label;
+				k++;
+			}
+		}
+		callback(labels);
+	},
+	deleteIssue: function(issue, callback) {
+		Titanium.API.info("Google Code API nepodporuje deleteIssue");		
+		callback("Google Code API nepodporuje mazani issues");
+	},
+	getProjects: function(callback) {
+		Titanium.API.info("Google Code API nepodporuje getProjects");
+		var projects = new Array();
+		callback(projects);
+	},
+	addProject: function(project, callback) {
+		Titanium.API.info("Google Code API nepodporuje addProject");		
+		callback(0);
+	},
+	editProject: function(project, callback) {
+		Titanium.API.info("Google Code API nepodporuje editProject");		
+		callback("Google Code API nepodporuje editaci projektu");
+	},
+	deleteProject: function(project, callback) {
+		Titanium.API.info("Google Code API nepodporuje deleteProject");		
+		callback("Google Code API nepodporuje mazani projektu");
+	},
+	getMilestones: function(issue, callback) {
+		Titanium.API.info("Google Code API nepodporuje milestones");		
+		var milestones = new Array();
+		callback(milestones);
+	},
+	addMilestone: function(issue, callback) {
+		Titanium.API.info("Google Code API nepodporuje milestones");				
+		callback(0);
+	},
+	editMilestone: function(issue, callback) {
+		Titanium.API.info("Google Code API nepodporuje milestones");				
+		callback("Google Code API nepodporuje milestones");
+	},
+	deleteMilestone: function(issue, callback) {
+		Titanium.API.info("Google Code API nepodporuje milestones");				
+		callback("Google Code API nepodporuje milestones");
+	},
 });
