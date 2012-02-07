@@ -3,6 +3,9 @@ var GTDViewer = Class.create({
 	initialize: function(database) {
 		this.db = database;
 	},
+	showMessage: function(message) {
+		Titanium.API.info(message);
+	},
 	reloadProjects: function() {		
 		var projectsRS = this.db.execute("SELECT * FROM Project");		
 		var content = "";		
@@ -11,9 +14,10 @@ var GTDViewer = Class.create({
 		while (projectsRS.isValidRow()) {			
 			var projectId = projectsRS.fieldByName('project_id');
 			var projectName = projectsRS.fieldByName('name');
-			content += "<li class=\"project\">" + projectName + " - ";
-			content += '<button id="loadIssues" data-key="'+projectName+'">load issues</button>';
-			content += '<button id="syncIssues" data-key="'+projectName+'">sync issues</button>';			
+			var projectType = projectsRS.fieldByName('type');
+			content += "<li class=\"project\">" + projectName + " (" + projectType + ")<br>";
+			content += '<button id="loadIssues" data-key="'+projectName+'*'+projectType+'*'+projectId+'">load issues</button>';
+			content += '<button id="syncIssues" data-key="'+projectName+'*'+projectType+'*'+projectId+'">sync issues</button>';			
 			content += '</li>';
 			projects[i] = projectName;
 			projectsRS.next();
@@ -28,18 +32,15 @@ var GTDViewer = Class.create({
 		
 		Titanium.API.set("projects", projects);
 	},
-	reloadIssues: function(repo) {		
-		var issuesRS = this.db.execute("SELECT * FROM Issue WHERE project_name = ?", repo);		
-		var content = "";		
+	reloadIssues: function(projectID) {
+		Titanium.API.info("selecting issues from project #" + projectID);
+		var issuesRS = this.db.execute("SELECT issue_id,title FROM Issue WHERE project_id = ?", projectID);		
+		var content = "";
 		while (issuesRS.isValidRow()) {			
-			var title = issuesRS.fieldByName('title');
 			var id = issuesRS.fieldByName('issue_id');
+			var title = issuesRS.fieldByName('title');			
 			content += "<li class=\"issue\">" + title + " - ";
-			if (issuesRS.fieldByName('closed')) {
-				content += 'closed';
-			} else {
-				content += '<button id="closeIssue" data-key="' + id + '">close issue</button>';
-			}
+			content += '<button id="closeIssue" data-key="' + id + '">close issue</button>';			
 			content += '</li>';		
 			issuesRS.next();
 		}

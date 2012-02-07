@@ -10,7 +10,7 @@ $('reload').observe('click', function(evt) {
 $('loadRepos').observe('click', function(evt) {	
 	var sync = Titanium.API.get("sync");
 	
-	sync.syncRepositories();	
+	sync.syncProjects();	
 });
 
 $('setAuth').observe('click', function(evt) {	
@@ -44,20 +44,38 @@ $('saveNewIssue').observe('click', function(evt) {
 });
 
 var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', function(event, element) {    	
-		var sync = Titanium.API.get("sync");
-		var repo = element.readAttribute("data-key");
+		var key = element.readAttribute("data-key");
+		var parts = key.split('*');
+		var project = null;
 		
-		sync.syncIssues(repo);
+		switch(parseInt(parts[1])) {
+			case 1:
+				project = new AssemblaProject(parts[0], "");
+				break;
+			case 2:
+				project = new GCodeProject(parts[0], "");
+				break;
+			case 3:				
+				project = new GitHubProject(parts[0], "");
+				break;
+			default:
+				Titanium.API.error("Nepodporovany typ projektu (events)");
+		}
+		
+		var sync = Titanium.API.get("sync");		
+		sync.syncIssues(project);
     }.bind(this)
 ); 
 handlerSyncIssues.stop();
 handlerSyncIssues.start();
 
 var handlerLoadIssues = document.on('click', 'button[id="loadIssues"]', function(event, element) {   	
-		var viewer = Titanium.API.get("viewer");
-		var repo = element.readAttribute("data-key");
+		var key = element.readAttribute("data-key");
+		var parts = key.split('*');
+		var project = null;
 		
-		viewer.reloadIssues(repo);
+		var viewer = Titanium.API.get("viewer");
+		viewer.reloadIssues(parts[2]);
     }.bind(this)
 ); 
 handlerLoadIssues.stop();

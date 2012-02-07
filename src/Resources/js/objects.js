@@ -13,15 +13,27 @@ var Project = Class.create({
 	getName: function() {
 		return this.name;
 	},
-	getDescription: function() {
-		return this.description;
-	},
 	setName: function(_name) {
 		this.name = _name;
+	},
+	getDescription: function() {
+		return this.description;
 	},
 	setDescription: function(_description) {
 		this.description = _description;
 	}
+});
+
+var AssemblaProject = Class.create(Project, {
+	type: 1
+});
+
+var GCodeProject = Class.create(Project, {
+	type: 2
+});
+
+var GitHubProject = Class.create(Project, {
+	type: 3
 });
 
 /**
@@ -31,6 +43,7 @@ var Project = Class.create({
  */
 var Issue = Class.create({
 	id: 0,
+	issue_id: 0,
 	title: "",
 	description: "",
 	labels: [],

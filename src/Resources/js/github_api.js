@@ -1,5 +1,5 @@
 jQuery.noConflict();
-var GitHubAPI = Class.create({
+var GitHubAPI = Class.create(API, {
 	auth: "",
 	username: "",
 	ajaxClient: null,
@@ -20,7 +20,7 @@ var GitHubAPI = Class.create({
 		json.each(function(repo) {
 			name = repo.name;
 			description = repo.description;
-			projects[i++] = new Project(name, description);
+			projects[i++] = new GitHubProject(name, description);
 		});
 		callback(projects);
 	},
@@ -37,7 +37,7 @@ var GitHubAPI = Class.create({
 			title = item.title;
 			description = item.body;
 			issue = new Issue(id, title, description);
-			issue.project = project;
+			issue.project = new GitHubProject(project, "");
 			issues[i++] = issue;
 		});
 		callback(issues);

@@ -12,7 +12,8 @@ var RestClient = Class.create({
 	setAuth: function(_auth) {
 		this.auth = _auth;
 	},
-	sendRequest: function(_url, _method, callback, returnFunction) {
+	sendRequest: function(_url, _method, callback, returnFunction, projectName) {
+		projectName = typeof(projectName) != 'undefined' ? projectName : "";
 		var requestURL = _url;
 		client = Titanium.Network.createHTTPClient();
 		
@@ -20,7 +21,7 @@ var RestClient = Class.create({
 			var xmlText = this.responseText;			
 			var parser = new DOMParser();
 		  	var xmlDoc = parser.parseFromString(xmlText,"text/xml");
-		  	callback(xmlDoc, returnFunction);
+		  	callback(xmlDoc, returnFunction, projectName);
 		}
 		client.onreadystatechange = function() {
 			Titanium.API.info(this.status + ": " + this.statusText);

@@ -1,7 +1,7 @@
 /**
  * @author Ondrej Satera
  */
-var GCodeAPI = Class.create({
+var GCodeAPI = Class.create(API, {
 	authHeader: "",
 	restClient: null,
 	username: "",
@@ -70,24 +70,23 @@ var GCodeAPI = Class.create({
 	getIssues: function(project, callback) {		
 		var name = project.getName();		
 		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full";		
-		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback);
+		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback, name);
 	},
-	parseIssues: function(xmlDoc, callback) {
+	parseIssues: function(xmlDoc, callback, projectName) {
 		var entries = xmlDoc.getElementsByTagName("entry");
-		var name, description, project, status, id, id_full;
+		var name, description, status, id, id_full;
 		var issues = new Array();
 		var count = entries.length;
 		for(i = 0; i < count; i++) {				
 			id_full = entries[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
 			parts = id_full.split('/');
-			id = parts[parts.length - 1];
-			project = parts[parts.length - 4];
+			id = parts[parts.length - 1];			
 			name = entries[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
 			description = entries[i].getElementsByTagName("content")[0].childNodes[0].nodeValue;
 			status = entries[i].getElementsByTagNameNS("http://schemas.google.com/projecthosting/issues/2009","state")[0].childNodes[0].nodeValue;
 			issue = new Issue(id, name, description);
 			issue.status = status;
-			issue.project = project;
+			issue.project = new GCodeProject(projectName, "");
 			issues[i] = issue;
 		}
 		callback(issues);

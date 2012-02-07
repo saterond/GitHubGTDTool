@@ -1,7 +1,7 @@
 Event.observe(window, 'load', function() {
 	var app = new GTDApplication();
 	if (app.dbOk) {
-		var sync = new GitHubSync(app.getConfig(), app.getDb());
+		var sync = new Sync(app.getConfig(), app.getDb());
 		var viewer = new GTDViewer(app.getDb());		
 		
 		viewer.reloadProjects();

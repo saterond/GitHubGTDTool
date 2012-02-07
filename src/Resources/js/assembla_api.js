@@ -27,19 +27,21 @@ var AssemblaAPI = Class.create(API, {
 		for(i = 0; i < count; i++) {				
 			name = spaces[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
 			description = "Assembla space";
-			project = new Project(name, description);
+			project = new AssemblaProject(name, description);			
 			projects[i] = project;
 		}		
 		callback(projects);	
 	},
 	getIssues: function(project, callback) {
 		var name = project.getName();
+		name = name.replace(/ /gi, "-");
+		name = name.toLowerCase();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets/";
-		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback);				
+		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback, project.name);
 	},
-	parseIssues: function(xmlDoc, callback) {
+	parseIssues: function(xmlDoc, callback, project) {
 		var tickets = xmlDoc.getElementsByTagName("ticket");
-		var name, description, project, status, id;
+		var name, description, status, id;
 		var issues = new Array();
 		var count = tickets.length;
 		for(i = 0; i < count; i++) {				
@@ -47,10 +49,9 @@ var AssemblaAPI = Class.create(API, {
 			name = tickets[i].getElementsByTagName("summary")[0].childNodes[0].nodeValue;
 			description = tickets[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;
 			status = tickets[i].getElementsByTagName("status-name")[0].childNodes[0].nodeValue;
-			project = tickets[i].getElementsByTagName("space-id")[0].childNodes[0].nodeValue;
 			issue = new Issue(id, name, description);
 			issue.status = status;
-			issue.project = project;
+			issue.project = new AssemblaProject(project, "");
 			issues[i] = issue;
 		}
 		callback(issues);
