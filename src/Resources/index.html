@@ -1,7 +1,8 @@
 <html>
 	<head>
 		<title>GTD Tool</title>		
-		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="stylesheet" href="css/typography.css" />
+		<link rel="stylesheet" href="css/screen.css" />
 		<script type="text/javascript" src="js/base64.js"></script>
 		<script type="text/javascript" src="js/prototype.js"></script>
 		<script type="text/javascript" src="js/jquery.min.js"></script>
@@ -15,28 +16,44 @@
 		<script type="text/javascript" src="js/application.js"></script>
 		<script type="text/javascript" src="js/sync.js"></script>
 		<script type="text/javascript" src="js/viewer.js"></script>						
-		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>		
 	</head>
 	<body>
-		<div id="container">
-			<div id="sidebar">
-				<button id="setAuth">set auth</button>
-				<br />
-				<h2>Projekty</h2>
-				<ul id="projects"></ul>						
-			</div>
-			
-			<div id="main">
-				<h1>Prototyp GitHubAPI</h1>
-				<button id="reload">refresh</button>
-				<button id="loadRepos">load</button>
-				<button id="saveNewIssue">New issue</button>
-				<hr />				
-				<h2>Issues vybraneho projektu</h2>
-				<ul id="issues"></ul>		
-			</div>
-			<span class="clear"> </span>
+		<div id="sidebar">
+			<ul class="items">
+				<li>INBOX</li>
+			</ul>
+			<button class="cupid-green">Create new project</button>
+			<span class="divider"> </span>
+			<h3>Projects</h3>
+			<ul class="items" id="projects">				
+			</ul>
+			<h3>Reviews</h3>
+			<ul class="items">
+				<li>Day review</li>
+				<li>Week review</li>
+				<li>Month review</li>
+			</ul>
+			<span class="divider"> </span>
+			<button class="button-big">Archive</button>
+			<button class="button-big">Trash</button>
+			<button class="button-big">Settings</button>
+			<button class="button-big" id="setAuth">set auth</button>
 		</div>
+		
+		<div id="content">
+	    	<div class="inner">
+	    		<div class="projectHeader">
+					<h2>Inbox</h2>
+				</div>
+				<button id="reload">refresh</button>
+				<button id="loadRepos">load</button>				
+				<span class="divider"> </span>
+				<button class="cupid-green" id="saveNewIssue">Add new issue</button>
+				<br>
+				<ul id="issues"></ul>
+			</div>
+		</div>		
 		<script type="text/javascript" src="js/events.js"></script>								
 	</body>
 </html>

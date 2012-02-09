@@ -52,6 +52,7 @@ var Issue = Class.create({
 	project: "",
 	state: "",
 	milestone: null,
+	project_type: 0,
 	initialize: function(_id, _title, _description) {
 		this.id = _id;
 		this.title = _title;
