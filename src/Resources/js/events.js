@@ -16,7 +16,7 @@ $('loadRepos').observe('click', function(evt) {
 $('setAuth').observe('click', function(evt) {	
 	Titanium.UI.showDialog({
 		id: "authDialog",		
-		url: "app://dialogs/auth.html",
+		url: "app://templates/auth.html",
 		baseURL: "app://",
 		width: 200,
 		height: 150,
@@ -31,7 +31,7 @@ $('setAuth').observe('click', function(evt) {
 $('saveNewIssue').observe('click', function(evt) {	
 	Titanium.UI.showDialog({
 		id: "issueDialog",		
-		url: "app://dialogs/newIssue.html",
+		url: "app://templates/newIssue.html",
 		baseURL: "app://",
 		width: 200,
 		height: 150,
@@ -69,7 +69,7 @@ var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', function
 handlerSyncIssues.stop();
 handlerSyncIssues.start();
 
-var handlerLoadIssues = document.on('click', 'button[id="loadIssues"]', function(event, element) {   	
+var handlerLoadIssues = document.on('click', 'li[class="project"]', function(event, element) {   	
 		var key = element.readAttribute("data-key");
 		var parts = key.split('*');
 		var project = null;

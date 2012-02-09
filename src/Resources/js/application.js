@@ -29,11 +29,11 @@ var GTDApplication = Class.create({
 		return this.config;
 	},
 	saveAuth: function(username, password) {
-		Titanium.API.info("ukladam hash pro username " + username);
 		var tok = username + ':' + password;
 		var hash = Base64.encode(tok);
 		var auth = "Basic " + hash;
-				
-		Titanium.API.info(auth);
+		
+		var viewer = Titanium.API.get("viewer");
+		viewer.showMessage('Autentizacni hash: ' + auth);
 	}
 });

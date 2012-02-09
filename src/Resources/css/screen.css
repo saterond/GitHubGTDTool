@@ -134,6 +134,7 @@ h2.assembla {background: url(../images/assembla_big.gif) left center no-repeat;}
 }
 .issueInfo {
 	padding: 10px;
+	display: none;
 }
 .issueInfo .description {
 	font-style: normal;
