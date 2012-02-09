@@ -1,0 +1,17 @@
+{
+	"database": "gtdtoolDB",
+	"assembla": {
+		"name": "",
+		"password": "",
+		"user_id": ""
+	},
+	"gcode": {
+		"email": "",
+		"name": "",
+		"password": ""
+	},
+	"github": {
+		"name": "",
+		"auth": "Basic "
+	}
+}
