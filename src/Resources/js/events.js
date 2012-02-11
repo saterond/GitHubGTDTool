@@ -28,6 +28,21 @@ $('setAuth').observe('click', function(evt) {
 	});
 });
 
+$('changeConfig').observe('click', function(evt) {	
+	Titanium.UI.showDialog({
+		id: "configDialog",		
+		url: "app://templates/config.html",
+		baseURL: "app://",
+		width: 350,
+		height: 450,
+		visible: true,
+		closeable: true,
+		maximizable: false,
+		resizable: false,
+		topMost: true
+	});
+});
+
 $('saveNewIssue').observe('click', function(evt) {	
 	Titanium.UI.showDialog({
 		id: "issueDialog",		

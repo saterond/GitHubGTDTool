@@ -48,6 +48,10 @@ h2.github {background: url(../images/github.gif) left center no-repeat;}
 h2.gcode {background: url(../images/gcode.gif) left center no-repeat;}
 h2.assembla {background: url(../images/assembla_big.gif) left center no-repeat;}
 /*---------------------------
+		DIALOGS
+----------------------------*/
+body.dialog {background: none;}
+/*---------------------------
 		GLOBAL LABELS
 ----------------------------*/
 .labels {

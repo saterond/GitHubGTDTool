@@ -8,7 +8,7 @@ Event.observe(window, 'load', function() {
 		
 		Titanium.API.set("app", app);
 		Titanium.API.set("sync", sync);
-		Titanium.API.set("viewer", viewer);
+		Titanium.API.set("viewer", viewer);				
 	} else {
 		Titanium.API.info("Chyba s databazi");
 	}		

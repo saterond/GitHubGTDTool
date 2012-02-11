@@ -7,9 +7,8 @@ var GTDApplication = Class.create({
 		this.connectToDatabase();
 	},
 	setConfig: function() {
-		var resourceDir = Titanium.Filesystem.getResourcesDirectory();	
-	    var configFile = Titanium.Filesystem.getFile(resourceDir, 'config.json');
-	    var configStream = Titanium.Filesystem.getFileStream(configFile);
+		var resourcesDir = Titanium.Filesystem.getResourcesDirectory();	
+	    var configFile = Titanium.Filesystem.getFile(resourcesDir, 'config.json');
 	    
 	    if (!configFile.exists()) {
         	alert("Config file's missing!");
@@ -33,7 +32,15 @@ var GTDApplication = Class.create({
 		var hash = Base64.encode(tok);
 		var auth = "Basic " + hash;
 		
-		var viewer = Titanium.API.get("viewer");
-		viewer.showMessage('Autentizacni hash: ' + auth);
+		this.config.github.auth = auth;
+		
+		var file = Titanium.Filesystem.getFile(Titanium.Filesystem.getResourcesDirectory(), 'config.json');
+		file.write(Titanium.JSON.stringify(this.config));
+	},
+	saveConfig: function() {
+		var file = Titanium.Filesystem.getFile(Titanium.Filesystem.getResourcesDirectory(), 'config.json');
+		file.write(Titanium.JSON.stringify(this.config));
+		
+		Titanium.API.info('Configuration file has been changed!');
 	}
 });

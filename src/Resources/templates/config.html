@@ -1,0 +1,119 @@
+<html>
+	<head>		
+		<link rel="stylesheet" href="../css/screen.css" />
+		<script src="../js/prototype.js" type="text/javascript" charset="utf-8"></script>
+		<title>Application configuration</title>
+		<script type="text/javascript">
+		Event.observe(window, 'load', function() {
+			var app = Titanium.API.get("app");
+			var config = app.getConfig();
+			
+			var form = $('config');
+			
+			var field = form["database"];
+			$(field).setValue(config.database);
+			
+			field = form["assembla_name"]; $(field).setValue(config.assembla.name);
+			field = form["assembla_password"]; $(field).setValue(config.assembla.password);
+			field = form["assembla_user_id"]; $(field).setValue(config.assembla.user_id);
+			
+			field = form["gcode_name"]; $(field).setValue(config.gcode.name);
+			field = form["gcode_password"]; $(field).setValue(config.gcode.password);
+			field = form["gcode_email"]; $(field).setValue(config.gcode.email);
+			
+			field = form["github_name"]; $(field).setValue(config.github.name);
+			field = form["github_auth"]; $(field).setValue(config.github.auth);
+		});
+		</script>		
+	</head>	
+	<body class="dialog">
+		<form id="config">
+			<table>
+				<tbody>
+					<tr>
+						<th colspan="2">Global</th>
+					</tr>
+					<tr>
+						<td>Database name</td>
+						<td><input type="text" id="database" /></td>
+					</tr>
+					<tr>
+						<th colspan="2">Assembla</th>
+					</tr>
+					<tr>
+						<td>Name</td>
+						<td><input type="text" id="assembla_name" /></td>
+					</tr>
+					<tr>
+						<td>Password</td>
+						<td><input type="password" id="assembla_password" /></td>
+					</tr>
+					<tr>
+						<td>User_id</td>
+						<td><input type="text" id="assembla_user_id" /></td>
+					</tr>
+					<tr>
+						<th colspan="2">Google Code</th>
+					</tr>
+					<tr>
+						<td>E-mail</td>
+						<td><input type="text" id="gcode_email" /></td>
+					</tr>
+					<tr>
+						<td>Name</td>
+						<td><input type="text" id="gcode_name" /></td>
+					</tr>
+					<tr>
+						<td>Password</td>
+						<td><input type="password" id="gcode_password" /></td>
+					</tr>
+					<tr>
+						<th colspan="2">Github</th>
+					</tr>
+					<tr>
+						<td>Name</td>
+						<td><input type="text" id="github_name" /></td>
+					</tr>
+					<tr>
+						<td>Auth</td>
+						<td><input type="text" id="github_auth" /></td>
+					</tr>
+					<tr>
+						<td colspan="2"><button id="saveConfig">Save</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		
+		<script type="text/javascript">
+			var handlerSyncIssues = document.on('click', 'button[id="saveConfig"]', function(event, element) {    	
+					var app = Titanium.API.get("app");
+					var config = app.getConfig();
+					
+					var form = $('config');
+					
+					var field = form["database"]; config.database = $(field).getValue();
+					
+					field = form["assembla_name"]; config.assembla.name = $(field).getValue();					
+					field = form["assembla_password"]; config.assembla.password = $(field).getValue();					
+					field = form["assembla_user_id"]; config.assembla.user_id = $(field).getValue();
+					
+					field = form["gcode_email"]; config.gcode.email = $(field).getValue();					
+					field = form["gcode_name"]; config.gcode.name = $(field).getValue();
+					field = form["gcode_password"];	config.gcode.password = $(field).getValue();
+					
+					field = form["github_name"]; config.github.name = $(field).getValue();
+					field = form["github_auth"]; config.github.auth = $(field).getValue();
+					
+					app.config = config;
+					app.saveConfig();
+					
+					var window = Titanium.UI.getCurrentWindow();
+					window.close();						
+			    }.bind(this)
+			); 
+			handlerSyncIssues.stop();
+			handlerSyncIssues.start();			
+		</script>
+	</body>
+</html>
