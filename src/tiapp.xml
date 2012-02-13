@@ -16,7 +16,7 @@
         <id>initial</id>
         <title>DeskTest</title>
         <url>app://index.html</url>
-        <width>700</width>
+        <width>950</width>
         <max-width>3000</max-width>
         <min-width>0</min-width>
         <height>600</height>

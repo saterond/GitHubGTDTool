@@ -105,3 +105,13 @@ var handlerCloseIssue = document.on('click', 'button[id="closeIssue"]', function
 ); 
 handlerCloseIssue.stop();
 handlerCloseIssue.start();
+
+var handlerShowIssueInfo = document.on('click', 'button[class~="showInfo"]', function(event, element) {
+		var key = element.readAttribute('data-key');
+		element.toggleClassName("up");
+		var div = $("info_"+key);
+		div.toggleClassName("hidden");
+    }.bind(this)
+);
+handlerShowIssueInfo.stop();
+handlerShowIssueInfo.start();

@@ -4,9 +4,11 @@ var Sync = Class.create({
 	assembla: null,
 	gcode: null,	
 	github: null,
-	initialize : function(config, database) {
+	model: null,
+	initialize : function(config, database, model) {
 		this.config = config;
 		this.db = database;		
+		this.model = model;
 		//this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
 		//this.gcode.username = this.config.gcode.name;
 		this.assembla = new AssemblaAPI(this.config.assembla.name, this.config.assembla.password, this.config.assembla.user_id);
@@ -17,13 +19,6 @@ var Sync = Class.create({
 		viewer.showMessage(message);
 	},
 	syncProjects: function() {
-		/*
-		var project = new Project("gtd-developer-tasks", "");
-		var milestone = new Milestone(1, "App test", "2012-04-10T08:00:00Z", project.name);
-		var issue = new Issue("1", "Volání API", "changed from application");
-		issue.project = "gtd-developer-tasks";
-		issue.state = 0;
-		*/
 		this.assembla.getProjects(this.saveProjectsToDatabase);
 		this.gcode.getProjects(this.saveProjectsToDatabase);
 		this.github.getProjects(this.saveProjectsToDatabase);
@@ -89,11 +84,15 @@ var Sync = Class.create({
 		if (issue.issue_id != 0) {
 			db.execute(
 				'UPDATE Issue SET id = ? AND title = ? AND description = ? AND status = ? AND project_id = ? WHERE issue_id = ?'
-				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, issue.issue_id);
+				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, issue.issue_id);			
 		} else {
 			db.execute(
 				'INSERT INTO Issue (id, title, description, status, project_type, project_id) VALUES (?,?,?,?,?,?)'
 				, issue.id, issue.title, issue.description, issue.status, issue.project_type, issue.project.project_id);
+			issue.issue_id = db.lastInsertRowId;
+		}
+		if (issue.labels.length != 0) {
+			this.saveLabelsToDatabase(issue.labels, issue.issue_id);
 		}
 	},
 	saveIssuesToDatabase: function(issues) {
@@ -113,42 +112,36 @@ var Sync = Class.create({
 			rs = db.execute('SELECT issue_id FROM Issue WHERE id = ? AND project_type = ?', id, projectType);
 			if(rs.rowCount() == 0) {
 				db.execute('INSERT INTO Issue (id, title, description, status, project_type, project_id) VALUES (?,?,?,?,?,?)', id, title, description, status, projectType, projectID);
+				issue.issue_id = db.lastInsertRowId;
 			} else {
 				db.execute('UPDATE Issue SET id = ? AND title = ? AND description = ? AND status = ? AND project_id = ? WHERE id = ? AND project_type = ?', id, title, description, status, projectID, id, projectType);
+				issue.issue_id = rs.fieldByName('issue_id');
+			}
+			if (issue.labels.length != 0) {
+				this.saveLabelsToDatabase(issue.labels, issue.issue_id);
 			}
 		});
 		var viewer = Titanium.API.get("viewer");
 		viewer.reloadIssues(projectID);
 	},
-	getProject: function(project_id) {
-		var rs = null,project,name,description;
-		rs = this.db.execute('SELECT * From project WHERE project_id = ? LIMIT 1', project_id);
-		if(rs.rowCount() == 0) {
-			this.showMessage('Projekt s ID #' + project_id + ' nebyl nalezen');
-			return null;
-		} else {
-			name = rs.fieldByName('name');
-			description = rs.fieldByName('description');			
-			project = new Project(name, description);
-			project.type = rs.fieldByName('type');			
-		}
-		return project;
-	},
-	getIssue: function(issue_id) {
-		var rs = null,issue,id,title,description;
-		rs = this.db.execute('SELECT * From Issue WHERE issue_id = ? LIMIT 1', issue_id);
-		if(rs.rowCount() == 0) {
-			this.showMessage('Issue s ID #' + issue_id + ' nebyla nalezena');
-			return null;
-		} else {
-			id = rs.fieldByName('id');
-			title = rs.fieldByName('title');
-			description = rs.fieldByName('description');
-			issue = new Issue(id, title, description);
-			issue.status = rs.fieldByName('status');
-			issue.project_type = rs.fieldByName('project_type');
-			issue.project = this.getProject(rs.fieldByName('project_id'));
-		}
-		return issue;
+	saveLabelsToDatabase: function(labels, issue_id) {
+		var rs = null;
+		labels.each(function(label) {
+			rs = this.db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ?", issue_id, label);
+			if (rs.rowCount() == 0) {
+				if (label.search(":") == -1) {
+					this.db.execute("INSERT INTO Label (text,issue_id,local) VALUES (?,?,?)", label, issue_id, 1);
+				} else {
+					var texts = label.split(":");
+					this.db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
+				}
+			} else if (label.search(":") != -1) {
+				var texts = label.split(":");
+				rs = this.db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ? AND text2 = ?", issue_id, texts[0], texts[1]);
+				if (rs.rowCount() == 0) {
+					this.db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
+				}
+			}
+		});
 	}
 });

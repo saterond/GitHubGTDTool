@@ -1,8 +1,12 @@
 Event.observe(window, 'load', function() {
 	var app = new GTDApplication();
 	if (app.dbOk) {
-		var sync = new Sync(app.getConfig(), app.getDb());
-		var viewer = new GTDViewer(app.getDb());		
+		var model = new GTDModel(app.getDb());
+		Titanium.API.info("Model ready");
+		var sync = new Sync(app.getConfig(), app.getDb(), model);
+		Titanium.API.info("Sync ready");
+		var viewer = new GTDViewer(app.getDb(), model);
+		Titanium.API.info("Viewer ready");
 		
 		viewer.reloadProjects();
 		

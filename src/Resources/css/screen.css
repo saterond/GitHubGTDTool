@@ -131,7 +131,7 @@ body.dialog {background: none;}
 }
 .issue .description {
 	float: left;
-	width: 700px; height: 8px;
+	width: 500px; height: 8px;
 	overflow: hidden;
 	margin: 0; padding: 8px 5px 8px 0px;
 	font-style: italic;

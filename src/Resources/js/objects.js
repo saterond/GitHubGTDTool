@@ -4,6 +4,7 @@
  * @author Ondrej Satera
  */
 var Project = Class.create({
+	project_id: 0, 
 	name: "",
 	description: "",
 	initialize: function(_name, _description) {
@@ -53,6 +54,8 @@ var Issue = Class.create({
 	state: "",
 	milestone: null,
 	project_type: 0,
+	archived: false,
+	inbox: false,
 	initialize: function(_id, _title, _description) {
 		this.id = _id;
 		this.title = _title;
@@ -94,5 +97,18 @@ var Milestone = Class.create({
 		this.title = _title;
 		this.date = _date;
 		this.project = _project; 
+	}
+});
+
+var Label = Class.create({
+	label_id: 0,
+	text: "",
+	text2: "",
+	local: true,
+	issue_id: 0,
+	initialize: function(_label_id, _issue_id, _text) {
+		this.label_id = _label_id;
+		this.text = _text;
+		this.issue_id = _issue_id;
 	}
 });

@@ -1,7 +1,9 @@
 var GTDViewer = Class.create({	
 	db: null,	
-	initialize: function(database) {
+	model: null,
+	initialize: function(database, model) {
 		this.db = database;
+		this.model = model;
 	},
 	showMessage: function(message) {
 		alert(message);
@@ -14,21 +16,18 @@ var GTDViewer = Class.create({
 	    stream.close();
 	    return content.toString();
 	},
+	getParamsObject: function(key, value) {
+		var obj = new Object();
+		obj[key] = value;
+		return obj;
+	},
 	reloadProjects: function() {		
-		var projectsRS = this.db.execute("SELECT * FROM Project");		
-		var content = "";		
-		var projects = [];
-		var i = 0;
-		while (projectsRS.isValidRow()) {			
-			var projectId = projectsRS.fieldByName('project_id');
-			var projectName = projectsRS.fieldByName('name');
-			var projectType = projectsRS.fieldByName('type');
-			content += '<li class="project" data-key="'+projectName+'*'+projectType+'*'+projectId+'">' + projectName + ' (' + projectType + ')</li>';
-			projects[i] = projectName;
-			projectsRS.next();
-			i += 1;
-		}
-		projectsRS.close();
+		var projects = this.model.getProjects();
+		var content = "", i = 0;
+		projects.each(function(project) {			
+			content += '<li class="project" data-key="'+project.name+'*'+project.type+'*'+project.project_id+'">' + project.name + '</li>';
+			projects[i++] = project.name;
+		});
 		jQuery.noConflict();
 		
 		jQuery("ul#projects").empty();
@@ -38,25 +37,35 @@ var GTDViewer = Class.create({
 		Titanium.API.set("projects", projects);
 	},
 	reloadIssues: function(projectID) {
-		var issuesRS = this.db.execute("SELECT issue_id,title,description FROM Issue WHERE project_id = ?", projectID);		
-		var issue = "", content = "", type = "";
+		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
+		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
+		var issue = "", content = "", type = "", labels, cssClass;
 		var template = this.getFileContent("templates/issue.tpl");
-		while (issuesRS.isValidRow()) {			
-			var id = issuesRS.fieldByName('issue_id');
-			var title = issuesRS.fieldByName('title');
-			var description = issuesRS.fieldByName('description');
+		issues.each(function(issuee) {			
 			issue = template;
-			issue = issue.replace(/{issue_id}/g, id);
-			issue = issue.replace("{title}", title);
-			issue = issue.replace("{description-short}", description.substr(0, 100));
-			issue = issue.replace("{description-full}", description);
-			content += issue;
-			issuesRS.next();
-		}
-		issuesRS.close();
+			issue = issue.replace(/{issue_id}/g, issuee.id);
+			issue = issue.replace("{title}", issuee.title);
+			issue = issue.replace("{description-short}", issuee.description.substr(0, 100));
+			issue = issue.replace("{description-full}", issuee.description);
+			
+			cssClass = "";
+			labels = "";
+			issuee.labels.each(function(label) {
+				cssClass = "label";
+				if (!label.local) {
+					cssClass = "label global";
+				}
+				if (label.text2 != "") {
+					labels += '<span class="' + cssClass + '">' + label.text + ':' + label.text2 + '</span>';
+				} else {
+					labels += '<span class="' + cssClass + '">' + label.text + '</span>';
+				}
+			});			
+			issue = issue.replace("{labels}", labels);
+			
+			content += issue;						
+		});			
 		
-		var sync = Titanium.API.get("sync");
-		var project = sync.getProject(projectID);
 		switch(project.type) {
 			case 1: type = "assembla"; break;
 			case 2: type = "gcode"; break;
@@ -64,7 +73,7 @@ var GTDViewer = Class.create({
 		}
 		
 		jQuery.noConflict();
-		var syncButton = '<button id="syncIssues" data-key="'+project.name+'*'+project.type+'*'+projectID+'">sync</button>';
+		var syncButton = '<button id="syncIssues" data-key="'+project.name+'*'+project.type+'*'+projectID+'">Sync issues</button>';
 		jQuery("div.projectButtons").html(syncButton);
 		jQuery("div.projectHeader h2").removeClass().addClass(type);
 		jQuery("div.projectHeader h2").html(project.name);
