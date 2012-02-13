@@ -45,7 +45,7 @@ var Sync = Class.create({
 				if (issue.id != 0) {
 					this.assembla.editIssue(issue, this.showMessage);
 				} else {
-					this.assembla.addIssue(issue, this.saveIssueInDatabase);	
+					this.assembla.addIssue(issue, this.saveIssueInDatabase);
 				}				
 				break;
 			case 2:
@@ -81,16 +81,20 @@ var Sync = Class.create({
 	saveIssueInDatabase: function(issue) {
 		var app = Titanium.API.get("app");
 		var db = app.getDb();
+		var milestoneID = null;
+		if (issue.milestone != null) {
+			milestoneID = this.saveMilestoneToDatabase(issue.milestone, issue.project.project_id);
+		}
 		if (issue.issue_id != 0) {
 			db.execute(
-				'UPDATE Issue SET id = ? AND title = ? AND description = ? AND status = ? AND project_id = ? WHERE issue_id = ?'
-				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, issue.issue_id);			
-		} else {
+				'UPDATE Issue SET id = ?, title = ?, description = ?, status = ?, project_id = ?, milestone_id = ? WHERE issue_id = ?'
+				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, milestoneID, issue.issue_id);
+		} else {			
 			db.execute(
-				'INSERT INTO Issue (id, title, description, status, project_type, project_id) VALUES (?,?,?,?,?,?)'
-				, issue.id, issue.title, issue.description, issue.status, issue.project_type, issue.project.project_id);
+				'INSERT INTO Issue (id, title, description, status, project_type, project_id, milestone_id) VALUES (?,?,?,?,?,?,?)'
+				, issue.id, issue.title, issue.description, issue.status, issue.project_type, issue.project.project_id, milestoneID);
 			issue.issue_id = db.lastInsertRowId;
-		}
+		}		
 		if (issue.labels.length != 0) {
 			this.saveLabelsToDatabase(issue.labels, issue.issue_id);
 		}
@@ -98,7 +102,7 @@ var Sync = Class.create({
 	saveIssuesToDatabase: function(issues) {
 		var app = Titanium.API.get("app");
 		var db = app.getDb();
-		var rs = null, id, title, description, status, projectType, projectID = null;
+		var rs = null, id, title, description, status, projectType, projectID = null, milestoneID;
 		issues.each(function(issue) {
 			if (projectID == null) {
 				rs = db.execute('SELECT project_id FROM project WHERE type = ? AND name = ? ', issue.project.type, issue.project.name);
@@ -109,16 +113,24 @@ var Sync = Class.create({
 			description = issue.description;
 			status = issue.status;
 			projectType = issue.project.type;
-			rs = db.execute('SELECT issue_id FROM Issue WHERE id = ? AND project_type = ?', id, projectType);
+			rs = db.execute('SELECT issue_id FROM Issue WHERE id = ? AND project_type = ?', 
+							id, projectType);
 			if(rs.rowCount() == 0) {
-				db.execute('INSERT INTO Issue (id, title, description, status, project_type, project_id) VALUES (?,?,?,?,?,?)', id, title, description, status, projectType, projectID);
+				db.execute('INSERT INTO Issue (id, title, description, status, project_type, project_id) VALUES (?,?,?,?,?,?)', 
+							id, title, description, status, projectType, projectID);
 				issue.issue_id = db.lastInsertRowId;
 			} else {
-				db.execute('UPDATE Issue SET id = ? AND title = ? AND description = ? AND status = ? AND project_id = ? WHERE id = ? AND project_type = ?', id, title, description, status, projectID, id, projectType);
+				db.execute('UPDATE Issue SET title = ?, description = ?, status = ?, project_id = ? WHERE id = ? AND project_type = ?', 
+							title, description, status, projectID, id, projectType);
 				issue.issue_id = rs.fieldByName('issue_id');
 			}
 			if (issue.labels.length != 0) {
-				this.saveLabelsToDatabase(issue.labels, issue.issue_id);
+				Titanium.API.get("sync").saveLabelsToDatabase(issue.labels, issue.issue_id);
+			}
+			milestoneID = null;
+			if (issue.milestone != null) {
+				milestoneID = Titanium.API.get("sync").saveMilestoneToDatabase(issue.milestone, projectID);
+				db.execute("UPDATE Issue SET milestone_id = ? WHERE issue_id = ?", milestoneID, issue.issue_id);
 			}
 		});
 		var viewer = Titanium.API.get("viewer");
@@ -127,21 +139,33 @@ var Sync = Class.create({
 	saveLabelsToDatabase: function(labels, issue_id) {
 		var rs = null;
 		labels.each(function(label) {
-			rs = this.db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ?", issue_id, label);
+			rs = Titanium.API.get("app").db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ?", issue_id, label);
 			if (rs.rowCount() == 0) {
 				if (label.search(":") == -1) {
-					this.db.execute("INSERT INTO Label (text,issue_id,local) VALUES (?,?,?)", label, issue_id, 1);
+					Titanium.API.get("app").db.execute("INSERT INTO Label (text,issue_id,local) VALUES (?,?,?)", label, issue_id, 1);
 				} else {
 					var texts = label.split(":");
-					this.db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
+					Titanium.API.get("app").db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
 				}
 			} else if (label.search(":") != -1) {
 				var texts = label.split(":");
-				rs = this.db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ? AND text2 = ?", issue_id, texts[0], texts[1]);
+				rs = Titanium.API.get("app").db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ? AND text2 = ?", issue_id, texts[0], texts[1]);
 				if (rs.rowCount() == 0) {
-					this.db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
+					Titanium.API.get("app").db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
 				}
 			}
 		});
+	},
+	saveMilestoneToDatabase: function(milestone, projectID) {
+		console.log(milestone);
+		var rs = Titanium.API.get("app").db.execute("SELECT milestone_id FROM Milestone WHERE title = ? AND project_id = ? LIMIT 1", milestone.title, projectID);
+		var milestoneID = 0;
+		if (rs.rowCount() == 0) {
+			Titanium.API.get("app").db.execute("INSERT INTO Milestone (id,title,date,project_id) VALUES (?,?,?,?)", milestone.id, milestone.title, milestone.date, projectID);
+			milestoneID = Titanium.API.get("app").db.lastInsertRowId;
+		} else {
+			milestoneID = rs.fieldByName("milestone_id");
+		}
+		return milestoneID;
 	}
 });

@@ -29,15 +29,30 @@ var GitHubAPI = Class.create(API, {
 		this.ajaxClient.sendRequest(requestURL, "GET", this.parseIssues, callback, project.name);
 	},
 	parseIssues: function(json, callback, project) {
-		var issue, id, title, description;
+		var issue, id, title, description, labels, milestone;
 		var issues = new Array();
-		var i = 0;
+		var i = 0, j = 0;
 		json.each(function(item){
 			id = item.number;
 			title = item.title;
 			description = item.body;
 			issue = new Issue(id, title, description);
 			issue.project = new GitHubProject(project, "");
+			
+			j = 0;
+			labels = new Array();
+			item.labels.each(function(label) {
+				labels[j++] = new Label(0, 0, label.name);
+			});
+			issue.labels = labels;
+			
+			milestone = null;
+			if (item.milestone != null) {
+				milestone = new Milestone(0, item.milestone.title, item.milestone.due_on, 0);
+				console.log(milestone);
+			}
+			issue.milestone = milestone;
+			
 			issues[i++] = issue;
 		});
 		callback(issues);

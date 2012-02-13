@@ -6,6 +6,11 @@ var GTDModel = Class.create({
 	initialize: function(_db) {
 		this.db = _db;
 	},
+	getParamsObject: function(key, value) {
+		var obj = new Object();
+		obj[key] = value;
+		return obj;
+	},
 	getProjects: function() {
 		var projectsRS = this.db.execute("SELECT * FROM Project");				
 		var projects = new Array(), i = 0, id, name, type, project, description;
@@ -47,26 +52,26 @@ var GTDModel = Class.create({
 		var issuesRS = null;
 		if ('project_id' in params) {			
 			var projectID = parseInt(params["project_id"]);
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type FROM Issue WHERE project_id = ?", projectID);			
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE project_id = ?", projectID);			
 		} else {			
 			Titanium.API.error("Zatim nelze issues filtrovat jinak nez podle project_id");
 			return new Array();
 		}
-		var issues = new Array(), i = 0, id, title, description, issue;
+		var issues = new Array(), i = 0, id, title, description, issue, milestone_id;
 		var paramss = new Object();
 		while (issuesRS.isValidRow()) {			
 			id = issuesRS.fieldByName('id');
 			title = issuesRS.fieldByName('title');
 			description = issuesRS.fieldByName('description');
+			milestone_id = issuesRS.fieldByName('milestone_id');
 			
 			issue = new Issue(id, title, description);
 			issue.issue_id = issuesRS.fieldByName('issue_id');
 			issue.state = issuesRS.fieldByName('state');
 			issue.status = issuesRS.fieldByName('status');
 			issue.project_type = issuesRS.fieldByName('project_type');
-			
-			paramss["issue_id"] = issue.issue_id;
-			issue.labels = this.getLabels(paramss);
+			issue.labels = this.getLabels(this.getParamsObject("issue_id", issue.issue_id));
+			issue.milestone = this.getMilestone(this.getParamsObject("milestone_id", milestone_id))
 			issues[i++] = issue;
 			issuesRS.next();
 		}		
@@ -125,7 +130,44 @@ var GTDModel = Class.create({
 		labelsRS.close();
 		return labels;
 	},
-	getMilestone: function() {
-		
+	getMilestone: function(params) {
+		var milestoneRS = null, milestone = null, title, date, project_id, id;
+		if ('milestone_id' in params) {			
+			var milestoneID = parseInt(params["milestone_id"]);
+			milestoneRS = this.db.execute("SELECT project_id,date,title FROM Milestone WHERE milestone_id = ?", milestoneID);
+		} else {
+			Titanium.API.error("Milestones nelze filtrovat jinak nez podle milestone_id");
+			return null;
+		}
+		if (milestoneRS.rowCount() > 0) {
+			id = milestoneRS.fieldByName('id');
+			title = milestoneRS.fieldByName('title');
+			date = milestoneRS.fieldByName('date');
+			project_id = milestoneRS.fieldByName('project_id');
+			
+			milestone = new Milestone(id, title, date, project_id);
+			milestone.milestone_id = milestoneID;
+		}
+		return milestone;
+	},
+	getMilestonePercent: function(params) {
+		var milestoneRS = null, active, count;
+		if ('milestone_id' in params) {			
+			var milestoneID = parseInt(params["milestone_id"]);
+			milestoneRS = Titanium.API.get("app").db.execute("SELECT count(issue_id) as activeCount FROM Issue WHERE milestone_id = ? AND state = 1", milestoneID);
+			if (milestoneRS.rowCount() > 0) {
+				active = parseInt(milestoneRS.fieldByName("activeCount"));
+				milestoneRS = Titanium.API.get("app").db.execute("SELECT count(issue_id) as allCount FROM Issue WHERE milestone_id = ?", milestoneID);
+				count = parseInt(milestoneRS.fieldByName("allCount"));
+				milestoneRS.close();
+				return (active * 100) / count;
+			} else {
+				milestoneRS.close();
+				return 0;
+			}
+		} else {
+			Titanium.API.error("Milestones nelze filtrovat jinak nez podle milestone_id");
+			return 0;
+		}
 	}
 });

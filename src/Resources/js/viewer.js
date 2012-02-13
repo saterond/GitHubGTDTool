@@ -39,7 +39,7 @@ var GTDViewer = Class.create({
 	reloadIssues: function(projectID) {
 		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
 		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
-		var issue = "", content = "", type = "", labels, cssClass;
+		var issue = "", content = "", type = "", labels, cssClass, milestonePercent = 0;
 		var template = this.getFileContent("templates/issue.tpl");
 		issues.each(function(issuee) {			
 			issue = template;
@@ -47,6 +47,21 @@ var GTDViewer = Class.create({
 			issue = issue.replace("{title}", issuee.title);
 			issue = issue.replace("{description-short}", issuee.description.substr(0, 100));
 			issue = issue.replace("{description-full}", issuee.description);
+			if (issue.state) {
+				issue = issue.replace("{state-active}", ' checked="checked"');
+				issue = issue.replace("{state-completed}", '');
+			} else {
+				issue = issue.replace("{state-active}", '');
+				issue = issue.replace("{state-completed}", ' checked="checked"');
+			}
+			issue = issue.replace("{coworkers}", '');			
+			if (issuee.milestone != null) {				
+				milestonePercent = Titanium.API.get("viewer").model.getMilestonePercent(Titanium.API.get("viewer").getParamsObject("milestone_id", issuee.milestone.milestone_id));
+			} else {
+				milestonePercent = 0;
+			}
+			issue = issue.replace(/{milestone-percent}/g, milestonePercent);
+			issue = issue.replace("{commits}", '');
 			
 			cssClass = "";
 			labels = "";

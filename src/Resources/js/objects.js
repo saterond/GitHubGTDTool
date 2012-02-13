@@ -51,7 +51,7 @@ var Issue = Class.create({
 	dueDate: "",
 	status: "",
 	project: "",
-	state: "",
+	state: 1,
 	milestone: null,
 	project_type: 0,
 	archived: false,
@@ -89,14 +89,15 @@ var User = Class.create({
  */
 var Milestone = Class.create({
 	id: 0,
+	milestone_id: 0,
+	project_id: 0,
 	title: "",
-	date: "",
-	project: "",
-	initialize: function(_id, _title, _date, _project) {
+	date: "",	
+	initialize: function(_id, _title, _date, _project_id) {
 		this.id = _id;
 		this.title = _title;
 		this.date = _date;
-		this.project = _project; 
+		this.project_id = _project_id; 
 	}
 });
 

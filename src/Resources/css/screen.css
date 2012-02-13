@@ -138,16 +138,16 @@ body.dialog {background: none;}
 }
 .issueInfo {
 	padding: 10px;
-	display: none;
 }
 .issueInfo .description {
 	font-style: normal;
 	overflow: visible;
-	width: 90%; height: 100%;
+	width: 90%; height: 70px;
 	padding: 8px;
 	background-color: #fff;
 }
 .issueInfo table {margin-bottom: 0;}
+.issueInfo table td {font-size: 10px;}
 .issueInfo table td label {font-weight: bold;}
 .issueInfo .issueComplete {
 	display: block;

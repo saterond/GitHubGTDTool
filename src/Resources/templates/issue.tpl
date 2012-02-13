@@ -7,16 +7,16 @@
 		<br />
 		<div class="description">{description-short}</div>
   </div>
-	<div class="issueInfo" id="info_{issue_id}">
+	<div class="issueInfo hidden" id="info_{issue_id}">
 		<div class="description">{description-full}</div>
 		<table>
 			<tr>
 				<td>
 					<label for="state_1">Change state:</label>
 					<select name="state" id="state_{issue_id}">
-           <option value="0"{state-active}>active</option>
-           <option value="1"{state-completed}>completed</option>
-          </select>
+						<option value="0"{state-active}>active</option>
+						<option value="1"{state-completed}>completed</option>
+					</select>
 				</td>
 				<td>
 					<label for="assignee_{issue_id}">Change assignee:</label>
