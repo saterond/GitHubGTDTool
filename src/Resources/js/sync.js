@@ -26,7 +26,8 @@ var Sync = Class.create({
 	syncIssues: function(project) {
 		switch(project.type) {
 			case 1: 
-				this.assembla.getIssues(project, this.saveIssuesToDatabase); 
+				this.assembla.getIssues(project, this.saveIssuesToDatabase);
+				this.assembla.getMilestones(project, this.saveMilestonesToDatabase);
 				break;
 			case 2:
 				this.gcode.getIssues(project, this.saveIssuesToDatabase); 
@@ -133,8 +134,10 @@ var Sync = Class.create({
 				db.execute("UPDATE Issue SET milestone_id = ? WHERE issue_id = ?", milestoneID, issue.issue_id);
 			}
 		});
-		var viewer = Titanium.API.get("viewer");
-		viewer.reloadIssues(projectID);
+		if (projectType != 1) {
+			var viewer = Titanium.API.get("viewer");
+			viewer.reloadIssues(project_id);
+		}
 	},
 	saveLabelsToDatabase: function(labels, issue_id) {
 		var rs = null;
@@ -167,5 +170,26 @@ var Sync = Class.create({
 			milestoneID = rs.fieldByName("milestone_id");
 		}
 		return milestoneID;
+	},
+	saveMilestonesToDatabase: function(milestones, projectName, projectType) {
+		var app = Titanium.API.get("app");
+		var db = app.getDb();
+		var rs = null, id, title, date, milestoneID, project_id;
+		rs = db.execute("SELECT project_id FROM project WHERE name = ? AND type = ?", projectName, projectType);
+		project_id = rs.fieldByName("project_id");
+		milestones.each(function(milestone) {
+			rs = db.execute("SELECT milestone_id FROM Milestone WHERE id = ? AND project_id = ?", milestone.id, project_id);
+			if (rs.rowCount() > 0) {
+				milestoneID = rs.fieldByName("milestone_id");
+				db.execute("UPDATE Milestone SET title = ?, date = ? WHERE milestone_id = ?", milestone.title, milestone.date, milestoneID);
+			} else {
+				db.execute(
+					"INSERT INTO Milestone (id,title,date,project_id) VALUES (?,?,?,?)",
+					milestone.id, milestone.title, milestone.date, project_id
+				);				
+			}
+		});
+		var viewer = Titanium.API.get("viewer");
+		viewer.reloadIssues(project_id);
 	}
 });

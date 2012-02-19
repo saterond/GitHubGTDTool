@@ -41,7 +41,7 @@ var AssemblaAPI = Class.create(API, {
 	},
 	parseIssues: function(xmlDoc, callback, project) {
 		var tickets = xmlDoc.getElementsByTagName("ticket");
-		var name, description, status, id;
+		var name, description, status, id, milestoneID;
 		var issues = new Array();
 		var count = tickets.length;
 		for(i = 0; i < count; i++) {				
@@ -49,15 +49,25 @@ var AssemblaAPI = Class.create(API, {
 			name = tickets[i].getElementsByTagName("summary")[0].childNodes[0].nodeValue;
 			description = tickets[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;
 			status = tickets[i].getElementsByTagName("status-name")[0].childNodes[0].nodeValue;
+			if (tickets[i].getElementsByTagName("milestone-id")[0].childNodes[0] != undefined) {
+				milestoneID = tickets[i].getElementsByTagName("milestone-id")[0].childNodes[0].nodeValue;
+			} else {
+				milestoneID = '';
+			}
 			issue = new Issue(id, name, description);
 			issue.status = status;
 			issue.project = new AssemblaProject(project, "");
+			if (milestoneID != '') {
+				issue.milestone = new Milestone(milestoneID, '', '', 0);
+			}
 			issues[i] = issue;
 		}
 		callback(issues);
 	},
 	getUsers: function(project, callback) {
 		var name = project.getName();
+		name = name.replace(/ /gi, "-");
+		name = name.toLowerCase();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/users/";
 		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback);		
 	},
@@ -137,6 +147,8 @@ var AssemblaAPI = Class.create(API, {
 	},
 	addIssue: function(issue, callback) {
 		var name = issue.project;
+		name = name.replace(/ /gi, "-");
+		name = name.toLowerCase();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets";
 		
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -175,6 +187,8 @@ var AssemblaAPI = Class.create(API, {
 	},
 	editIssue: function(issue, callback) {
 		var name = issue.project;
+		name = name.replace(/ /gi, "-");
+		name = name.toLowerCase();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets/"+issue.id;
 		
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -223,11 +237,13 @@ var AssemblaAPI = Class.create(API, {
 	},
 	getMilestones: function(project, callback) {
 		var name = project.getName();
+		name = name.replace(/ /gi, "-");
+		name = name.toLowerCase();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/";
 		
-		this.restClient.sendRequest(requestURL, "GET", this.parseMilestones, callback);
+		this.restClient.sendRequest(requestURL, "GET", this.parseMilestones, callback, project.name);
 	},
-	parseMilestones: function(xmlDoc, callback) {
+	parseMilestones: function(xmlDoc, callback, projectName) {
 		var stones = xmlDoc.getElementsByTagName("milestone");
 		var title, date, id;
 		var milestones = new Array();
@@ -235,14 +251,20 @@ var AssemblaAPI = Class.create(API, {
 		for(i = 0; i < count; i++) {
 			id = stones[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
 			title = stones[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-			date = stones[i].getElementsByTagName("due-date")[0].childNodes[0].nodeValue;
+			if (stones[i].getElementsByTagName("due-date")[0].childNodes[0] != undefined) {
+				date = stones[i].getElementsByTagName("due-date")[0].childNodes[0].nodeValue;
+			} else {
+				date = '';
+			}
 			milestone = new Milestone(id, title, date, null);
-			users[i] = user;
+			milestones[i] = milestone;
 		}
-		callback(milestones);
+		callback(milestones, projectName, 1);
 	},
 	addMilestone: function(milestone, callback) {
 		var name = milestone.project;
+		name = name.replace(/ /gi, "-");
+		name = name.toLowerCase();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/";
 		
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -278,6 +300,8 @@ var AssemblaAPI = Class.create(API, {
 	},
 	editMilestone: function(milestone, callback) {
 		var name = milestone.project;
+		name = name.replace(/ /gi, "-");
+		name = name.toLowerCase();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/"+milestone.id;
 		
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
