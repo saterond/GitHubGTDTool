@@ -29,6 +29,7 @@ var GTDModel = Class.create({
 		return projects;
 	},
 	getProject: function(params) {
+		var viewer = Titanium.API.get("viewer");
 		var rs = null,project,name,description;
 		if ('project_id' in params) {			
 			var projectID = parseInt(params["project_id"]);
@@ -38,7 +39,7 @@ var GTDModel = Class.create({
 			return null;
 		}
 		if(rs.rowCount() == 0) {
-			this.showMessage('Projekt s ID #' + project_id + ' nebyl nalezen');
+			viewer.showMessage('Projekt s ID #' + projectID + ' nebyl nalezen');
 			return null;
 		} else {
 			name = rs.fieldByName('name');
@@ -169,5 +170,18 @@ var GTDModel = Class.create({
 			Titanium.API.error("Milestones nelze filtrovat jinak nez podle milestone_id");
 			return 0;
 		}
+	},
+	saveProject: function(project) {
+		var app = Titanium.API.get("app");
+		var db = app.db;
+		if (project.project_id == 0) {
+			db.execute("INSERT INTO project (name,description,type) VALUES (?,?,?)", 
+						project.name, project.description, project.type);
+		} else {
+			db.execute("UPDATE project SET name = ?, description = ? WHERE project_id = ?",
+						project.name, project.decription, project.project_id);
+		}
+		var viewer = Titanium.API.get("viewer");
+		viewer.reloadProjects();
 	}
 });

@@ -9,8 +9,8 @@ var Sync = Class.create({
 		this.config = config;
 		this.db = database;		
 		this.model = model;
-		//this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
-		//this.gcode.username = this.config.gcode.name;
+		this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
+		this.gcode.username = this.config.gcode.name;
 		this.assembla = new AssemblaAPI(this.config.assembla.name, this.config.assembla.password, this.config.assembla.user_id);
 		this.github = new GitHubAPI(this.config.github.name, this.config.github.auth);
 	},
@@ -100,7 +100,7 @@ var Sync = Class.create({
 			this.saveLabelsToDatabase(issue.labels, issue.issue_id);
 		}
 	},
-	saveIssuesToDatabase: function(issues) {
+	saveIssuesToDatabase: function(issues) {		
 		var app = Titanium.API.get("app");
 		var db = app.getDb();
 		var rs = null, id, title, description, status, projectType, projectID = null, milestoneID;
@@ -134,9 +134,9 @@ var Sync = Class.create({
 				db.execute("UPDATE Issue SET milestone_id = ? WHERE issue_id = ?", milestoneID, issue.issue_id);
 			}
 		});
-		if (projectType != 1) {
+		if (projectType != 1 && projectID != null) {
 			var viewer = Titanium.API.get("viewer");
-			viewer.reloadIssues(project_id);
+			viewer.reloadIssues(projectID);
 		}
 	},
 	saveLabelsToDatabase: function(labels, issue_id) {

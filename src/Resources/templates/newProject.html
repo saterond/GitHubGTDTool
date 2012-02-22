@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <title>Save new project</title>
+        <link rel="stylesheet" href="../css/styles.css" />
+        <script src="../js/prototype.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../js/objects.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript">
+            Event.observe(window, 'load', function() {
+                         
+            });
+        </script>       
+    </head>
+    <body class="dialog">
+        <form id="dialogNewProject">
+            <label for="project_type">Type:</label><br/>
+            <select id="project_type" name="project_type">
+                <option value="1">Assembla</option>
+                <option value="2">Google Code</option>
+                <option value="3">GitHub</option>
+                <option value="4">other</option>
+            </select><br/>
+            <label for="project_name">Name:</label><br/>                        
+            <input type="text" name="project_name" id="project_name" /><br/>
+            <label for="project_description">Description:</label><br/>                        
+            <textarea id="project_description" name="project_description" cols="30" rows="10"></textarea><br/>
+            
+            <button id="dialogSaveProject">Save</button>
+        </form>
+        
+        <script type="text/javascript">
+            var handlerSaveIssue = document.on('click', 'button[id="dialogSaveProject"]', function(event, element) {                      
+                    var form = $('dialogNewProject');
+                            
+                    var field = form["project_type"];
+                    var type = $(field).getValue();
+                            
+                    field = form["project_name"];
+                    var name = $(field).getValue();
+                    
+                    field = form["project_description"];
+                    var description = $(field).getValue();
+                    
+                    var project = new Project(name, description);
+                    project.type = type;
+                    console.log(project);
+                    var sync = Titanium.API.get("sync");
+                    sync.model.saveProject(project);                    
+                    
+                    var window = Titanium.UI.getCurrentWindow();
+                    window.close();
+                }.bind(this)
+            );
+            handlerSaveIssue.stop();
+            handlerSaveIssue.start();
+        </script>
+    </body>
+</html>

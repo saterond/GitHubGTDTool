@@ -33,7 +33,7 @@ var RestClient = Class.create({
 			Titanium.API.error("Connection with server failed");
 		} else {			
 			if (this.auth != "") {
-				//vola se Google Code API
+				//vola se Google Code API				
 				client.setRequestHeader("Authorization", this.auth);
 			} else {
 				//vola se Assembla API

@@ -58,6 +58,21 @@ $('saveNewIssue').observe('click', function(evt) {
 	});
 });
 
+$('saveNewProject').observe('click', function(evt) {	
+	Titanium.UI.showDialog({
+		id: "projectDialog",		
+		url: "app://templates/newProject.html",
+		baseURL: "app://",
+		width: 400,
+		height: 350,
+		visible: true,
+		closeable: true,
+		maximizable: false,
+		resizable: false,
+		topMost: true
+	});
+});
+
 var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', function(event, element) {    	
 		var key = element.readAttribute("data-key");
 		var parts = key.split('*');

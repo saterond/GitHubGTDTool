@@ -30,6 +30,9 @@ var GCodeAPI = Class.create(API, {
 			var authHeader = "";
 			client.receive(function(response) {
 				text = response.toString();
+				if (text.indexOf("error") != -1 || text.indexOf("Error") != -1) {
+					alert("Google Code Authentication failed");
+				}
 				lines = text.split('\n');
 				authHeader = lines[2];				
 			});
@@ -69,8 +72,13 @@ var GCodeAPI = Class.create(API, {
 	},
 	getIssues: function(project, callback) {		
 		var name = project.getName();		
-		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full";		
-		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback, name);
+		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full";
+		if (this.restClient.auth == "") {
+			alert("Missing Google Code auth header");
+			callback(new Array());
+		} else {
+			this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback, name);
+		}
 	},
 	parseIssues: function(xmlDoc, callback, projectName) {
 		var entries = xmlDoc.getElementsByTagName("entry");
