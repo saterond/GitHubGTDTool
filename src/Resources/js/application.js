@@ -11,11 +11,14 @@ var GTDApplication = Class.create({
 	    var configFile = Titanium.Filesystem.getFile(resourcesDir, 'config.json');
 	    
 	    if (!configFile.exists()) {
-        	alert("Config file's missing!");
-    	} else {        
-	        var configJSON = configFile.read();        
-	        this.config = Titanium.JSON.parse(configJSON);
-       }
+        	console.log("Config file's missing!");
+        	var temp = Titanium.Filesystem.getFile(resourcesDir, '_config.json');        	
+        	var skeleton = temp.read();        	
+        	configFile.touch();        	
+        	var result = configFile.write(skeleton);
+    	}
+        var configJSON = configFile.read();
+        this.config = Titanium.JSON.parse(configJSON);       
 	},
 	connectToDatabase: function() {
 		this.db = Titanium.Database.open(this.config.database);
