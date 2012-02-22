@@ -28,12 +28,12 @@ var Ajax_client = Class.create({
 			client.send(); 
 		}	
 	},
-	sendData: function(_requestURL, _method, _data, callback, returnFunction) {
+	sendData: function(_requestURL, _method, _data, callback, returnFunction, passthrough) {
 		client = Titanium.Network.createHTTPClient();
 		client.onload = function() {
 			var response = this.responseText;
 			var json = Titanium.JSON.parse(response);
-			callback(json, returnFunction);
+			callback(json, returnFunction, passthrough);
 		}
 		client.onerror = function() {
 			Titanium.API.info("error");

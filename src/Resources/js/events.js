@@ -48,8 +48,8 @@ $('saveNewIssue').observe('click', function(evt) {
 		id: "issueDialog",		
 		url: "app://templates/newIssue.html",
 		baseURL: "app://",
-		width: 200,
-		height: 150,
+		width: 700,
+		height: 410,
 		visible: true,
 		closeable: true,
 		maximizable: false,
@@ -63,7 +63,7 @@ $('saveNewProject').observe('click', function(evt) {
 		id: "projectDialog",		
 		url: "app://templates/newProject.html",
 		baseURL: "app://",
-		width: 400,
+		width: 660,
 		height: 350,
 		visible: true,
 		closeable: true,
@@ -102,10 +102,19 @@ handlerSyncIssues.start();
 var handlerLoadIssues = document.on('click', 'li[class="project"]', function(event, element) {   	
 		var key = element.readAttribute("data-key");
 		var parts = key.split('*');
-		var project = null;
 		
 		var viewer = Titanium.API.get("viewer");
 		viewer.reloadIssues(parts[2]);
+    }.bind(this)
+); 
+handlerLoadIssues.stop();
+handlerLoadIssues.start();
+
+var handlerLoadSelection = document.on('click', 'li[class="selection"]', function(event, element) {   	
+		var key = element.readAttribute("data-key");
+		
+		var viewer = Titanium.API.get("viewer");
+		viewer.loadSelection(parseInt(key));
     }.bind(this)
 ); 
 handlerLoadIssues.stop();

@@ -81,13 +81,13 @@ var GitHubAPI = Class.create(API, {
 		if (issue.milestone != null) {
 			dataToSend += ',"milestone": "'+issue.milestone.id+'"';
 		}
-		if (issues.state == 1) {
+		if (issue.state == 1) {
 			dataToSend += ',"state": "open"';
 		} else {
 			dataToSend += ',"state": "closed"';	
 		}
-		if (issue.labels.length > 0) {
-			dataToSend += '",labels": [';
+		if (issue.labels.length < 1) {
+			dataToSend += ',"labels": [';
 			var first = true;
 			issue.labels.each(function(label) {
 				if (first) {
@@ -99,7 +99,7 @@ var GitHubAPI = Class.create(API, {
 			dataToSend += ']';
 		}
 		dataToSend += '}';
-		
+		console.log(dataToSend);
 		return dataToSend;
 	},
 	convertProjectToJSON: function(project) {
@@ -122,7 +122,7 @@ var GitHubAPI = Class.create(API, {
 		return dataToSend;
 	},
 	editIssue: function(issue, callback) {
-		var requestURL = "https://api.github.com/repos/" + this.username + "/" + issue.project + "/issues/" + issue.id;		
+		var requestURL = "https://api.github.com/repos/" + this.username + "/" + issue.project.name + "/issues/" + issue.id;		
 		var dataToSend = this.convertIssueToJSON(issue);
 		
 		this.ajaxClient.sendData(requestURL, "PATCH", dataToSend, this.confirmEditIssue, callback);
@@ -132,14 +132,16 @@ var GitHubAPI = Class.create(API, {
 		callback(message);
 	},
 	addIssue: function(issue, callback) {
-		var requestURL = "https://api.github.com/repos/" + this.username + "/" + issue.project + "/issues";		
+		var requestURL = "https://api.github.com/repos/" + this.username + "/" + issue.project.name + "/issues";		
 		var dataToSend = this.convertIssueToJSON(issue);
 		
-		this.ajaxClient.sendData(requestURL, "POST", dataToSend, this.confirmCreateIssue, callback);		
+		this.ajaxClient.sendData(requestURL, "POST", dataToSend, this.confirmCreateIssue, callback, issue.issue_id);
 	},
-	confirmCreateIssue: function(json, callback) {
-		var message = json.number;
-		callback(message);
+	confirmCreateIssue: function(json, callback, issue_id) {
+		var issue = new Issue(json.number, json.title, json.body);
+		issue.issue_id = issue_id;
+		
+		callback(issue);
 	},
 	deleteIssue: function(issue, callback) {
 		callback("Not allowed");
@@ -192,7 +194,7 @@ var GitHubAPI = Class.create(API, {
 		callback(milestones);
 	},
 	addMilestone: function(milestone, callback) {
-		var requestURL = "https://api.github.com/repos/" + this.username + "/" + milestone.project + "/milestones";
+		var requestURL = "https://api.github.com/repos/" + this.username + "/" + milestone.project.name + "/milestones";
 		var dataToSend = this.convertMilestoneToJSON(milestone);
 		
 		this.ajaxClient.sendData(requestURL, "POST", dataToSend, this.confirmCreateMilestone, callback);
@@ -202,7 +204,7 @@ var GitHubAPI = Class.create(API, {
 		callback(message);
 	},
 	editMilestone: function(milestone, callback) {
-		var requestURL = "https://api.github.com/repos/" + this.username + "/" + milestone.project + "/milestones/" + milestone.id;
+		var requestURL = "https://api.github.com/repos/" + this.username + "/" + milestone.project.name + "/milestones/" + milestone.id;
 		var dataToSend = this.convertMilestoneToJSON(milestone);
 		
 		this.ajaxClient.sendData(requestURL, "PATCH", dataToSend, this.confirmEditMilestone, callback);
@@ -212,7 +214,7 @@ var GitHubAPI = Class.create(API, {
 		callback(message);
 	},
 	deleteMilestone: function(milestone, callback) {
-		var requestURL = "https://api.github.com/repos/" + this.username + "/" + milestone.project + "/milestones/" + milestone.id;
+		var requestURL = "https://api.github.com/repos/" + this.username + "/" + milestone.project.name + "/milestones/" + milestone.id;
 		
 		this.ajaxClient.sendRequest(requestURL, "DELETE", this.confirmDeleteMilestone, callback, "");
 	},

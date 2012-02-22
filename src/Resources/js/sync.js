@@ -9,8 +9,8 @@ var Sync = Class.create({
 		this.config = config;
 		this.db = database;		
 		this.model = model;
-		this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
-		this.gcode.username = this.config.gcode.name;
+		//this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
+		//this.gcode.username = this.config.gcode.name;
 		this.assembla = new AssemblaAPI(this.config.assembla.name, this.config.assembla.password, this.config.assembla.user_id);
 		this.github = new GitHubAPI(this.config.github.name, this.config.github.auth);
 	},
@@ -40,8 +40,9 @@ var Sync = Class.create({
 		}
 	},
 	saveIssue: function(issue) {
-		this.saveIssueInDatabase(issue);
-		switch(issue.project.type) {
+		var issue_id = this.saveIssueInDatabase(issue);
+		issue.issue_id = issue_id;
+		switch(issue.project_type) {
 			case 1:
 				if (issue.id != 0) {
 					this.assembla.editIssue(issue, this.showMessage);
@@ -60,7 +61,7 @@ var Sync = Class.create({
 				if (issue.id != 0) {
 					this.github.editIssue(issue, this.showMessage);
 				} else {
-					this.github.addIssue(issue, this.saveIssueInDatabase);	
+					this.github.addIssue(issue, this.saveIssueNumberInDatabase);	
 				} 
 				break;
 			default:
@@ -88,17 +89,18 @@ var Sync = Class.create({
 		}
 		if (issue.issue_id != 0) {
 			db.execute(
-				'UPDATE Issue SET id = ?, title = ?, description = ?, status = ?, project_id = ?, milestone_id = ? WHERE issue_id = ?'
-				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, milestoneID, issue.issue_id);
+				'UPDATE Issue SET id = ?, title = ?, description = ?, status = ?, project_id = ?, milestone_id = ?, inbox = ? WHERE issue_id = ?'
+				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, milestoneID, issue.inbox, issue.issue_id);
 		} else {			
 			db.execute(
-				'INSERT INTO Issue (id, title, description, status, project_type, project_id, milestone_id) VALUES (?,?,?,?,?,?,?)'
-				, issue.id, issue.title, issue.description, issue.status, issue.project_type, issue.project.project_id, milestoneID);
+				'INSERT INTO Issue (id, title, description, status, project_type, project_id, milestone_id, inbox) VALUES (?,?,?,?,?,?,?,?)'
+				, issue.id, issue.title, issue.description, issue.status, issue.project_type, issue.project.project_id, milestoneID, issue.inbox);
 			issue.issue_id = db.lastInsertRowId;
 		}		
 		if (issue.labels.length != 0) {
 			this.saveLabelsToDatabase(issue.labels, issue.issue_id);
 		}
+		return issue.issue_id;
 	},
 	saveIssuesToDatabase: function(issues) {		
 		var app = Titanium.API.get("app");
@@ -158,6 +160,13 @@ var Sync = Class.create({
 				}
 			}
 		});
+	},
+	saveIssueNumberInDatabase: function(issue) {
+		if (issue.issue_id != 0) {
+			var app = Titanium.API.get("app");
+			var db = app.getDb();
+			db.execute("UPDATE Issue SET id = ? WHERE issue_id = ?", issue.id, issue.issue_id);
+		}
 	},
 	saveMilestoneToDatabase: function(milestone, projectID) {
 		console.log(milestone);

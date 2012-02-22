@@ -47,7 +47,7 @@ var Issue = Class.create({
 	issue_id: 0,
 	title: "",
 	description: "",
-	labels: [],
+	labels: null,
 	dueDate: "",
 	status: "",
 	project: "",
@@ -60,7 +60,7 @@ var Issue = Class.create({
 		this.id = _id;
 		this.title = _title;
 		this.description = _description;
-		this.labels = [];
+		this.labels = null;
 		this.state = 1;
 	}
 });

@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>Save new project</title>
-        <link rel="stylesheet" href="../css/styles.css" />
+        <link rel="stylesheet" href="../css/typography.css" />
+        <link rel="stylesheet" href="../css/screen.css" />
         <script src="../js/prototype.js" type="text/javascript" charset="utf-8"></script>
         <script src="../js/objects.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript">
@@ -15,23 +16,50 @@
     </head>
     <body class="dialog">
         <form id="dialogNewProject">
-            <label for="project_type">Type:</label><br/>
-            <select id="project_type" name="project_type">
-                <option value="1">Assembla</option>
-                <option value="2">Google Code</option>
-                <option value="3">GitHub</option>
-                <option value="4">other</option>
-            </select><br/>
-            <label for="project_name">Name:</label><br/>                        
-            <input type="text" name="project_name" id="project_name" /><br/>
-            <label for="project_description">Description:</label><br/>                        
-            <textarea id="project_description" name="project_description" cols="30" rows="10"></textarea><br/>
-            
-            <button id="dialogSaveProject">Save</button>
+            <table class="issueTable">
+                <tr>
+                    <td colspan="2"><input type="text" name="project_name" id="project_name" size="65" placeholder="Project name / title" class="issueTitle"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="labels" id="labels" placeholder="new label">
+                        <button class="minimal">Add</button>
+                    <td>
+                        <div class="labels"><span>one</span><span>two</span><span>three</span></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><textarea name="project_description" rows="10" cols="50"></textarea></td>
+                    <td>
+                        <label for="project_state">State</label><br>
+                        <select name="project_state" id="project_state">
+                            <option value="1">active</option>
+                            <option value="0">completed</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="project_type">Type</label><br>
+                        <select name="project_type" id="project_type">
+                            <option value="1">Assembla</option>
+                            <option value="2">Google Code</option>
+                            <option value="3">GitHub</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><button type="submit" class="cupid-green" id="dialogSaveProject">Add / edit project</button></td>
+                    <td align="right"><button class="minimal" type="button" id="dialogSaveProjectCancel">Storno</button></td>
+                </tr>
+            </table>            
         </form>
         
         <script type="text/javascript">
-            var handlerSaveIssue = document.on('click', 'button[id="dialogSaveProject"]', function(event, element) {                      
+            var handlerSaveProject = document.on('click', 'button[id="dialogSaveProject"]', function(event, element) {                      
                     var form = $('dialogNewProject');
                             
                     var field = form["project_type"];
@@ -53,8 +81,16 @@
                     window.close();
                 }.bind(this)
             );
-            handlerSaveIssue.stop();
-            handlerSaveIssue.start();
+            handlerSaveProject.stop();
+            handlerSaveProject.start();
+            
+            var handlerSaveProjectCancel = document.on('click', 'button[id="dialogSaveProjectCancel"]', function(event, element) {                      
+                    var window = Titanium.UI.getCurrentWindow();
+                    window.close();
+                }.bind(this)
+            );
+            handlerSaveProjectCancel.stop();
+            handlerSaveProjectCancel.start();
         </script>
     </body>
 </html>

@@ -4,39 +4,105 @@
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<title>Save new issue</title>
-		<link rel="stylesheet" href="../css/styles.css" />
+		<link rel="stylesheet" href="../css/typography.css" />
+        <link rel="stylesheet" href="../css/screen.css" />
 		<script src="../js/prototype.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/objects.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			Event.observe(window, 'load', function() {
-				var projects = Titanium.API.get("projects");			
+				var projects = Titanium.API.get("projects");
+				var option = "";
+				$('issue_project').insert('<option value="0">INBOX</option>');
 				projects.each(function(project) {
-					option = '<option value="' + project + '">' + project;
+					option = '<option value="' + project.project_id + '">' + project.name + "</option>";
 					$('issue_project').insert(option);
-				});			
+				});				
 			});
 		</script>		
 	</head>
 	<body class="dialog">
 		<form id="dialogNewIssue">
-			<label for="issue_title">Title:</label><br/>						
-			<input type="text" name="issue_title" id="issue_title" /><br/>
-			<label for="issue_project">Project:</label><br/>						
-			<select id="issue_project" name="issue_project"></select><br/>
-			<button id="dialogSaveIssue">Save</button>
+		    <table class="issueTable">
+                <tr>
+                    <td colspan="3"><input type="text" name="title" id="title" size="65" placeholder="Issue name / title" class="issueTitle"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="labels" placeholder="new label">
+                        <button class="minimal">Add</button>
+                    <td colspan="2">
+                        <div class="labels"><span>one</span><span>two</span><span>three</span></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="4"><textarea name="description" id="description" rows="10" cols="50"></textarea></td>
+                    <td>
+                        <label for="issue_project">Project</label><br>
+                        <select name="issue_project" id="issue_project"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="due_date">Due date</label><br>
+                        <input type="date" name="due_date" class="input-date">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="asignee">Asignee</label><br>
+                        <select name="asignee" id="asignee"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="milestone">Milestone</label><br>
+                        <select name="milestone" id="milestone"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><button type="submit" class="cupid-green" id="dialogSaveIssue">Add issue</button></td>
+                    <td align="right"><button class="minimal" type="button" id="dialogSaveIssueCancel">Storno</button></td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>			
 		</form>
 		
 		<script type="text/javascript">
 			var handlerSaveIssue = document.on('click', 'button[id="dialogSaveIssue"]', function(event, element) {						
+					var sync = Titanium.API.get("sync");
+					
 					var form = $('dialogNewIssue');
 							
-					field = form["issue_title"];
+					var field = form["title"];
 					var title = $(field).getValue();
 					
 					field = form["issue_project"];
-					var project_name = $(field).getValue();
+					var project_id = $(field).getValue();
 					
-					var sync = Titanium.API.get("sync");					
-					sync.saveIssue(0, title, project_name);
+					field = form["description"];
+                    var description = $(field).getValue();
+                    
+                    field = form["labels"];
+                    var labels_raw = $(field).getValue();
+                  
+                    var labels = labels_raw.split(",");
+                    
+                    var issue = new Issue(0, title, description);
+                    issue.labels = labels;
+                    
+                    if (project_id != 0) {
+                        var params = new Object();
+                        params["project_id"] = project_id;
+    					issue.project = sync.model.getProject(params);
+    					issue.project_type = issue.project.type;
+					} else {
+					    issue.inbox = 1;
+					    issue.project = new Project(0, "", "");
+                        issue.project.type = 0;
+					    issue.project_type = 0;
+					}
+					
+					sync.saveIssue(issue);
 					
 					var window = Titanium.UI.getCurrentWindow();
 					window.close();
@@ -44,6 +110,14 @@
 			);
 			handlerSaveIssue.stop();
 			handlerSaveIssue.start();
+			
+			var handlerSaveIssueCancel = document.on('click', 'button[id="dialogSaveIssueCancel"]', function(event, element) {                       
+                    var window = Titanium.UI.getCurrentWindow();
+                    window.close();
+                }.bind(this)
+            );
+            handlerSaveIssueCancel.stop();
+            handlerSaveIssueCancel.start();
 		</script>
 	</body>
 </html>

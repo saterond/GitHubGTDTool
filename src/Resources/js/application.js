@@ -17,7 +17,7 @@ var GTDApplication = Class.create({
         	configFile.touch();        	
         	var result = configFile.write(skeleton);
     	}
-        var configJSON = configFile.read();
+        var configJSON = configFile.read();        
         this.config = Titanium.JSON.parse(configJSON);       
 	},
 	connectToDatabase: function() {

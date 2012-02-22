@@ -26,7 +26,7 @@ var GTDViewer = Class.create({
 		var content = "", i = 0;
 		projects.each(function(project) {			
 			content += '<li class="project" data-key="'+project.name+'*'+project.type+'*'+project.project_id+'">' + project.name + '</li>';
-			projects[i++] = project.name;
+			projects[i++] = project;
 		});
 		jQuery.noConflict();
 		
@@ -36,18 +36,17 @@ var GTDViewer = Class.create({
 		
 		Titanium.API.set("projects", projects);
 	},
-	reloadIssues: function(projectID) {
-		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
-		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
+	generateIssueList: function(issues) {
+		var viewer = Titanium.API.get("viewer");
 		var issue = "", content = "", type = "", labels, cssClass, milestonePercent = 0;
-		var template = this.getFileContent("templates/issue.tpl");
+		var template = viewer.getFileContent("templates/issue.tpl");		
 		issues.each(function(issuee) {			
 			issue = template;
 			issue = issue.replace(/{issue_id}/g, issuee.id);
 			issue = issue.replace("{title}", issuee.title);
 			issue = issue.replace("{description-short}", issuee.description.substr(0, 100));
 			issue = issue.replace("{description-full}", issuee.description);
-			if (issue.state) {
+			if (issuee.state) {
 				issue = issue.replace("{state-active}", ' checked="checked"');
 				issue = issue.replace("{state-completed}", '');
 			} else {
@@ -79,7 +78,14 @@ var GTDViewer = Class.create({
 			issue = issue.replace("{labels}", labels);
 			
 			content += issue;						
-		});			
+		});	
+		return content;
+	},
+	reloadIssues: function(projectID) {
+		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
+		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
+		
+		var content = this.generateIssueList(issues);
 		
 		switch(project.type) {
 			case 1: type = "assembla"; break;
@@ -92,6 +98,36 @@ var GTDViewer = Class.create({
 		jQuery("div.projectButtons").html(syncButton);
 		jQuery("div.projectHeader h2").removeClass().addClass(type);
 		jQuery("div.projectHeader h2").html(project.name);
+		jQuery("div#issues").empty();
+		jQuery("div#issues").html(content);
+	},
+	loadSelection: function(key) {
+		var viewer = Titanium.API.get("viewer");
+		var issues = null, content = "", name = "";
+		switch(key) {
+			case 1:
+				issues = viewer.model.getIssues(viewer.getParamsObject("inbox", 1));
+				console.log("done loading issues");
+				content = viewer.generateIssueList(issues);
+				name = "Inbox";
+				break;
+			case 2:
+				name = "Day review";
+				break;
+			case 3:
+				name = "Week review";
+				break;
+			case 4: 
+				name = "Month review";
+				break;
+			default:
+				name = "Unknown selection";
+				break;
+		}
+		
+		jQuery.noConflict();
+		jQuery("div.projectHeader h2").removeClass();
+		jQuery("div.projectHeader h2").html(name);
 		jQuery("div#issues").empty();
 		jQuery("div#issues").html(content);
 	}

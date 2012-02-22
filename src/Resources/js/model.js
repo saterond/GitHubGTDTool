@@ -45,7 +45,8 @@ var GTDModel = Class.create({
 			name = rs.fieldByName('name');
 			description = rs.fieldByName('description');			
 			project = new Project(name, description);
-			project.type = rs.fieldByName('type');			
+			project.type = rs.fieldByName('type');
+			project.project_id = projectID;
 		}
 		return project;
 	},
@@ -54,8 +55,11 @@ var GTDModel = Class.create({
 		if ('project_id' in params) {			
 			var projectID = parseInt(params["project_id"]);
 			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE project_id = ?", projectID);			
-		} else {			
-			Titanium.API.error("Zatim nelze issues filtrovat jinak nez podle project_id");
+		} else if ('inbox' in params) {
+			var inbox = parseInt(params["inbox"]);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE inbox = ?", inbox);
+		} else {
+			Titanium.API.error("Zatim nelze issues filtrovat podle techto parametru");
 			return new Array();
 		}
 		var issues = new Array(), i = 0, id, title, description, issue, milestone_id;
@@ -72,10 +76,12 @@ var GTDModel = Class.create({
 			issue.status = issuesRS.fieldByName('status');
 			issue.project_type = issuesRS.fieldByName('project_type');
 			issue.labels = this.getLabels(this.getParamsObject("issue_id", issue.issue_id));
+			console.log("done loading labels");
 			issue.milestone = this.getMilestone(this.getParamsObject("milestone_id", milestone_id))
+			console.log("done loading milestones");
 			issues[i++] = issue;
 			issuesRS.next();
-		}		
+		}
 		issuesRS.close();
 		return issues;
 	},
@@ -83,7 +89,7 @@ var GTDModel = Class.create({
 		var issuesRS = null;
 		if ('issue_id' in params) {			
 			var issueID = parseInt(params["issue_id"]);
-			issuesRS = this.db.execute('SELECT * From Issue WHERE issue_id = ? LIMIT 1', issueID);
+			issuesRS = this.db.execute('SELECT * From Issue WHERE issue_id = ? LIMIT 1', issueID);		
 		} else {			
 			Titanium.API.error("Zatim nelze issues vyhledavat jinak nez podle issue_id");
 			return new Array();
@@ -122,8 +128,8 @@ var GTDModel = Class.create({
 			text = labelsRS.fieldByName('text');
 			
 			label = new Label(id, issueID, text);
-			issue.text2 = issuesRS.fieldByName('text2');
-			issue.local = issuesRS.fieldByName('local');
+			label.text2 = labelsRS.fieldByName('text2');
+			label.local = labelsRS.fieldByName('local');
 			
 			labels[i++] = label;
 			labelsRS.next();
