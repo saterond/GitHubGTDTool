@@ -28,11 +28,9 @@ var GTDViewer = Class.create({
 			content += '<li class="project" data-key="'+project.name+'*'+project.type+'*'+project.project_id+'">' + project.name + '</li>';
 			projects[i++] = project;
 		});
-		jQuery.noConflict();
-		
-		jQuery("ul#projects").empty();
-		jQuery("ul#issues").empty();
-		jQuery("ul#projects").html(content);
+						
+		$("issues").update("");
+		$("projects").update(content);
 		
 		Titanium.API.set("projects", projects);
 	},
@@ -78,10 +76,11 @@ var GTDViewer = Class.create({
 			issue = issue.replace("{labels}", labels);
 			
 			content += issue;						
-		});	
+		});		
 		return content;
 	},
 	reloadIssues: function(projectID) {
+		$("loader").show();
 		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
 		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
 		
@@ -91,15 +90,25 @@ var GTDViewer = Class.create({
 			case 1: type = "assembla"; break;
 			case 2: type = "gcode"; break;
 			case 3: type = "github"; break;
-		}
-		
-		jQuery.noConflict();
+		}				
+				
 		var syncButton = '<button id="syncIssues" data-key="'+project.name+'*'+project.type+'*'+projectID+'">Sync issues</button>';
-		jQuery("div.projectButtons").html(syncButton);
-		jQuery("div.projectHeader h2").removeClass().addClass(type);
-		jQuery("div.projectHeader h2").html(project.name);
-		jQuery("div#issues").empty();
-		jQuery("div#issues").html(content);
+		$$("div.projectButtons").each(function(e) {
+			e.update(syncButton);
+		});
+		$$("div.projectHeader h2").each(function(e) {
+			e.removeClassName('assembla');
+			e.removeClassName('gcode');
+			e.removeClassName('github');
+			e.addClassName(type);
+		});
+		$$("div.projectHeader h2").each(function(e) {
+			e.update(project.name);
+		});
+		$("issues").update("");
+		$("issues").update(content);
+		
+		$("loader").hide();
 	},
 	loadSelection: function(key) {
 		var viewer = Titanium.API.get("viewer");
@@ -125,10 +134,15 @@ var GTDViewer = Class.create({
 				break;
 		}
 		
-		jQuery.noConflict();
-		jQuery("div.projectHeader h2").removeClass();
-		jQuery("div.projectHeader h2").html(name);
-		jQuery("div#issues").empty();
-		jQuery("div#issues").html(content);
+		$$("div.projectHeader h2").each(function(e) {
+			e.removeClassName('assembla');
+			e.removeClassName('gcode');
+			e.removeClassName('github');			
+		});
+		$$("div.projectHeader h2").each(function(e) {
+			e.update(name);
+		});
+		$("issues").update("");
+		$("issues").update(content);		
 	}
 });
