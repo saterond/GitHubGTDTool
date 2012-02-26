@@ -12,7 +12,7 @@ var RestClient = Class.create({
 	setAuth: function(_auth) {
 		this.auth = _auth;
 	},
-	sendRequest: function(_url, _method, callback, returnFunction, projectName) {
+	sendRequest: function(_url, _method, callback, returnFunction, passthrough) {
 		projectName = typeof(projectName) != 'undefined' ? projectName : "";
 		var requestURL = _url;
 		client = Titanium.Network.createHTTPClient();
@@ -21,7 +21,7 @@ var RestClient = Class.create({
 			var xmlText = this.responseText;			
 			var parser = new DOMParser();
 		  	var xmlDoc = parser.parseFromString(xmlText,"text/xml");
-		  	callback(xmlDoc, returnFunction, projectName);
+		  	callback(xmlDoc, returnFunction, passthrough);
 		}
 		client.onreadystatechange = function() {
 			Titanium.API.info(this.status + ": " + this.statusText);
@@ -45,7 +45,7 @@ var RestClient = Class.create({
 	    	client.send(); 
 		}
 	},
-	sendFile: function(_url, _method, _data, _boundary, callback, returnFunction) {
+	sendFile: function(_url, _method, _data, _boundary, callback, returnFunction, passthrough) {
 		var requestURL = _url;
 		client = Titanium.Network.createHTTPClient();
 		
@@ -53,7 +53,7 @@ var RestClient = Class.create({
 			var xmlText = this.responseText;
 			var parser = new DOMParser();
 		  	var xmlDoc = parser.parseFromString(xmlText,"text/xml");
-		  	callback(xmlDoc, returnFunction);			
+		  	callback(xmlDoc, returnFunction, passthrough);
 		}
 		client.onreadystatechange = function() {
 			Titanium.API.info(this.status + ": " + this.statusText);

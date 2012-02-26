@@ -100,23 +100,25 @@ var GCodeAPI = Class.create(API, {
 		callback(issues);
 	},
 	addIssue: function(issue, callback) {
-		var name = issue.project;
+		var name = issue.project.name;
 		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full";		
 		var content = this.convertIssueToPOSTRequest(issue);
 		
-		this.restClient.sendFile(requestURL, "POST", content, "", this.confirmNewIssue, callback);
+		this.restClient.sendFile(requestURL, "POST", content, "", this.confirmNewIssue, callback, issue.issue_id);
 	},
-	confirmNewIssue: function(xmlDoc, callback) {
+	confirmNewIssue: function(xmlDoc, callback, issue_id) {		
 		var entries = xmlDoc.getElementsByTagName("entry");
 		var count = entries.length;
 		var id_full, parts, number;
 		for(i = 0; i < count; i++) {
 			id_full = entries[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
 			parts = id_full.split('/');
-			number = parts[parts.length - 1];					
-		}		
+			number = parts[parts.length - 1];
+		}
+		var issue = new Issue(number, "", "");
+		issue.issue_id = issue_id;
 		
-		callback(number);
+		callback(issue);
 	},
 	editIssue: function(issue, callback) {
 		var name = issue.project;
