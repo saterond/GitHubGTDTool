@@ -71,10 +71,11 @@ var Issue = Class.create({
  * @author Ondrej Satera
  */
 var User = Class.create({
+	user_id: 0,
 	id: 0,
 	name: "",
 	email: "",
-	project: "",
+	project: null,
 	initialize: function(_name, _email, _project) {
 		this.name = _name;
 		this.email = _email;

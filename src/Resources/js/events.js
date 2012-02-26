@@ -13,7 +13,7 @@ $('loadRepos').observe('click', function(evt) {
 	sync.syncProjects();	
 });
 
-$('setAuth').observe('click', function(evt) {	
+$('setAuth').observe('click', function(evt) {
 	Titanium.UI.showDialog({
 		id: "authDialog",		
 		url: "app://templates/auth.html",
@@ -72,6 +72,16 @@ $('saveNewProject').observe('click', function(evt) {
 		topMost: true
 	});
 });
+alert("a");
+$$('li.selection').each(function(li){
+	alert("a");
+	li.observe("click", function(evt) {
+		var key = li.readAttribute("data-key");
+		
+		var viewer = Titanium.API.get("viewer");
+		viewer.loadSelection(parseInt(key));
+	})
+});
 
 var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', function(event, element) {    	
 		var key = element.readAttribute("data-key");
@@ -99,26 +109,15 @@ var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', function
 handlerSyncIssues.stop();
 handlerSyncIssues.start();
 
-var handlerLoadIssues = document.on('click', 'li[class="project"]', function(event, element) {   	
-		var key = element.readAttribute("data-key");
-		var parts = key.split('*');
-		
-		var viewer = Titanium.API.get("viewer");
-		viewer.reloadIssues(parts[2]);
-    }.bind(this)
-); 
-handlerLoadIssues.stop();
-handlerLoadIssues.start();
-
-var handlerLoadSelection = document.on('click', 'li[class="selection"]', function(event, element) {   	
+/*var handlerLoadSelection = document.on('click', 'li[class="selection"]', function(event, element) {   	
 		var key = element.readAttribute("data-key");
 		
 		var viewer = Titanium.API.get("viewer");
 		viewer.loadSelection(parseInt(key));
     }.bind(this)
 ); 
-handlerLoadIssues.stop();
-handlerLoadIssues.start();
+handlerLoadSelection.stop();
+handlerLoadSelection.start();*/
 
 var handlerCloseIssue = document.on('click', 'button[id="closeIssue"]', function(event, element) {		
 		var sync = Titanium.API.get("sync");

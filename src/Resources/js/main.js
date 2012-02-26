@@ -16,63 +16,11 @@ Event.observe(window, 'load', function() {
 		
 		var menu = Titanium.UI.createMenu();
 		var app = Titanium.UI.createMenuItem("Application");
-		app.addItem("New project", function(e){
-			Titanium.UI.showDialog({
-				id: "projectDialog",		
-				url: "app://templates/newProject.html",
-				baseURL: "app://",
-				width: 660,
-				height: 350,
-				visible: true,
-				closeable: true,
-				maximizable: false,
-				resizable: false,
-				topMost: true
-			});
-		});
-		app.addItem("New issue", function(e){
-			Titanium.UI.showDialog({
-				id: "issueDialog",		
-				url: "app://templates/newIssue.html",
-				baseURL: "app://",
-				width: 700,
-				height: 410,
-				visible: true,
-				closeable: true,
-				maximizable: false,
-				resizable: false,
-				topMost: true
-			});
-		});
+		app.addItem("New project", handleShowNewProjectDialog);
+		app.addItem("New issue", handleShowNewIssueDialog);
 		app.addSeparatorItem();
-		app.addItem("Configuration", function(e){
-			Titanium.UI.showDialog({
-				id: "configDialog",		
-				url: "app://templates/config.html",
-				baseURL: "app://",
-				width: 350,
-				height: 450,
-				visible: true,
-				closeable: true,
-				maximizable: false,
-				resizable: false,
-				topMost: true
-			});
-		});
-		app.addItem("Set auth", function(e){
-			Titanium.UI.showDialog({
-				id: "authDialog",		
-				url: "app://templates/auth.html",
-				baseURL: "app://",
-				width: 200,
-				height: 150,
-				visible: true,
-				closeable: true,
-				maximizable: false,
-				resizable: false,
-				topMost: true
-			});
-		});
+		app.addItem("Configuration", handleShowConfigurationDialog);
+		app.addItem("Set auth", handleShowSetAuthDialog);
 		app.addSeparatorItem();
 		app.addItem("Quit", function(e){
 			Titanium.App.exit();
@@ -85,6 +33,10 @@ Event.observe(window, 'load', function() {
 		sync.addItem("Sync projects", function(e){
 			var sync = Titanium.API.get("sync");
 			sync.syncProjects();
+		});
+		sync.addItem("Sync users", function(e){
+			var sync = Titanium.API.get("sync");
+			sync.syncUsers();
 		});
 		var help = Titanium.UI.createMenuItem("Help");
 		help.addItem("Main help", function(e){
@@ -101,11 +53,33 @@ Event.observe(window, 'load', function() {
 	} else {
 		Titanium.API.info("Chyba s databazi");
 	}		
-	Titanium.API.info("Application ready");
+	Titanium.API.info("Application ready");	
 });
 
 Event.observe(window, 'unload', function() {	
 	var app = Titanium.API.get("app");
 	var db = app.getDb();
 	db.close();
+});
+
+document.observe("dom:loaded", function() {	
+	$('saveNewIssue').observe('click', handleShowNewIssueDialog);	
+	$('saveNewProject').observe('click', handleShowNewProjectDialog);
+	
+	$$('li.selection').each(function(li){		
+		li.observe("click", function(evt) {
+			var key = li.readAttribute("data-key");			
+			var viewer = Titanium.API.get("viewer");
+			viewer.loadSelection(parseInt(key));
+		})
+	});
+	
+	var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', handleSyncIssues.bind(this));
+	handlerSyncIssues.stop();handlerSyncIssues.start();
+	
+	var handlerCloseIssue = document.on('click', 'button[id="closeIssue"]', handleCloseIssue.bind(this));
+	handlerCloseIssue.stop();handlerCloseIssue.start();
+	
+	var handlerShowIssueInfo = document.on('click', 'button[class~="showInfo"]', handleShowIssueInfo.bind(this));
+	handlerShowIssueInfo.stop();handlerShowIssueInfo.start();
 });

@@ -59,19 +59,21 @@ var GitHubAPI = Class.create(API, {
 	getUsers: function(project, callback) {
 		requestURL = "https://api.github.com/repos/" + this.username + "/" + project.name + "/collaborators";
 		
-		this.ajaxClient.sendRequest(requestURL, "GET", this.parseUsers, callback, project.name);
+		this.ajaxClient.sendRequest(requestURL, "GET", this.parseUsers, callback, project);
 	},
 	parseUsers: function(json, callback, project) {
-		var id, name, email;
+		var id, name, email, user;
 		var users = new Array();
 		var i = 0;
 		json.each(function(item){
 			name = item.login;
 			id = item.id;
 			email = "";
-			users[i++] = new User(name, email, project);
+			user = new User(name, email, project);
+			user.id = id;
+			users[i++] = user;
 		});
-		callback(issues);
+		callback(users, project);
 	},
 	convertIssueToJSON: function(issue) {
 		var dataToSend = '{';
@@ -182,15 +184,15 @@ var GitHubAPI = Class.create(API, {
 		this.ajaxClient.sendRequest(requestURL, "GET", this.parseMilestones, callback, project);
 	},
 	parseMilestones: function(json, callback, project) {
-		var ms, id, title, project;
+		var ms, id, title;
 		var milestones = new Array();
 		var i = 0;
 		json.each(function(item) {
 			id = item.number;
 			title = item.title;			
-			milestones[i++] = new Milestone(id, title, "", project.name);
+			milestones[i++] = new Milestone(id, title, "", project);
 		});
-		callback(milestones);
+		callback(milestones, project);
 	},
 	addMilestone: function(milestone, callback) {
 		var requestURL = "https://api.github.com/repos/" + this.username + "/" + milestone.project.name + "/milestones";

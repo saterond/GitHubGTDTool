@@ -21,7 +21,7 @@ var Sync = Class.create({
 	syncProjects: function() {
 		this.assembla.getProjects(this.saveProjectsToDatabase);
 		this.gcode.getProjects(this.saveProjectsToDatabase);
-		this.github.getProjects(this.saveProjectsToDatabase);
+		this.github.getProjects(this.saveProjectsToDatabase);		
 	},
 	syncIssues: function(project) {
 		switch(project.type) {
@@ -38,6 +38,23 @@ var Sync = Class.create({
 			default:
 				Titanium.API.error("Nepodporovany typ projektu (sync)");
 		}
+	},
+	syncUsers: function() {
+		var sync = Titanium.API.get("sync");
+		var projects = Titanium.API.get("projects");
+		projects.each(function(project) {
+			switch(project.type) {
+				case 1: 					
+					sync.assembla.getUsers(project, sync.saveUsersToDatabase);
+					break;
+				case 2:
+					sync.gcode.getUsers(project, sync.saveUsersToDatabase);
+					break;
+				case 3:					
+					sync.github.getUsers(project, sync.saveUsersToDatabase);
+					break;
+			}
+		});
 	},
 	saveIssue: function(issue) {
 		var issue_id = this.saveIssueInDatabase(issue);
@@ -70,12 +87,30 @@ var Sync = Class.create({
 	},
 	saveProjectsToDatabase: function(projects) {
 		var app = Titanium.API.get("app");
+		var sync = Titanium.API.get("sync");
 		var db = app.getDb();
 		var rs = null;
 		projects.each(function(project) {
 			rs = db.execute('SELECT project_id FROM project WHERE name = ? AND type = ?', project.name, project.type);
-			if(rs.rowCount() == 0)
+			if(rs.rowCount() == 0) {
 				db.execute('INSERT INTO project (name,description,type) VALUES (?,?,?)', project.name, project.description, project.type);
+				project.project_id = db.lastInsertRowId;
+			} else {
+				project.project_id = rs.fieldByName("project_id");
+			}
+			switch(project.type) {
+				case 1: 
+					sync.assembla.getMilestones(project, sync.saveMilestonesToDatabase);
+					sync.assembla.getUsers(project, sync.saveUsersToDatabase);
+					break;
+				case 2:
+					sync.gcode.getUsers(project, sync.saveUsersToDatabase);
+					break;
+				case 3:
+					sync.github.getMilestones(project, sync.saveMilestonesToDatabase);
+					sync.github.getUsers(project, sync.saveUsersToDatabase);
+					break;
+			}
 		});
 		var viewer = Titanium.API.get("viewer");
 		viewer.reloadProjects();
@@ -168,8 +203,7 @@ var Sync = Class.create({
 			db.execute("UPDATE Issue SET id = ? WHERE issue_id = ?", issue.id, issue.issue_id);
 		}
 	},
-	saveMilestoneToDatabase: function(milestone, projectID) {
-		console.log(milestone);
+	saveMilestoneToDatabase: function(milestone, projectID) {		
 		var rs = Titanium.API.get("app").db.execute("SELECT milestone_id FROM Milestone WHERE title = ? AND project_id = ? LIMIT 1", milestone.title, projectID);
 		var milestoneID = 0;
 		if (rs.rowCount() == 0) {
@@ -180,12 +214,12 @@ var Sync = Class.create({
 		}
 		return milestoneID;
 	},
-	saveMilestonesToDatabase: function(milestones, projectName, projectType) {
+	saveMilestonesToDatabase: function(milestones, project) {
 		var app = Titanium.API.get("app");
 		var db = app.getDb();
 		var rs = null, id, title, date, milestoneID, project_id;
-		rs = db.execute("SELECT project_id FROM project WHERE name = ? AND type = ?", projectName, projectType);
-		project_id = rs.fieldByName("project_id");
+		//rs = db.execute("SELECT project_id FROM project WHERE name = ? AND type = ?", projectName, projectType);
+		project_id = project.project_id;
 		milestones.each(function(milestone) {
 			rs = db.execute("SELECT milestone_id FROM Milestone WHERE id = ? AND project_id = ?", milestone.id, project_id);
 			if (rs.rowCount() > 0) {
@@ -200,5 +234,21 @@ var Sync = Class.create({
 		});
 		var viewer = Titanium.API.get("viewer");
 		viewer.reloadIssues(project_id);
+	},
+	saveUsersToDatabase: function(users, project) {
+		var app = Titanium.API.get("app");
+		var db = app.getDb();
+		var rs = null, userID = 0;
+		users.each(function(user){
+			rs = db.execute("SELECT user_id FROM User WHERE name = ? AND project_id = ?", user.name, project.project_id);
+			if (rs.rowCount() > 0) {
+				userID = rs.fieldByName("user_id");
+				db.execute("UPDATE User SET name = ?, email = ?, id = ? WHERE user_id = ?", 
+							user.name, user.email, user.id, userID);
+			} else {
+				db.execute("INSERT INTO User (name,email,id,project_id) VALUES (?,?,?,?)",
+							user.name, user.email, user.id, project.project_id);
+			}
+		});
 	}
 });

@@ -133,9 +133,9 @@ var GCodeAPI = Class.create(API, {
 	getUsers: function(project, callback) {
 		var name = project.getName();		
 		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full";		
-		this.restClient.sendRequest(requestURL, "GET", this.parseUsers, callback);
+		this.restClient.sendRequest(requestURL, "GET", this.parseUsers, callback, project);
 	},
-	parseUsers: function(xmlDoc, callback) {
+	parseUsers: function(xmlDoc, callback, project) {
 		var entries = xmlDoc.getElementsByTagName("entry");
 		var name, email, user;
 		var users = new Array();
@@ -143,9 +143,9 @@ var GCodeAPI = Class.create(API, {
 		for(i = 0; i < count; i++) {
 			name = entries[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
 			email = "";
-			users[i] = new User(name, email, "");
+			users[i] = new User(name, email, project);
 		}
-		callback(users);
+		callback(users, project);
 	},
 	getLabels: function(issue, callback) {
 		var name = issue.project;

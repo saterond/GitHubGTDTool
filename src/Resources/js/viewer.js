@@ -6,7 +6,7 @@ var GTDViewer = Class.create({
 		this.model = model;
 	},
 	showMessage: function(message) {
-		alert(message);
+		Titanium.API.error("CHYBA v aplikaci: " + message);
 	},
 	getFileContent: function(filename) {		
 		var resourceDir = Titanium.Filesystem.getResourcesDirectory();	
@@ -23,15 +23,22 @@ var GTDViewer = Class.create({
 	},
 	reloadProjects: function() {
 		$("loader").removeClassName("hidden");
-		var projects = this.model.getProjects();
-		var content = "", i = 0;
-		projects.each(function(project) {			
-			content += '<li class="project" data-key="'+project.name+'*'+project.type+'*'+project.project_id+'">' + project.name + '</li>';
+		var projects_db = this.model.getProjects();
+		var i = 0, html = new Array(), li = null, key = "", projects = new Array();
+		projects_db.each(function(project) {
+			key = project.name+'*'+project.type+'*'+project.project_id;
+			li = new Element("li", {"class" : "project", "data-key" : key}).update(project.name);
+			li.on("click", handleSelectProject);
 			projects[i++] = project;
+			html[i++] = li;
 		});
 						
 		$("issues").update("");
-		$("projects").update(content);
+		html.each(function(li) {
+			$("projects").insert({
+				bottom : li
+			});
+		});		
 		$("loader").addClassName("hidden");
 		
 		Titanium.API.set("projects", projects);
@@ -81,7 +88,8 @@ var GTDViewer = Class.create({
 		});		
 		return content;
 	},
-	reloadIssues: function(projectID) {		
+	reloadIssues: function(projectID) {
+		console.log("reloading issues");
 		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
 		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
 		

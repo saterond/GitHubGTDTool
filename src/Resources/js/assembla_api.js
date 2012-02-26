@@ -84,21 +84,24 @@ var AssemblaAPI = Class.create(API, {
 	getUsers: function(project, callback) {
 		var name = this.webalizeString(project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/users/";
-		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback);		
+		this.restClient.sendRequest(requestURL, "GET", this.parseUsers, callback, project);
 	},
-	parseUsers: function(xmlDoc, callback) {
+	parseUsers: function(xmlDoc, callback, project) {
 		var workers = xmlDoc.getElementsByTagName("user");
-		var name, email, project;
+		var name, email, id;
 		var users = new Array();
-		var count = users.length;
+		var count = workers.length;
 		for(i = 0; i < count; i++) {				
 			name = workers[i].getElementsByTagName("login")[0].childNodes[0].nodeValue;
-			email = workers[i].getElementsByTagName("email")[0].childNodes[0].nodeValue;
-			project = project.getName();
+			email = "";
+			if (workers[i].getElementsByTagName("email")[0] != undefined)
+				email = workers[i].getElementsByTagName("email")[0].childNodes[0].nodeValue;
+			id = workers[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
 			user = new User(name, email, project);
+			user.id = id;
 			users[i] = user;
 		}
-		callback(users);
+		callback(users, project);
 	},
 	getLabels: function(project, callback) {
 		Titanium.info("Assembla doesn't support labels");
@@ -259,9 +262,9 @@ var AssemblaAPI = Class.create(API, {
 		var name = this.webalizeString(project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/";
 		
-		this.restClient.sendRequest(requestURL, "GET", this.parseMilestones, callback, project.name);
+		this.restClient.sendRequest(requestURL, "GET", this.parseMilestones, callback, project);
 	},
-	parseMilestones: function(xmlDoc, callback, projectName) {
+	parseMilestones: function(xmlDoc, callback, project) {
 		var stones = xmlDoc.getElementsByTagName("milestone");
 		var title, date, id;
 		var milestones = new Array();
@@ -274,10 +277,10 @@ var AssemblaAPI = Class.create(API, {
 			} else {
 				date = '';
 			}
-			milestone = new Milestone(id, title, date, null);
+			milestone = new Milestone(id, title, date, project);
 			milestones[i] = milestone;
 		}
-		callback(milestones, projectName, 1);
+		callback(milestones, project);
 	},
 	addMilestone: function(milestone, callback) {
 		var name = this.webalizeString(milestone.project.getName());
