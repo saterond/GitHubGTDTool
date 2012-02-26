@@ -146,15 +146,16 @@ var AssemblaAPI = Class.create(API, {
 		}
 	},
 	addIssue: function(issue, callback) {
-		var name = issue.project;
+		var name = issue.project.name;
 		name = name.replace(/ /gi, "-");
 		name = name.toLowerCase();
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets";
 		
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
 		data += "<ticket>";
-		data += "<number>" + issue.id + "</number>";
+		//data += "<number>" + issue.id + "</number>";
 		data += "<summary>" + issue.title + "</summary>";
+		data += "<description>" + issue.description + "</description>";
 		data += "<priority>1</priority>";
 		data += "<status>0</status>";
 		data += "</ticket>";
@@ -178,12 +179,20 @@ var AssemblaAPI = Class.create(API, {
 		
 		var fullContent = header + content + "\r\n--" + boundary + "--";
 		
-		this.restClient.sendFile(requestURL, "POST", fullContent, boundary, this.confirmNewIssue, callback);		
+		this.restClient.sendFile(requestURL, "POST", fullContent, boundary, this.confirmNewIssue, callback, issue.issue_id);
 	},
-	confirmNewIssue: function(response, callback) {
-		console.log(response);
-		var message = "Issue created";
-		callback(message);
+	confirmNewIssue: function(xmlDoc, callback, issue_id) {
+		var tickets = xmlDoc.getElementsByTagName("ticket");
+		var id;
+		var count = tickets.length;
+		for(i = 0; i < count; i++) {				
+			id = tickets[i].getElementsByTagName("number")[0].childNodes[0].nodeValue;
+		}
+		
+		var issue = new Issue(id, "", "");
+		issue.issue_id = issue_id;
+		
+		callback(issue);
 	},
 	editIssue: function(issue, callback) {
 		var name = issue.project;

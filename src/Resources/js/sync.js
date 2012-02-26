@@ -47,7 +47,7 @@ var Sync = Class.create({
 				if (issue.id != 0) {
 					this.assembla.editIssue(issue, this.showMessage);
 				} else {
-					this.assembla.addIssue(issue, this.saveIssueInDatabase);
+					this.assembla.addIssue(issue, this.saveIssueNumberInDatabase);
 				}				
 				break;
 			case 2:				
