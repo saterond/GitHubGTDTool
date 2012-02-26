@@ -15,6 +15,25 @@ var AssemblaAPI = Class.create(API, {
 		this.user_id = _user_id;
 		this.restClient = new RestClient(_username, _password);
 	},
+	webalizeString: function(str) {
+		str = str.replace(/ /gi, "-");
+		str = str.toLowerCase();
+		
+		var sdiak = "áäčďéěíĺľňóô öŕšťúů üýřžÁÄČĎÉĚÍĹĽŇÓÔ ÖŔŠŤÚŮ ÜÝŘŽ"; 
+		var bdiak = "aacdeeillnoo orstuu uyrzAACDEEILLNOO ORSTUU UYRZ"; 		
+		var txt = "", pos = 0;                
+        for(var i = 0; i < str.length; i++) {            
+            pos = sdiak.indexOf(str.charAt(i));
+            if (pos != -1) {                
+                txt += bdiak.charAt(pos); 
+            } else {
+                txt += str.charAt(i);
+            }
+        }
+		str = txt;
+		
+		return str;
+	},
 	getProjects : function(callback) {
 		var requestURL = "https://www.assembla.com/spaces/my_spaces";		
 		this.restClient.sendRequest(requestURL, "GET", this.parseProjects, callback);
@@ -33,9 +52,7 @@ var AssemblaAPI = Class.create(API, {
 		callback(projects);	
 	},
 	getIssues: function(project, callback) {
-		var name = project.getName();
-		name = name.replace(/ /gi, "-");
-		name = name.toLowerCase();
+		var name = this.webalizeString(project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets/";
 		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback, project.name);
 	},
@@ -65,9 +82,7 @@ var AssemblaAPI = Class.create(API, {
 		callback(issues);
 	},
 	getUsers: function(project, callback) {
-		var name = project.getName();
-		name = name.replace(/ /gi, "-");
-		name = name.toLowerCase();
+		var name = this.webalizeString(project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/users/";
 		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback);		
 	},
@@ -146,9 +161,7 @@ var AssemblaAPI = Class.create(API, {
 		}
 	},
 	addIssue: function(issue, callback) {
-		var name = issue.project.name;
-		name = name.replace(/ /gi, "-");
-		name = name.toLowerCase();
+		var name = this.webalizeString(issue.project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets";
 		
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -195,9 +208,7 @@ var AssemblaAPI = Class.create(API, {
 		callback(issue);
 	},
 	editIssue: function(issue, callback) {
-		var name = issue.project;
-		name = name.replace(/ /gi, "-");
-		name = name.toLowerCase();
+		var name = this.webalizeString(issue.project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets/"+issue.id;
 		
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -235,7 +246,7 @@ var AssemblaAPI = Class.create(API, {
 		callback(message);
 	},
 	deleteIssue: function(issue, callback) {
-		var name = issue.project;
+		var name = this.webalizeString(issue.project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets/"+issue.id;
 		
 		this.restClient.sendRequest(requestURL, "DELETE", this.confirmDeleteIssue, callback);		
@@ -245,9 +256,7 @@ var AssemblaAPI = Class.create(API, {
 		callback(message);
 	},
 	getMilestones: function(project, callback) {
-		var name = project.getName();
-		name = name.replace(/ /gi, "-");
-		name = name.toLowerCase();
+		var name = this.webalizeString(project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/";
 		
 		this.restClient.sendRequest(requestURL, "GET", this.parseMilestones, callback, project.name);
@@ -271,9 +280,7 @@ var AssemblaAPI = Class.create(API, {
 		callback(milestones, projectName, 1);
 	},
 	addMilestone: function(milestone, callback) {
-		var name = milestone.project;
-		name = name.replace(/ /gi, "-");
-		name = name.toLowerCase();
+		var name = this.webalizeString(milestone.project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/";
 		
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -308,9 +315,7 @@ var AssemblaAPI = Class.create(API, {
 		callback(message);
 	},
 	editMilestone: function(milestone, callback) {
-		var name = milestone.project;
-		name = name.replace(/ /gi, "-");
-		name = name.toLowerCase();
+		var name = this.webalizeString(milestone.project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/"+milestone.id;
 		
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -345,7 +350,7 @@ var AssemblaAPI = Class.create(API, {
 		callback(message);
 	},
 	deleteMilestone: function(milestone, callback) {
-		var name = milestone.project;
+		var name = this.webalizeString(milestone.project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/milestones/"+milestone.id;
 		
 		this.restClient.sendRequest(requestURL, "DELETE", this.confirmDeleteMilestone, callback);
