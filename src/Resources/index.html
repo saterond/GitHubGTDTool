@@ -4,8 +4,7 @@
 		<link rel="stylesheet" href="css/typography.css" />
 		<link rel="stylesheet" href="css/screen.css" />
 		<script type="text/javascript" src="js/base64.js"></script>
-		<script type="text/javascript" src="js/prototype.js"></script>
-		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/prototype.js"></script>		
 		<script type="text/javascript" src="js/objects.js"></script>
 		<script type="text/javascript" src="js/abstractClasses.js"></script>
 		<script type="text/javascript" src="js/rest_client.js"></script>
@@ -38,11 +37,6 @@
 			<span class="divider"> </span>
 			<button class="button-big">Archive</button>
 			<button class="button-big">Trash</button>
-			<button class="button-big" id="changeConfig">Config</button>
-			<br><br>
-			<button class="button-big" id="reload">Refresh projects</button>
-			<button class="button-big" id="loadRepos">Sync projects</button>			
-			<button class="button-big" id="setAuth">Generate<br>auth</button>			
 		</div>
 		
 		<div id="content">
@@ -50,7 +44,7 @@
 	    		<div class="projectButtons"></div>
 	    		<div class="projectHeader">
 					<h2>Inbox</h2>
-					<img src="images/ajax-loader.gif" id="loader" width="32" height="32" style="display: none;" />
+					<img src="images/ajax-loader.gif" id="loader" width="32" height="32" class="hidden" />
 					<br />					
 				</div>							
 				<span class="divider"> </span>

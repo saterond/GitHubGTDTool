@@ -1,4 +1,3 @@
-jQuery.noConflict();
 var GitHubAPI = Class.create(API, {
 	auth: "",
 	username: "",

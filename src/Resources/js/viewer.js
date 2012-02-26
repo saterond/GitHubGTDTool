@@ -21,7 +21,8 @@ var GTDViewer = Class.create({
 		obj[key] = value;
 		return obj;
 	},
-	reloadProjects: function() {		
+	reloadProjects: function() {
+		$("loader").removeClassName("hidden");
 		var projects = this.model.getProjects();
 		var content = "", i = 0;
 		projects.each(function(project) {			
@@ -31,6 +32,7 @@ var GTDViewer = Class.create({
 						
 		$("issues").update("");
 		$("projects").update(content);
+		$("loader").addClassName("hidden");
 		
 		Titanium.API.set("projects", projects);
 	},
@@ -79,8 +81,7 @@ var GTDViewer = Class.create({
 		});		
 		return content;
 	},
-	reloadIssues: function(projectID) {
-		$("loader").show();
+	reloadIssues: function(projectID) {		
 		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
 		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
 		
@@ -106,9 +107,7 @@ var GTDViewer = Class.create({
 			e.update(project.name);
 		});
 		$("issues").update("");
-		$("issues").update(content);
-		
-		$("loader").hide();
+		$("issues").update(content);			
 	},
 	loadSelection: function(key) {
 		var viewer = Titanium.API.get("viewer");
