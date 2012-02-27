@@ -92,6 +92,7 @@ var GTDViewer = Class.create({
 		console.log("reloading issues");
 		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
 		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
+		var labels = this.model.getDistinctLabels(this.getParamsObject("project_id", projectID));				
 		
 		var content = this.generateIssueList(issues);
 		
@@ -101,7 +102,9 @@ var GTDViewer = Class.create({
 			case 3: type = "github"; break;
 		}				
 				
-		var syncButton = '<button id="syncIssues" data-key="'+project.name+'*'+project.type+'*'+projectID+'">Sync issues</button>';
+		var key = project.name+'*'+project.type+'*'+projectID;
+		var syncButton = new Element("button", {"id" : "syncIssues", "data-key" : key}).update("Sync issues");
+		syncButton.on("click", handleSyncIssues);
 		$$("div.projectButtons").each(function(e) {
 			e.update(syncButton);
 		});
@@ -115,17 +118,39 @@ var GTDViewer = Class.create({
 			e.update(project.name);
 		});
 		$("issues").update("");
-		$("issues").update(content);			
+		$("issues").update(content);
+		
+		if (labels.length > 0) {
+			var wrapper = new Element("div", {"class" : "labels"});
+			var span = null;			
+			labels.each(function(label) {
+				span = new Element("span", {"class" : "label", "data-key" : label.label_id}).update(label.text);
+				span.on("click", handleSelectLabel);
+				wrapper.insert({
+					top : span
+				});
+			});
+			$$("div.projectButtons").first().insert({
+				bottom : wrapper
+			});
+		}
 	},
-	loadSelection: function(key) {
+	loadSelection: function(params) {
+		var task = 0, selector = "";
+		if ('selection' in params) {			
+			task = parseInt(params["selection"]);
+		} else if ('label' in params) {
+			task = 10;
+			selector = parseInt(params["label"]);
+		}
 		var viewer = Titanium.API.get("viewer");
-		var issues = null, content = "", name = "";
-		switch(key) {
+		var issues = null, content = "", name = "", labels = new Array();
+		switch(task) {
 			case 1:
-				issues = viewer.model.getIssues(viewer.getParamsObject("inbox", 1));
-				console.log("done loading issues");
-				content = viewer.generateIssueList(issues);
 				name = "Inbox";
+				issues = viewer.model.getIssues(viewer.getParamsObject("inbox", 1));
+				labels = viewer.model.getDistinctLabels(viewer.getParamsObject("project_id", 0));
+				content = viewer.generateIssueList(issues);
 				break;
 			case 2:
 				name = "Day review";
@@ -136,9 +161,28 @@ var GTDViewer = Class.create({
 			case 4: 
 				name = "Month review";
 				break;
+			case 10:
+				name = "Label based selection";
+				issues = viewer.model.getIssues(viewer.getParamsObject("label", selector));
+				content = viewer.generateIssueList(issues);
+				break;
 			default:
 				name = "Unknown selection";
 				break;
+		}
+		
+		if (labels.length > 0) {
+			$$("div.projectButtons").first().update();
+			var wrapper = new Element("div", {"class" : "labels"});
+			var span = null;
+			labels.each(function(label) {
+				span = new Element("span", {"class" : "label", "data-key" : label.label_id}).update(label.text);
+				span.on("click", handleSelectLabel);
+				wrapper.insert({
+					top : span
+				});
+			});
+			$$("div.projectButtons").first().update(wrapper);
 		}
 		
 		$$("div.projectHeader h2").each(function(e) {
@@ -148,7 +192,7 @@ var GTDViewer = Class.create({
 		});
 		$$("div.projectHeader h2").each(function(e) {
 			e.update(name);
-		});
+		});		
 		$("issues").update("");
 		$("issues").update(content);		
 	}

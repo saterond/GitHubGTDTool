@@ -70,7 +70,7 @@ document.observe("dom:loaded", function() {
 		li.observe("click", function(evt) {
 			var key = li.readAttribute("data-key");			
 			var viewer = Titanium.API.get("viewer");
-			viewer.loadSelection(parseInt(key));
+			viewer.loadSelection(viewer.getParamsObject("selection", 1));
 		})
 	});
 	

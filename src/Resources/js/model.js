@@ -58,6 +58,11 @@ var GTDModel = Class.create({
 		} else if ('inbox' in params) {
 			var inbox = parseInt(params["inbox"]);
 			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE inbox = ?", inbox);
+		} else if ('label' in params) {
+			var label_id = parseInt(params["label"]);
+			issuesRS = this.db.execute(
+				"SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE issue_id IN "+
+				"(SELECT issue_id FROM Label WHERE label_id = ?)", label_id);
 		} else {
 			Titanium.API.error("Zatim nelze issues filtrovat podle techto parametru");
 			return new Array();
@@ -76,9 +81,8 @@ var GTDModel = Class.create({
 			issue.status = issuesRS.fieldByName('status');
 			issue.project_type = issuesRS.fieldByName('project_type');
 			issue.labels = this.getLabels(this.getParamsObject("issue_id", issue.issue_id));
-			console.log("done loading labels");
 			issue.milestone = this.getMilestone(this.getParamsObject("milestone_id", milestone_id))
-			console.log("done loading milestones");
+			
 			issues[i++] = issue;
 			issuesRS.next();
 		}
@@ -128,6 +132,33 @@ var GTDModel = Class.create({
 			text = labelsRS.fieldByName('text');
 			
 			label = new Label(id, issueID, text);
+			label.text2 = labelsRS.fieldByName('text2');
+			label.local = labelsRS.fieldByName('local');
+			
+			labels[i++] = label;
+			labelsRS.next();
+		}		
+		labelsRS.close();
+		return labels;
+	},
+	getDistinctLabels: function(params) {
+		var labelsRS = null;
+		if ('project_id' in params) {			
+			var project_id = parseInt(params["project_id"]);
+			labelsRS = this.db.execute(
+				"SELECT label_id,text,text2,local,issue_id FROM Label WHERE issue_id " +
+				"IN (SELECT issue_id FROM Issue WHERE project_id = ?)", project_id);
+		} else {
+			Titanium.API.error("Zatim nelze labely filtrovat jinak nez podle project_id");
+			return new Array();
+		}
+		var labels = new Array(), i = 0, id, text, label, issue_id;
+		while (labelsRS.isValidRow()) {
+			label_id = labelsRS.fieldByName('label_id');
+			text = labelsRS.fieldByName('text');
+			issue_id = labelsRS.fieldByName('issue_id');
+			
+			label = new Label(label_id, issue_id, text);
 			label.text2 = labelsRS.fieldByName('text2');
 			label.local = labelsRS.fieldByName('local');
 			

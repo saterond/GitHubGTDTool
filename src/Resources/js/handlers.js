@@ -69,6 +69,13 @@ function handleSelectProject(event, element) {
 	viewer.reloadIssues(parts[2]);
 }
 
+function handleSelectLabel(event, element) {
+	var key = element.readAttribute("data-key");
+	
+	var viewer = Titanium.API.get("viewer");
+	viewer.loadSelection(viewer.getParamsObject("label", key));
+}
+
 function handleSyncIssues(event, element) {	
 	var key = element.readAttribute("data-key");
 	var parts = key.split('*');
