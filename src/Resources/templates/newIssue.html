@@ -16,7 +16,23 @@
 				projects.each(function(project) {
 					option = '<option value="' + project.project_id + '">' + project.name + "</option>";
 					$('issue_project').insert(option);
-				});				
+				});
+				
+				var active = Titanium.API.get("active");
+				if (active != "") {
+				    var parts = active.split("*"), key = 0;
+				    if (parts[0] == "project") {
+				        key = parts[2];
+				    } else if (parts[0] == "inbox") {
+				        key = 0;				        
+				    }
+				    $$('select#issue_project option').each(function(o) {
+                      if(o.readAttribute('value') == key) {
+                        o.selected = true;
+                        throw $break;
+                      }
+                    });
+				}
 			});
 		</script>		
 	</head>
@@ -50,13 +66,17 @@
                 <tr>
                     <td>
                         <label for="assignee">Assignee</label><br>
-                        <select name="assignee" id="assignee"></select>
+                        <select name="assignee" id="assignee">
+                            <option value="0"> - none - </option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label for="milestone">Milestone</label><br>
-                        <select name="milestone" id="milestone"></select>
+                        <select name="milestone" id="milestone">
+                            <option value="0"> - none - </option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -107,7 +127,7 @@
 					var sync = Titanium.API.get("sync");
 					
 					var form = $('dialogNewIssue');
-							
+                    		
 					var field = form["title"];
 					var title = $(field).getValue();
 					
@@ -127,9 +147,12 @@
                     field = form["labels"];
                     var labels_raw = $(field).getValue();
                     
-                    var labels = labels_raw.split(",");
-                    
                     var issue = new Issue(0, title, description);
+                    
+                    var labels = new Array();
+                    if (labels_raw != "") {
+                        labels = labels_raw.split(",");                        
+                    }
                     issue.labels = labels;
                     
                     if (project_id != 0) {                                        
@@ -137,13 +160,17 @@
     					issue.project_type = issue.project.type;
     				} else {
 					    issue.inbox = 1;
-					    issue.project = new Project(0, "", "");
+					    issue.project = new Project("", "");
+					    issue.project.project_id = 0;
                         issue.project.type = 0;
-					    issue.project_type = 0;
+					    issue.project_type = 0;					    
 					}
 					
 					if (user_id != 0) {
 					    issue.user = sync.model.getUser(sync.getParamsObject("user_id", user_id));				        
+					} else {
+					    issue.user = new User("", "", null);
+					    issue.user.user_id = 0;
 					}
 					if (milestone != 0) {
     					issue.milestone = sync.model.getMilestone(sync.getParamsObject("milestone_id", milestone));    					
