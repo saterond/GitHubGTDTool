@@ -21,6 +21,17 @@ var GTDViewer = Class.create({
 		obj[key] = value;
 		return obj;
 	},
+	isProjectActive: function(project_id) {
+		var active = Titanium.API.get("active");
+		if (active != "") {
+			var parts = active.split("*");
+			if (parts[0] == "project" || parts[0] == "inbox") {
+				return (parts[2] == project_id);
+			}
+			return false;
+		}
+		return false;
+	},
 	reloadProjects: function() {
 		$("loader").removeClassName("hidden");
 		var projects_db = this.model.getProjects();
@@ -32,8 +43,7 @@ var GTDViewer = Class.create({
 			projects[i++] = project;
 			html[i++] = li;
 		});
-						
-		$("issues").update("");
+								
 		html.each(function(li) {
 			$("projects").insert({
 				bottom : li
@@ -88,26 +98,27 @@ var GTDViewer = Class.create({
 		});		
 		return content;
 	},
-	reloadIssues: function(projectID) {
-		console.log("reloading issues");
+	reloadIssues: function(projectID) {		
 		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
 		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
 		var labels = this.model.getDistinctLabels(this.getParamsObject("project_id", projectID));				
-		
 		var content = this.generateIssueList(issues);
 		
 		switch(project.type) {
 			case 1: type = "assembla"; break;
 			case 2: type = "gcode"; break;
 			case 3: type = "github"; break;
-		}				
+		}
 				
-		var key = project.name+'*'+project.type+'*'+projectID;
+		var key = 'project*'+project.type+'*'+projectID;
 		var syncButton = new Element("button", {"id" : "syncIssues", "data-key" : key}).update("Sync issues");
 		syncButton.on("click", handleSyncIssues);
 		$$("div.projectButtons").each(function(e) {
 			e.update(syncButton);
 		});
+		
+		Titanium.API.set("active", key);
+		
 		$$("div.projectHeader h2").each(function(e) {
 			e.removeClassName('assembla');
 			e.removeClassName('gcode');
@@ -133,7 +144,7 @@ var GTDViewer = Class.create({
 			$$("div.projectButtons").first().insert({
 				bottom : wrapper
 			});
-		}
+		}		
 	},
 	loadSelection: function(params) {
 		var task = 0, selector = "";
@@ -144,25 +155,30 @@ var GTDViewer = Class.create({
 			selector = parseInt(params["label"]);
 		}
 		var viewer = Titanium.API.get("viewer");
-		var issues = null, content = "", name = "", labels = new Array();
+		var issues = null, content = "", name = "", labels = new Array(), key = "";
 		switch(task) {
 			case 1:
 				name = "Inbox";
+				key = "inbox*0*0";
 				issues = viewer.model.getIssues(viewer.getParamsObject("inbox", 1));
 				labels = viewer.model.getDistinctLabels(viewer.getParamsObject("project_id", 0));
 				content = viewer.generateIssueList(issues);
 				break;
 			case 2:
 				name = "Day review";
+				key = "review*0*2";
 				break;
 			case 3:
 				name = "Week review";
+				key = "review*0*3";
 				break;
 			case 4: 
 				name = "Month review";
+				key = "review*0*4";
 				break;
 			case 10:
 				name = "Label based selection";
+				key = "label*0*" + selector;
 				issues = viewer.model.getIssues(viewer.getParamsObject("label", selector));
 				content = viewer.generateIssueList(issues);
 				break;
@@ -170,6 +186,8 @@ var GTDViewer = Class.create({
 				name = "Unknown selection";
 				break;
 		}
+				
+		Titanium.API.set("active", key);
 		
 		if (labels.length > 0) {
 			$$("div.projectButtons").first().update();

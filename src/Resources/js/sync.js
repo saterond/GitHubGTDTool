@@ -84,11 +84,18 @@ var Sync = Class.create({
 					this.github.editIssue(issue, this.showMessage);
 				} else {
 					this.github.addIssue(issue, this.saveIssueNumberInDatabase);	
-				} 
+				}
 				break;
-			default:
-				Titanium.API.error("Nepodporovany typ projektu");
 		}
+		console.log("90");
+		var viewer = Titanium.API.get("viewer");
+		if (viewer.isProjectActive(issue.project.project_id)) {
+			if (issue.project.project_id != 0)
+				viewer.reloadIssues(issue.project.project_id);
+			else
+				viewer.loadSelection(this.getParamsObject("selection", 1));
+		}
+		console.log("98");
 	},
 	saveProjectsToDatabase: function(projects) {
 		var app = Titanium.API.get("app");

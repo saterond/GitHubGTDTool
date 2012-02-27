@@ -8,7 +8,7 @@ Event.observe(window, 'load', function() {
 		var viewer = new GTDViewer(app.getDb(), model);
 		Titanium.API.info("Viewer ready");
 		
-		viewer.reloadProjects();
+		viewer.reloadProjects();		
 		
 		Titanium.API.set("app", app);
 		Titanium.API.set("sync", sync);
@@ -62,7 +62,7 @@ Event.observe(window, 'unload', function() {
 	db.close();
 });
 
-document.observe("dom:loaded", function() {	
+document.observe("dom:loaded", function() {
 	$('saveNewIssue').observe('click', handleShowNewIssueDialog);	
 	$('saveNewProject').observe('click', handleShowNewProjectDialog);
 	

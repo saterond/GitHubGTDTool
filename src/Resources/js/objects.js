@@ -7,6 +7,7 @@ var Project = Class.create({
 	project_id: 0, 
 	name: "",
 	description: "",
+	type: 0,
 	initialize: function(_name, _description) {
 		this.name = _name;
 		this.description = _description;
