@@ -173,6 +173,10 @@ var AssemblaAPI = Class.create(API, {
 		data += "<summary>" + issue.title + "</summary>";
 		data += "<description>" + issue.description + "</description>";
 		data += "<priority>1</priority>";
+		if (issue.user != null && issue.user.id != 0)
+			data += "<assigned-to-id>" + issue.user.id + "</assigned-to-id>";
+		if (issue.milestone != null && issue.milestone.id != 0)
+			data += "<milestone-id>" + issue.milestone.id + "</milestone-id>";
 		data += "<status>0</status>";
 		data += "</ticket>";
 		

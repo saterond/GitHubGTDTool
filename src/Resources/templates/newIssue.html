@@ -49,8 +49,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="asignee">Asignee</label><br>
-                        <select name="asignee" id="asignee"></select>
+                        <label for="assignee">Assignee</label><br>
+                        <select name="assignee" id="assignee"></select>
                     </td>
                 </tr>
                 <tr>
@@ -68,6 +68,41 @@
 		</form>
 		
 		<script type="text/javascript">
+		    $("issue_project").observe("change", function(evt) {
+		        var key = this.getValue();
+		        var sync = Titanium.API.get("sync");
+		        var option = null;
+		        
+		        var params = new Object();
+		        params["project_id"] = key;
+		        var milestones = sync.model.getMilestones(params);
+		        var users = sync.model.getUsers(params);
+		        
+		        $("milestone").update("");
+		        option = new Element("option", {"value" : 0}).update(" - none - ");
+                $("milestone").insert({
+                    bottom : option
+                });
+		        milestones.each(function(milestone) {
+		            option = new Element("option", {"value" : milestone.milestone_id}).update(milestone.title);
+		            $("milestone").insert({
+		                bottom : option
+		            });
+		        });
+		        
+		        $("assignee").update("");
+		        option = new Element("option", {"value" : 0}).update(" - none - ");
+		        $("assignee").insert({
+                    bottom : option
+                });
+                users.each(function(user) {
+                    option = new Element("option", {"value" : user.user_id}).update(user.name);
+                    $("assignee").insert({
+                        bottom : option
+                    });
+                });
+		    });
+		    
 			var handlerSaveIssue = document.on('click', 'button[id="dialogSaveIssue"]', function(event, element) {						
 					var sync = Titanium.API.get("sync");
 					
@@ -82,24 +117,36 @@
 					field = form["description"];
                     var description = $(field).getValue();
                     
+                    field = form["milestone"];
+                    var milestone = $(field).getValue();
+                    
+                    field = form["assignee"];
+                    var assignee = $(field);
+                    var user_id = assignee.value;                    
+                    
                     field = form["labels"];
                     var labels_raw = $(field).getValue();
-                  
+                    
                     var labels = labels_raw.split(",");
                     
                     var issue = new Issue(0, title, description);
                     issue.labels = labels;
                     
-                    if (project_id != 0) {
-                        var params = new Object();
-                        params["project_id"] = project_id;
-    					issue.project = sync.model.getProject(params);
+                    if (project_id != 0) {                                        
+    					issue.project = sync.model.getProject(sync.getParamsObject("project_id", project_id));
     					issue.project_type = issue.project.type;
-					} else {
+    				} else {
 					    issue.inbox = 1;
 					    issue.project = new Project(0, "", "");
                         issue.project.type = 0;
 					    issue.project_type = 0;
+					}
+					
+					if (user_id != 0) {
+					    issue.user = sync.model.getUser(sync.getParamsObject("user_id", user_id));				        
+					}
+					if (milestone != 0) {
+    					issue.milestone = sync.model.getMilestone(sync.getParamsObject("milestone_id", milestone));    					
 					}
 					
 					sync.saveIssue(issue);

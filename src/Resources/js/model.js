@@ -137,11 +137,35 @@ var GTDModel = Class.create({
 		labelsRS.close();
 		return labels;
 	},
+	getMilestones: function(params) {
+		var milestoneRS = null, milestones = new Array(), title, date, project_id, id;
+		if ('project_id' in params) {			
+			var project_id = parseInt(params["project_id"]);
+			milestoneRS = this.db.execute("SELECT milestone_id,date,title,id FROM Milestone WHERE project_id = ?", project_id);
+		} else {
+			Titanium.API.error("Milestones nelze ziskat jinak nez podle project_id");
+			return null;
+		}
+		var i = 0;
+		while (milestoneRS.isValidRow()) {
+			id = milestoneRS.fieldByName('id');
+			title = milestoneRS.fieldByName('title');
+			date = milestoneRS.fieldByName('date');
+			milestone_id = milestoneRS.fieldByName('milestone_id');
+			
+			milestone = new Milestone(id, title, date, project_id);
+			milestone.milestone_id = milestone_id;					
+			milestones[i++] = milestone;
+			
+			milestoneRS.next();
+		}
+		return milestones;
+	},
 	getMilestone: function(params) {
 		var milestoneRS = null, milestone = null, title, date, project_id, id;
 		if ('milestone_id' in params) {			
 			var milestoneID = parseInt(params["milestone_id"]);
-			milestoneRS = this.db.execute("SELECT project_id,date,title FROM Milestone WHERE milestone_id = ?", milestoneID);
+			milestoneRS = this.db.execute("SELECT project_id,date,title,id FROM Milestone WHERE milestone_id = ?", milestoneID);
 		} else {
 			Titanium.API.error("Milestones nelze filtrovat jinak nez podle milestone_id");
 			return null;
@@ -176,6 +200,58 @@ var GTDModel = Class.create({
 			Titanium.API.error("Milestones nelze filtrovat jinak nez podle milestone_id");
 			return 0;
 		}
+	},
+	getUsers: function(params) {
+		var rs = null, users = new Array(), user = null, name, email, id, user_id, project;
+		if ('project_id' in params) {			
+			var project_id = parseInt(params["project_id"]);
+			rs = this.db.execute("SELECT user_id,name,email,id FROM User WHERE project_id = ?", project_id);
+			project = this.getProject(this.getParamsObject("project_id", project_id));
+		} else {
+			Titanium.API.error("Users nelze ziskat jinak nez podle project_id");
+			return null;
+		}
+		var i = 0;
+		while (rs.isValidRow()) {
+			name = rs.fieldByName('name');
+			email = rs.fieldByName('email');
+			id = rs.fieldByName('id');
+			user_id = rs.fieldByName('user_id');			
+			
+			user = new User(name, email, project);
+			user.user_id = user_id;
+			user.id = id;
+			users[i++] = user;
+			
+			rs.next();
+		}
+		return users;
+	},
+	getUser: function(params) {
+		var rs = null, user = null, name, email, id, project_id, project;
+		if ('user_id' in params) {			
+			var user_id = parseInt(params["user_id"]);
+			rs = this.db.execute("SELECT project_id,name,email,id FROM User WHERE user_id = ?", user_id);			
+		} else {
+			Titanium.API.error("User nelze ziskat jinak nez podle user_id");
+			return null;
+		}
+		if (rs.rowCount() > 0) {
+			project_id = rs.fieldByName("project_id");
+			project = this.getProject(this.getParamsObject("project_id", project_id));		
+			name = rs.fieldByName("name");
+			email = rs.fieldByName("email");
+			id = rs.fieldByName("id");
+			
+			user = new User(name, email, project);
+			user.user_id = user_id;
+			user.id = id;
+		} else {
+			user = new User("", "", null);
+			user.user_id = 0;
+			user.id = 0;
+		}
+		return user;
 	},
 	saveProject: function(project) {
 		var app = Titanium.API.get("app");

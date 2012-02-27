@@ -79,13 +79,16 @@ var GitHubAPI = Class.create(API, {
 		var dataToSend = '{';
 		dataToSend += '"title": "'+issue.title+'",';
 		dataToSend += '"body": "'+issue.description+'"';
-		if (issue.milestone != null) {
+		if (issue.milestone != null && issue.milestone.id != 0) {
 			dataToSend += ',"milestone": "'+issue.milestone.id+'"';
 		}
 		if (issue.state == 1) {
 			dataToSend += ',"state": "open"';
 		} else {
 			dataToSend += ',"state": "closed"';	
+		}
+		if (issue.user != null && issue.user.id != 0) {
+			dataToSend += ',"assignee": "' + issue.user.name + '"';
 		}
 		if (issue.labels.length < 1) {
 			dataToSend += ',"labels": [';
@@ -99,8 +102,7 @@ var GitHubAPI = Class.create(API, {
 			});
 			dataToSend += ']';
 		}
-		dataToSend += '}';
-		console.log(dataToSend);
+		dataToSend += '}';		
 		return dataToSend;
 	},
 	convertProjectToJSON: function(project) {
