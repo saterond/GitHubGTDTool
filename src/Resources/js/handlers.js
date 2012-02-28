@@ -112,3 +112,18 @@ function handleShowIssueInfo(event, element) {
 	var div = $("info_"+key);
 	div.toggleClassName("hidden");
 }
+
+function handleRunTest(event, element) {
+	Titanium.UI.showDialog({
+		id: "unitTestDialog",		
+		url: "app://tests/run.html",
+		baseURL: "app://",
+		width: 200,
+		height: 200,
+		visible: true,
+		closeable: true,
+		maximizable: false,
+		resizable: false,
+		topMost: true
+	});	
+}

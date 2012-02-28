@@ -25,6 +25,7 @@ Event.observe(window, 'load', function() {
 		app.addItem("Quit", function(e){
 			Titanium.App.exit();
 		});
+		app.addSeparatorItem();		
 		var sync = Titanium.UI.createMenuItem("Synchronization");
 		sync.addItem("Reload projects", function(e){
 			var viewer = Titanium.API.get("viewer");
@@ -46,9 +47,12 @@ Event.observe(window, 'load', function() {
 		help.addItem("About Us", function(e){
 			alert("Not ready yet");
 		});
+		var tests = Titanium.UI.createMenuItem("Run tests");
+		tests.addItem("Model", handleRunTest);
 		menu.appendItem(app);
 		menu.appendItem(sync);
 		menu.appendItem(help);
+		menu.appendItem(tests);
 	    Titanium.UI.setMenu(menu);				
 	} else {
 		Titanium.API.info("Chyba s databazi");
