@@ -160,7 +160,7 @@ var GitHubAPI = Class.create(API, {
 		callback(message);
 	},
 	editProject: function(project, callback) {
-		var requestURL = "https://api.github.com/repos/" + this.username + "/" + project.name;
+		var requestURL = "https://api.github.com/repos/" + this.username + "/" + project.old_name;
 		var dataToSend = this.convertProjectToJSON(project);
 		
 		this.ajaxClient.sendData(requestURL, "PATCH", dataToSend, this.confirmEditProject, callback);

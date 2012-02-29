@@ -10,7 +10,41 @@
         <script src="../js/objects.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript">
             Event.observe(window, 'load', function() {
-                         
+                var editProjectID = Titanium.API.get("editProject");
+                if (editProjectID != 0 && editProjectID != null) {
+                    var sync = Titanium.API.get("sync");
+                    var project = sync.model.getProject(sync.getParamsObject("project_id", editProjectID));
+                    
+                    var form = $('dialogNewProject');
+                    
+                    var field = form["project_name"];
+                    $(field).setValue(project.name);
+                    var field = form["old_name"];
+                    $(field).setValue(project.name);
+                    field = form["project_description"];
+                    $(field).setValue(project.description);
+                    field = form["project_state"];
+                    $(field).setValue(project.state);
+                    field = form["project_type"];
+                    $(field).setValue(project.type);
+                    field = form["project_id"];
+                    $(field).setValue(project.project_id);
+                    
+                    if (project.labels.length > 0) {
+                        var labels = "", first = true;
+                        project.labels.each(function(label){
+                            if (first)
+                                labels += label.text;
+                            else
+                                labels += "," + label.text;
+                            first = false;
+                        });
+                        field = form["labels"];
+                        $(field).setValue(labels);
+                    }
+                    
+                    $("dialogSaveProject").update("Edit project");
+                }
             });
         </script>       
     </head>
@@ -52,7 +86,11 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td><button type="submit" class="cupid-green" id="dialogSaveProject">Add / edit project</button></td>
+                    <td>
+                        <input type="hidden" name="project_id" id="project_id" value="0" />
+                        <input type="hidden" name="old_name" id="old_name" value="" />
+                        <button type="submit" class="cupid-green" id="dialogSaveProject">Add project</button>
+                    </td>
                     <td align="right"><button class="minimal" type="button" id="dialogSaveProjectCancel">Storno</button></td>
                 </tr>
             </table>            
@@ -68,29 +106,34 @@
                     field = form["project_name"];
                     var name = $(field).getValue();
                     
+                    field = form["old_name"];
+                    var old_name = $(field).getValue();
+                    
                     field = form["project_description"];
                     var description = $(field).getValue();
                     
                     var project = new Project(name, description);
-                    project.type = type;
-                    console.log(project);
+                    project.type = parseInt(type);
+                    
+                    field = form["project_id"];
+                    project.project_id = $(field).getValue();
+                    project.old_name = old_name;
+                    
                     var sync = Titanium.API.get("sync");
-                    sync.model.saveProject(project);                    
+                    sync.saveProject(project);
                     
                     var window = Titanium.UI.getCurrentWindow();
                     window.close();
                 }.bind(this)
             );
-            handlerSaveProject.stop();
-            handlerSaveProject.start();
+            handlerSaveProject.stop(); handlerSaveProject.start();
             
             var handlerSaveProjectCancel = document.on('click', 'button[id="dialogSaveProjectCancel"]', function(event, element) {                      
                     var window = Titanium.UI.getCurrentWindow();
                     window.close();
                 }.bind(this)
             );
-            handlerSaveProjectCancel.stop();
-            handlerSaveProjectCancel.start();
+            handlerSaveProjectCancel.stop(); handlerSaveProjectCancel.start();
         </script>
     </body>
 </html>

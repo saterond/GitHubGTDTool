@@ -8,9 +8,14 @@ var Project = Class.create({
 	name: "",
 	description: "",
 	type: 0,
+	state: 1,
+	labels: null,
+	old_name: "", //pouziva se pri editaci projektu
 	initialize: function(_name, _description) {
 		this.name = _name;
 		this.description = _description;
+		this.state = 1;
+		this.labels = new Array();
 	},
 	getName: function() {
 		return this.name;
@@ -110,6 +115,7 @@ var Label = Class.create({
 	text2: "",
 	local: true,
 	issue_id: 0,
+	project_id: 0,
 	initialize: function(_label_id, _issue_id, _text) {
 		this.label_id = _label_id;
 		this.text = _text;

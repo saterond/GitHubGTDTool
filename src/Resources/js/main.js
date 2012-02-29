@@ -84,6 +84,9 @@ document.observe("dom:loaded", function() {
 	var handlerEditIssue = document.on('click', 'button[id="editIssue"]', handleShowEditIssueDialog.bind(this));
 	handlerEditIssue.stop();handlerEditIssue.start();
 	
+	var handlerEditProject = document.on('click', 'button[id="editProjectButton"]', handleShowEditProjectDialog.bind(this));
+	handlerEditProject.stop();handlerEditProject.start();
+	
 	var handlerCloseIssue = document.on('click', 'button[id="closeIssue"]', handleCloseIssue.bind(this));
 	handlerCloseIssue.stop();handlerCloseIssue.start();
 	

@@ -48,6 +48,25 @@ function handleShowNewProjectDialog(event) {
 	});
 }
 
+function handleShowEditProjectDialog(event, element) {
+	var key = element.readAttribute("data-key");
+	if (key != 0) {
+		Titanium.API.set("editProject", key);
+		Titanium.UI.showDialog({
+			id: "projectDialog",		
+			url: "app://templates/newProject.html",
+			baseURL: "app://",
+			width: 660,
+			height: 350,
+			visible: true,
+			closeable: true,
+			maximizable: false,
+			resizable: false,
+			topMost: true
+		});
+	}
+}
+
 function handleShowConfigurationDialog(event) {
 	Titanium.UI.showDialog({
 		id: "configDialog",		

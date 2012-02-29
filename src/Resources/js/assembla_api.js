@@ -365,5 +365,9 @@ var AssemblaAPI = Class.create(API, {
 	confirmDeleteMilestone: function(response, callback) {
 		var message = "Milestone deleted";
 		callback(message);
+	},
+	editProject: function(project, callback) {
+		var message = "Assembla nepodporuje editaci projektu";
+		callback(message);
 	}
 });

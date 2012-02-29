@@ -97,6 +97,36 @@ var Sync = Class.create({
 		}
 		console.log("98");
 	},
+	saveProject: function(project) {
+		var isNewProject = (project.project_id == 0);		
+		this.model.saveProject(project);
+		switch(project.type) {
+			case 1:
+				if (!isNewProject) {
+					this.assembla.editProject(project, this.showMessage);
+				} else {
+					this.assembla.addProject(project, this.showMessage);
+				}				
+				break;
+			case 2:				
+				if (!isNewProject) {
+					this.gcode.editProject(project, this.showMessage);
+				} else {					
+					this.gcode.addProject(project, this.showMessage);	
+				} 
+				break;
+			case 3:
+				if (!isNewProject) {					
+					this.github.editProject(project, this.showMessage);
+				} else {
+					this.github.addProject(project, this.showMessage);
+				}
+				break;
+		}
+		
+		var viewer = Titanium.API.get("viewer");
+		viewer.reloadProjects();
+	},
 	saveProjectsToDatabase: function(projects) {
 		var app = Titanium.API.get("app");
 		var sync = Titanium.API.get("sync");

@@ -43,7 +43,8 @@ var GTDViewer = Class.create({
 			projects[i++] = project;
 			html[i++] = li;
 		});
-								
+			
+		$("projects").update();
 		html.each(function(li) {
 			$("projects").insert({
 				bottom : li
@@ -134,6 +135,7 @@ var GTDViewer = Class.create({
 		});
 		$("issues").update("");
 		$("issues").update(content);
+		$("editProjectButton").writeAttribute("data-key", projectID);
 		
 		if (labels.length > 0) {
 			var wrapper = new Element("div", {"class" : "labels"});
@@ -216,6 +218,7 @@ var GTDViewer = Class.create({
 			e.update(name);
 		});		
 		$("issues").update("");
-		$("issues").update(content);		
+		$("issues").update(content);
+		$("editProjectButton").writeAttribute("data-key", 0);
 	}
 });

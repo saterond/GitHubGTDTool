@@ -37,7 +37,7 @@
 				}
 				
 				var editIssueID = Titanium.API.get("editIssue");
-				if (editIssueID != 0) {
+				if (editIssueID != 0 && editIssueID != null) {
     				var sync = Titanium.API.get("sync");
     				var issue = sync.model.getIssue(sync.getParamsObject("issue_id", editIssueID));
     				if (issue != null) {
@@ -59,9 +59,6 @@
                             });
                             field = form["labels"];
                             $(field).setValue(labels);
-                        } else {
-                            field = form["labels"];
-                            $(field).setValue("none");
                         }
                         
                         var users = sync.model.getUsers(sync.getParamsObject("project_id", issue.project.project_id));

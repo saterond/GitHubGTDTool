@@ -33,7 +33,7 @@ var GTDModel = Class.create({
 		var rs = null,project,name,description;
 		if ('project_id' in params) {			
 			var projectID = parseInt(params["project_id"]);
-			rs = this.db.execute('SELECT name,description,type From project WHERE project_id = ? LIMIT 1', projectID);			
+			rs = this.db.execute('SELECT name,description,type,state From project WHERE project_id = ? LIMIT 1', projectID);			
 		} else {
 			Titanium.API.error("Zatim nelze issues filtrovat jinak nez podle project_id");
 			return null;
@@ -47,6 +47,8 @@ var GTDModel = Class.create({
 			project = new Project(name, description);
 			project.type = rs.fieldByName('type');
 			project.project_id = projectID;
+			project.state = rs.fieldByName('state');
+			project.labels = this.getLabels(this.getParamsObject("project_id", projectID));
 		}
 		return project;
 	},
@@ -130,9 +132,14 @@ var GTDModel = Class.create({
 		var labelsRS = null;
 		if ('issue_id' in params) {			
 			var issueID = parseInt(params["issue_id"]);
+			var projectID = 0;
 			labelsRS = this.db.execute("SELECT label_id,text,text2,local FROM Label WHERE issue_id = ?", issueID);
+		} else if ('project_id' in params) {			
+			var projectID = parseInt(params["project_id"]);
+			var issueID = 0;
+			labelsRS = this.db.execute("SELECT label_id,text,text2,local FROM Label WHERE project_id = ?", projectID);
 		} else {
-			Titanium.API.error("Zatim nelze labely filtrovat jinak nez podle issue_id");
+			Titanium.API.error("Zatim nelze labely filtrovat jinak nez podle issue_id a project_id");
 			return new Array();
 		}
 		var labels = new Array(), i = 0, id, text, label;
@@ -143,6 +150,7 @@ var GTDModel = Class.create({
 			label = new Label(id, issueID, text);
 			label.text2 = labelsRS.fieldByName('text2');
 			label.local = labelsRS.fieldByName('local');
+			label.project_id = projectID;
 			
 			labels[i++] = label;
 			labelsRS.next();
@@ -295,15 +303,15 @@ var GTDModel = Class.create({
 	},
 	saveProject: function(project) {
 		var app = Titanium.API.get("app");
-		var db = app.db;
+		var db = app.db, project_id;
 		if (project.project_id == 0) {
-			db.execute("INSERT INTO project (name,description,type) VALUES (?,?,?)", 
-						project.name, project.description, project.type);
+			db.execute("INSERT INTO project (name,description,type,state) VALUES (?,?,?,?)", 
+						project.name, project.description, project.type, project.state);
+			project_id = db.lastInsertRowId;
 		} else {
-			db.execute("UPDATE project SET name = ?, description = ? WHERE project_id = ?",
-						project.name, project.decription, project.project_id);
+			db.execute("UPDATE project SET name = ?, description = ?, state = ?, type = ? WHERE project_id = ?",
+						project.name, project.description, project.state, project.type, project.project_id);
 		}
-		var viewer = Titanium.API.get("viewer");
-		viewer.reloadProjects();
+		return project_id;
 	}
 });
