@@ -59,7 +59,7 @@ var GTDViewer = Class.create({
 		var template = viewer.getFileContent("templates/issue.tpl");		
 		issues.each(function(issuee) {			
 			issue = template;
-			issue = issue.replace(/{issue_id}/g, issuee.id);
+			issue = issue.replace(/{issue_id}/g, issuee.issue_id);
 			issue = issue.replace("{title}", issuee.title);
 			issue = issue.replace("{description-short}", issuee.description.substr(0, 100));
 			issue = issue.replace("{description-full}", issuee.description);
@@ -78,6 +78,10 @@ var GTDViewer = Class.create({
 			}
 			issue = issue.replace(/{milestone-percent}/g, milestonePercent);
 			issue = issue.replace("{commits}", '');
+			
+			/*var editButton = new Element("button", {"class":"cupid-green", "data-key":issuee.issue_id, "id":"editIssue"}).update("Edit issue");
+			editButton.on("click", handleShowEditIssueDialog);
+			issue = issue.replace("{editButton}", editButton);*/
 			
 			cssClass = "";
 			labels = "";

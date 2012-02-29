@@ -16,6 +16,23 @@ function handleShowNewIssueDialog(event) {
 	});
 }
 
+function handleShowEditIssueDialog(event, element) {
+	var key = element.readAttribute("data-key");
+	Titanium.API.set("editIssue", key);
+	Titanium.UI.showDialog({
+		id: "editIssueDialog",		
+		url: "app://templates/newIssue.html",
+		baseURL: "app://",
+		width: 700,
+		height: 410,
+		visible: true,
+		closeable: true,
+		maximizable: false,
+		resizable: false,
+		topMost: true
+	});
+}
+
 function handleShowNewProjectDialog(event) {
 	Titanium.UI.showDialog({
 		id: "projectDialog",		

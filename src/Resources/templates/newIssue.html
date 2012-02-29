@@ -10,7 +10,8 @@
 		<script src="../js/objects.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			Event.observe(window, 'load', function() {
-				var projects = Titanium.API.get("projects");
+			    var projects = Titanium.API.get("projects");
+				
 				var option = "";
 				$('issue_project').insert('<option value="0">INBOX</option>');
 				projects.each(function(project) {
@@ -18,9 +19,10 @@
 					$('issue_project').insert(option);
 				});
 				
-				var active = Titanium.API.get("active");
-				if (active != "") {
-				    var parts = active.split("*"), key = 0;
+				var activeProject = Titanium.API.get("active");				
+				
+				if (activeProject != "") {
+				    var parts = activeProject.split("*"), key = 0;
 				    if (parts[0] == "project") {
 				        key = parts[2];
 				    } else if (parts[0] == "inbox") {
@@ -33,6 +35,65 @@
                       }
                     });
 				}
+				
+				var editIssueID = Titanium.API.get("editIssue");
+				if (editIssueID != 0) {
+    				var sync = Titanium.API.get("sync");
+    				var issue = sync.model.getIssue(sync.getParamsObject("issue_id", editIssueID));
+    				if (issue != null) {
+    				    var form = $('dialogNewIssue');
+                            
+                        var field = form["title"];
+                        $(field).setValue(issue.title);
+    				    field = form["description"];
+                        $(field).setValue(issue.description);
+                        
+                        if (issue.labels.length > 0) {
+                            var labels = "", first = true;
+                            issue.labels.each(function(label){
+                                if (first)
+                                    labels += label.text;
+                                else
+                                    labels += "," + label.text;
+                                first = false;
+                            });
+                            field = form["labels"];
+                            $(field).setValue(labels);
+                        } else {
+                            field = form["labels"];
+                            $(field).setValue("none");
+                        }
+                        
+                        var users = sync.model.getUsers(sync.getParamsObject("project_id", issue.project.project_id));
+                        $("assignee").update("");
+                        var option = new Element("option", {"value" : 0}).update(" - none - ");
+                        $("assignee").insert({
+                            bottom : option
+                        });
+                        users.each(function(user) {
+                            option = new Element("option", {"value" : user.user_id}).update(user.name);
+                            $("assignee").insert({
+                                bottom : option
+                            });
+                        });
+                        
+                        if (issue.user.user_id != 0) {
+                            key = issue.user.user_id;
+                            $$('select#assignee option').each(function(o) {
+                              if(o.readAttribute('value') == key) {
+                                o.selected = true;
+                                throw $break;
+                              }
+                            });
+                        }
+                        
+                        field = form["issue_id"];
+                        $(field).setValue(editIssueID);
+                        
+                        $("dialogSaveIssue").update("Edit issue");
+    				}
+    				Titanium.API.set("editIssue", 0);
+				}
 			});
 		</script>		
 	</head>
@@ -43,12 +104,13 @@
                     <td colspan="3"><input type="text" name="title" id="title" size="65" placeholder="Issue name / title" class="issueTitle"></td>
                 </tr>
                 <tr>
-                    <td>
-                        <input type="text" name="labels" placeholder="new label">
+                    <td colspan="3">
+                        <input type="text" name="labels" id="labels" placeholder="new label" size="65">
                         <button class="minimal">Add</button>
-                    <td colspan="2">
-                        <div class="labels"><span>one</span><span>two</span><span>three</span></div>
                     </td>
+                    <!--<td colspan="2">
+                        <div class="labels"><span>one</span><span>two</span><span>three</span></div>
+                    </td>-->
                 </tr>
                 <tr>
                     <td colspan="2" rowspan="4"><textarea name="description" id="description" rows="10" cols="50"></textarea></td>
@@ -80,7 +142,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><button type="submit" class="cupid-green" id="dialogSaveIssue">Add issue</button></td>
+                    <td>
+                        <input type="hidden" name="issue_id" id="issue_id" value="0" />
+                        <button type="submit" class="cupid-green" id="dialogSaveIssue">Add issue</button>
+                    </td>
                     <td align="right"><button class="minimal" type="button" id="dialogSaveIssueCancel">Storno</button></td>
                     <td>&nbsp;</td>
                 </tr>
@@ -176,7 +241,10 @@
     					issue.milestone = sync.model.getMilestone(sync.getParamsObject("milestone_id", milestone));    					
 					}
 					
-					sync.saveIssue(issue);
+					field = form["issue_id"];
+                    issue.issue_id = $(field).getValue();
+                    
+                    sync.saveIssue(issue);					
 					
 					var window = Titanium.UI.getCurrentWindow();
 					window.close();

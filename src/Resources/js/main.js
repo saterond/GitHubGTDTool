@@ -81,6 +81,9 @@ document.observe("dom:loaded", function() {
 	var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', handleSyncIssues.bind(this));
 	handlerSyncIssues.stop();handlerSyncIssues.start();
 	
+	var handlerEditIssue = document.on('click', 'button[id="editIssue"]', handleShowEditIssueDialog.bind(this));
+	handlerEditIssue.stop();handlerEditIssue.start();
+	
 	var handlerCloseIssue = document.on('click', 'button[id="closeIssue"]', handleCloseIssue.bind(this));
 	handlerCloseIssue.stop();handlerCloseIssue.start();
 	

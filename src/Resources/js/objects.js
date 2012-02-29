@@ -51,7 +51,7 @@ var Issue = Class.create({
 	labels: null,
 	dueDate: "",
 	status: "",
-	project: "",
+	project: null,
 	state: 1,
 	milestone: null,
 	project_type: 0,

@@ -93,12 +93,12 @@ var GTDModel = Class.create({
 		var issuesRS = null;
 		if ('issue_id' in params) {			
 			var issueID = parseInt(params["issue_id"]);
-			issuesRS = this.db.execute('SELECT * From Issue WHERE issue_id = ? LIMIT 1', issueID);		
+			issuesRS = this.db.execute('SELECT id,title,description,state,status,user_id,project_id FROM Issue WHERE issue_id = ?', issueID);		
 		} else {			
 			Titanium.API.error("Zatim nelze issues vyhledavat jinak nez podle issue_id");
 			return new Array();
 		}
-		var id, title, description, issue = null;
+		var id, title, description, issue = null, project_id;
 		var paramss = new Object();
 		if (issuesRS.rowCount() > 0) {			
 			id = issuesRS.fieldByName('id');
@@ -106,10 +106,19 @@ var GTDModel = Class.create({
 			description = issuesRS.fieldByName('description');
 			
 			issue = new Issue(id, title, description);
-			issue.issue_id = issuesRS.fieldByName('issue_id');
+			issue.issue_id = issueID;
 			issue.state = issuesRS.fieldByName('state');
-			issue.status = issuesRS.fieldByName('status');
-			issue.project_type = issuesRS.fieldByName('project_type');
+			issue.status = issuesRS.fieldByName('status');			
+			issue.user = this.getUser(this.getParamsObject("user_id", issuesRS.fieldByName('user_id')));
+			project_id = issuesRS.fieldByName('project_id');
+			if (project_id != 0) {
+				issue.project = this.getProject(this.getParamsObject("project_id", project_id));
+			} else {
+				issue.project = new Project("", ""),
+				issue.project.project_id = 0;
+				issue.project.type = 0;
+			}
+			issue.project_type = issue.project.type;
 			
 			paramss["issue_id"] = issue.issue_id;
 			issue.labels = this.getLabels(paramss);
