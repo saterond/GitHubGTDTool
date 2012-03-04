@@ -60,6 +60,16 @@ var GTDModel = Class.create({
 		} else if ('inbox' in params) {
 			var inbox = parseInt(params["inbox"]);
 			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE inbox = ?", inbox);
+		} else if ('today' in params) {
+			var datum = new Date();
+			var month_really = datum.getMonth() + 1;
+			var month = (month_really < 10) ? "0"+month_really : month_really;
+			var day_really = datum.getDate();
+			var day = (day_really < 10) ? "0"+day_really : day_really;
+			var today = datum.getFullYear() + "-" + month + "-" + day;
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE dueDate = ?", today);
+		} else if ('scheduled' in params) {			
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE dueDate <> ''");
 		} else if ('label' in params) {
 			var label_id = parseInt(params["label"]);
 			issuesRS = this.db.execute(
@@ -83,7 +93,8 @@ var GTDModel = Class.create({
 			issue.status = issuesRS.fieldByName('status');
 			issue.project_type = issuesRS.fieldByName('project_type');
 			issue.labels = this.getLabels(this.getParamsObject("issue_id", issue.issue_id));
-			issue.milestone = this.getMilestone(this.getParamsObject("milestone_id", milestone_id))
+			if (milestone_id != "")
+				issue.milestone = this.getMilestone(this.getParamsObject("milestone_id", milestone_id))
 			
 			issues[i++] = issue;
 			issuesRS.next();

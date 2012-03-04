@@ -182,6 +182,18 @@ var GTDViewer = Class.create({
 				name = "Month review";
 				key = "review*0*4";
 				break;
+			case 5:
+				name = "Today";
+				key = "today*0*5";
+				issues = viewer.model.getIssues(viewer.getParamsObject("today", 1));
+				content = viewer.generateIssueList(issues);
+				break;
+			case 6:
+				name = "Tasks scheduled for later";
+				key = "scheduled*0*5";
+				issues = viewer.model.getIssues(viewer.getParamsObject("scheduled", 1));
+				content = viewer.generateIssueList(issues);
+				break;
 			case 10:
 				name = "Label based selection";
 				key = "label*0*" + selector;

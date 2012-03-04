@@ -166,12 +166,12 @@ var Sync = Class.create({
 		}
 		if (issue.issue_id != 0) {
 			db.execute(
-				'UPDATE Issue SET id = ?, title = ?, description = ?, status = ?, project_id = ?, milestone_id = ?, inbox = ?, user_id = ? WHERE issue_id = ?'
-				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.issue_id);
+				'UPDATE Issue SET id = ?, title = ?, description = ?, status = ?, project_id = ?, milestone_id = ?, inbox = ?, user_id = ?, dueDate = ? WHERE issue_id = ?'
+				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate, issue.issue_id);
 		} else {			
 			db.execute(
-				'INSERT INTO Issue (id, title, description, status, project_type, project_id, milestone_id, inbox, user_id) VALUES (?,?,?,?,?,?,?,?,?)'
-				, issue.id, issue.title, issue.description, issue.status, issue.project_type, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id);
+				'INSERT INTO Issue (id, title, description, status, project_type, project_id, milestone_id, inbox, user_id, dueDate) VALUES (?,?,?,?,?,?,?,?,?,?)'
+				, issue.id, issue.title, issue.description, issue.status, issue.project_type, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate);
 			issue.issue_id = db.lastInsertRowId;
 		}		
 		if (issue.labels.length != 0) {

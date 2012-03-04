@@ -6,8 +6,10 @@
 		<title>Save new issue</title>
 		<link rel="stylesheet" href="../css/typography.css" />
         <link rel="stylesheet" href="../css/screen.css" />
+        <link rel="stylesheet" href="../js/datepicker/calendar.css" />
 		<script src="../js/prototype.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/objects.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/datepicker/calendar.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			Event.observe(window, 'load', function() {
 			    var projects = Titanium.API.get("projects");
@@ -94,7 +96,7 @@
 			});
 		</script>		
 	</head>
-	<body class="dialog">
+	<body class="dialog">	    
 		<form id="dialogNewIssue">
 		    <table class="issueTable">
                 <tr>
@@ -119,7 +121,7 @@
                 <tr>
                     <td>
                         <label for="due_date">Due date</label><br>
-                        <input type="date" name="due_date" class="input-date">
+                        <input type="text" name="due_date" class="calendarSelectDate">
                     </td>
                 </tr>
                 <tr>
@@ -146,7 +148,8 @@
                     <td align="right"><button class="minimal" type="button" id="dialogSaveIssueCancel">Storno</button></td>
                     <td>&nbsp;</td>
                 </tr>
-            </table>			
+            </table>
+            <div id="calendarDiv"></div>			
 		</form>
 		
 		<script type="text/javascript">
@@ -202,6 +205,9 @@
                     field = form["milestone"];
                     var milestone = $(field).getValue();
                     
+                    field = form["due_date"];
+                    var due_date = $(field).getValue();
+                    
                     field = form["assignee"];
                     var assignee = $(field);
                     var user_id = assignee.value;                    
@@ -216,6 +222,7 @@
                         labels = labels_raw.split(",");                        
                     }
                     issue.labels = labels;
+                    issue.dueDate = due_date;
                     
                     if (project_id != 0) {                                        
     					issue.project = sync.model.getProject(sync.getParamsObject("project_id", project_id));
@@ -236,6 +243,8 @@
 					}
 					if (milestone != 0) {
     					issue.milestone = sync.model.getMilestone(sync.getParamsObject("milestone_id", milestone));    					
+					} else {
+					    issue.milestone = null;
 					}
 					
 					field = form["issue_id"];

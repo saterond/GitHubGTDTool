@@ -74,7 +74,7 @@ document.observe("dom:loaded", function() {
 		li.observe("click", function(evt) {
 			var key = li.readAttribute("data-key");			
 			var viewer = Titanium.API.get("viewer");
-			viewer.loadSelection(viewer.getParamsObject("selection", 1));
+			viewer.loadSelection(viewer.getParamsObject("selection", key));
 		})
 	});
 	
