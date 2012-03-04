@@ -13,6 +13,7 @@ Event.observe(window, 'load', function() {
 		Titanium.API.set("app", app);
 		Titanium.API.set("sync", sync);
 		Titanium.API.set("viewer", viewer);
+		Titanium.API.set("model", model);
 		
 		var menu = Titanium.UI.createMenu();
 		var app = Titanium.UI.createMenuItem("Application");
@@ -80,8 +81,8 @@ document.observe("dom:loaded", function() {
 		})
 	});
 	
-	var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', handleSyncIssues.bind(this));
-	handlerSyncIssues.stop();handlerSyncIssues.start();
+	/*var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', handleSyncIssues.bind(this));
+	handlerSyncIssues.stop();handlerSyncIssues.start();*/
 	
 	var handlerEditIssue = document.on('click', 'button[id="editIssue"]', handleShowEditIssueDialog.bind(this));
 	handlerEditIssue.stop();handlerEditIssue.start();

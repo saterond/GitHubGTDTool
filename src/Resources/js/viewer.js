@@ -115,13 +115,14 @@ var GTDViewer = Class.create({
 			case 3: type = "github"; break;
 		}
 				
-		var key = 'project*'+project.type+'*'+projectID;
+		var key = project.name+'*'+project.type+'*'+projectID;
 		var syncButton = new Element("button", {"id" : "syncIssues", "data-key" : key}).update("Sync issues");
 		syncButton.on("click", handleSyncIssues);
 		$$("div.projectButtons").each(function(e) {
 			e.update(syncButton);
 		});
 		
+		key = 'project*'+project.type+'*'+projectID;
 		Titanium.API.set("active", key);
 		
 		$$("div.projectHeader h2").each(function(e) {

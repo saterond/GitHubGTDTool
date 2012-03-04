@@ -34,6 +34,11 @@ var GTDModel = Class.create({
 		if ('project_id' in params) {			
 			var projectID = parseInt(params["project_id"]);
 			rs = this.db.execute('SELECT name,description,type,state From project WHERE project_id = ? LIMIT 1', projectID);			
+		} else if (('project_name' in params) && ('project_type' in params)) {
+			var project_name = params["project_name"];
+			var project_type = params["project_type"];
+			rs = this.db.execute('SELECT project_id,name,description,type,state From project WHERE name = ? AND type = ? LIMIT 1', project_name, project_type);
+			var projectID = rs.fieldByName('project_id');
 		} else {
 			Titanium.API.error("Zatim nelze issues filtrovat jinak nez podle project_id");
 			return null;
@@ -324,5 +329,90 @@ var GTDModel = Class.create({
 						project.name, project.description, project.state, project.type, project.project_id);
 		}
 		return project_id;
+	},
+	saveIssue: function(issue) {
+		var app = Titanium.API.get("app");
+		var model = Titanium.API.get("model");
+		var db = app.getDb();
+		var milestoneID = null;
+		if (issue.milestone != null) {
+			milestoneID = model.saveMilestone(issue.milestone, issue.project.project_id);
+		}
+		if (issue.user == null) {
+			issue.user = new User("", "", null);
+			issue.user.user_id = 0;
+		}
+		if (issue.issue_id != 0) {
+			db.execute(
+				'UPDATE Issue SET id = ?, title = ?, description = ?, status = ?, project_id = ?, milestone_id = ?, inbox = ?, user_id = ?, dueDate = ?, state = ? WHERE issue_id = ?'
+				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate, issue.state, issue.issue_id);
+		} else {			
+			db.execute(
+				'INSERT INTO Issue (id, title, description, state, status, project_type, project_id, milestone_id, inbox, user_id, dueDate) VALUES (?,?,?,?,?,?,?,?,?,?,?)'
+				, issue.id, issue.title, issue.description, issue.state, issue.status, issue.project.type, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate);
+			issue.issue_id = db.lastInsertRowId;
+		}		
+		if (issue.labels.length != 0) {
+			model.saveLabels(issue.labels, issue.issue_id);
+		}
+		return issue.issue_id;
+	},
+	saveIssueNumber: function(issue) {
+		if (issue.issue_id != 0) {
+			var app = Titanium.API.get("app");
+			var db = app.getDb();
+			db.execute("UPDATE Issue SET id = ? WHERE issue_id = ?", issue.id, issue.issue_id);
+		}
+	},
+	saveLabels: function(labels, issue_id) {
+		var app = Titanium.API.get("app");		
+		var db = app.getDb();
+		var rs = null;
+		labels.each(function(label) {
+			rs = db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ?", issue_id, label);
+			if (rs.rowCount() == 0) {
+				if (label.search(":") == -1) {
+					db.execute("INSERT INTO Label (text,issue_id,local) VALUES (?,?,?)", label, issue_id, 1);
+				} else {
+					var texts = label.split(":");
+					db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
+				}
+			} else if (label.search(":") != -1) {
+				var texts = label.split(":");
+				rs = db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ? AND text2 = ?", issue_id, texts[0], texts[1]);
+				if (rs.rowCount() == 0) {
+					db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
+				}
+			}
+		});
+	},
+	saveMilestone: function(milestone, project_id) {
+		var app = Titanium.API.get("app");		
+		var db = app.getDb();
+		var rs = db.execute("SELECT milestone_id FROM Milestone WHERE title = ? AND project_id = ? LIMIT 1"
+			, milestone.title, project_id);
+		var milestone_id = 0;
+		if (rs.rowCount() == 0) {
+			db.execute("INSERT INTO Milestone (id,title,date,project_id) VALUES (?,?,?,?)"
+				, milestone.id, milestone.title, milestone.date, project_id);
+			milestone_id = db.lastInsertRowId;
+		} else {
+			milestone_id = rs.fieldByName("milestone_id");
+		}
+		return milestone_id;
+	},
+	saveUser: function(user, project_id) {
+		var app = Titanium.API.get("app");
+		var db = app.getDb();
+		var rs = null, userID = 0;
+		rs = db.execute("SELECT user_id FROM User WHERE name = ? AND project_id = ?", user.name, project_id);
+		if (rs.rowCount() > 0) {
+			userID = rs.fieldByName("user_id");
+			db.execute("UPDATE User SET name = ?, email = ?, id = ? WHERE user_id = ?", 
+						user.name, user.email, user.id, userID);
+		} else {
+			db.execute("INSERT INTO User (name,email,id,project_id) VALUES (?,?,?,?)",
+						user.name, user.email, user.id, project_id);
+		}
 	}
 });

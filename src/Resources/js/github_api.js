@@ -37,6 +37,7 @@ var GitHubAPI = Class.create(API, {
 			description = item.body;
 			issue = new Issue(id, title, description);
 			issue.project = new GitHubProject(project, "");
+			issue.state = (item.state == "open") ? 1 : 0;
 			
 			j = 0;
 			labels = new Array();
@@ -48,9 +49,14 @@ var GitHubAPI = Class.create(API, {
 			milestone = null;
 			if (item.milestone != null) {
 				milestone = new Milestone(0, item.milestone.title, item.milestone.due_on, 0);
-				console.log(milestone);
 			}
 			issue.milestone = milestone;
+			
+			user = null;
+			if (item.assignee != null) {
+				user = new User(item.assignee.login, "", 0);
+			}
+			issue.user = user;
 			
 			issues[i++] = issue;
 		});
