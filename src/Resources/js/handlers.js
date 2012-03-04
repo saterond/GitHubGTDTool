@@ -163,3 +163,7 @@ function handleRunTest(event, element) {
 		topMost: true
 	});	
 }
+
+function handlePrint(event, element) {
+	window.print();
+}
