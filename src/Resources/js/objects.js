@@ -11,6 +11,7 @@ var Project = Class.create({
 	state: 1,
 	labels: null,
 	old_name: "", //pouziva se pri editaci projektu
+	area: null,
 	initialize: function(_name, _description) {
 		this.name = _name;
 		this.description = _description;
@@ -116,9 +117,19 @@ var Label = Class.create({
 	local: true,
 	issue_id: 0,
 	project_id: 0,
-	initialize: function(_label_id, _issue_id, _text) {
+	initialize: function(_label_id, _issue_id, _text, _project_id) {
 		this.label_id = _label_id;
 		this.text = _text;
 		this.issue_id = _issue_id;
+		this.project_id = _project_id;
+	}
+});
+
+var Area = Class.create({
+	area_id: 0,
+	title: 0,
+	initialize: function(_area_id, _title) {
+		this.area_id = _area_id;
+		this.title = _title;
 	}
 });
