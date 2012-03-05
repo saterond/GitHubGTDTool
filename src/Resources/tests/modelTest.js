@@ -20,21 +20,411 @@ var DataTestSuite = {
  
     testGetProjects: function() {
  		var all = db.execute("SELECT count(project_id) as pocet FROM project");
+ 		if (all.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
  		var db_count = all.fieldByName("pocet");
  		var projects = model.getProjects();
  		var mo_count = projects.length;
  		jsUnity.assertions.assertEqual(db_count, mo_count, "Model have found different count of projects");
     },
     
-    testGetProject: function() {
+    testGetProjectByID: function() {
     	var one = db.execute("SELECT project_id,name FROM project LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
     	var project_id = one.fieldByName("project_id");
-    	var project_name = one.fieldByName("name");
+    	var project_name = one.fieldByName("name");    	
     	var params = new Object();
     	params["project_id"] = project_id;
     	var mo_one = model.getProject(params);
     	
-    	jsUnity.assertions.assertEqual(project_name, mo_one.name, "Project names doesn't match");
+    	jsUnity.assertions.assertEqual(project_name, mo_one.name, "Project names don't match");
+    	jsUnity.assertions.assertEqual(project_id, mo_one.project_id, "Project ID's don't match");    	
+    },
+    
+    testGetProjectByNameAndType: function() {
+    	var one = db.execute("SELECT project_id,name,type FROM project LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var project_id = one.fieldByName("project_id");
+    	var project_name = one.fieldByName("name");
+    	var project_type = one.fieldByName("type");
+    	var params = new Object();
+    	params["project_name"] = project_name;
+    	params["project_type"] = project_type;
+    	var mo_one = model.getProject(params);
+    	
+    	jsUnity.assertions.assertEqual(project_name, mo_one.name, "Project names don't match");
+    	jsUnity.assertions.assertEqual(project_type, mo_one.type, "Project types don't match");    	
+    },
+    
+    testGetIssuesByProjectID: function() {
+    	var project = db.execute("SELECT project_id FROM project WHERE EXISTS (SELECT issue_id FROM Issue WHERE Issue.project_id = project.project_id) LIMIT 1");
+    	if (project.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var project_id = project.fieldByName("project_id");
+    	var issues = db.execute("SELECT count(issue_id) as pocet FROM Issue WHERE project_id = ?", project_id);
+    	var count = issues.fieldByName("pocet");    	
+    	var params = new Object();
+    	params["project_id"] = project_id;
+    	var mo_one = model.getIssues(params);
+    	
+    	jsUnity.assertions.assertEqual(count, mo_one.length, "Issue count don't match");    	
+    },
+    
+    testGetIssuesToday: function() {
+    	var datum = new Date();
+		var month_really = datum.getMonth() + 1;
+		var month = (month_really < 10) ? "0"+month_really : month_really;
+		var day_really = datum.getDate();
+		var day = (day_really < 10) ? "0"+day_really : day_really;
+		var today = datum.getFullYear() + "-" + month + "-" + day;
+    	var issues = db.execute("SELECT count(issue_id) as pocet FROM Issue WHERE dueDate = ?", today);
+    	if (issues.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var count = issues.fieldByName("pocet");
+    	var params = new Object();
+    	params["today"] = 1;
+    	var mo_one = model.getIssues(params);
+    	
+    	jsUnity.assertions.assertEqual(count, mo_one.length, "Issue count don't match");    	
+    },
+    
+    testGetIssue: function() {
+    	var one = db.execute("SELECT issue_id,title FROM Issue LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var issue_id = one.fieldByName("issue_id");
+    	var issue_title = one.fieldByName("title");
+    	var params = new Object();
+    	params["issue_id"] = issue_id;
+    	var mo_one = model.getIssue(params);
+    	
+    	jsUnity.assertions.assertEqual(issue_title, mo_one.title, "Issue titles don't match");
+    	jsUnity.assertions.assertEqual(issue_id, mo_one.issue_id, "Issue ID's don't match");    	
+    },
+    
+    testGetLabelsByIssueID: function() {
+    	var issue = db.execute("SELECT issue_id FROM Issue WHERE EXISTS (SELECT label_id FROM Label WHERE Label.issue_id = Issue.issue_id) LIMIT 1");
+    	if (issue.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var issue_id = issue.fieldByName("issue_id");
+    	var labels = db.execute("SELECT count(label_id) as pocet FROM Label WHERE issue_id = ?", issue_id);
+    	var count = labels.fieldByName("pocet");
+    	var params = new Object();
+    	params["issue_id"] = issue_id;
+    	var mo_one = model.getLabels(params);
+    	
+    	jsUnity.assertions.assertEqual(count, mo_one.length, "Label count don't match");    	
+    },
+    
+    testGetLabelsByProjectID: function() {
+    	var project = db.execute("SELECT project_id FROM project WHERE EXISTS (SELECT label_id FROM Label WHERE Label.project_id = project.project_id) LIMIT 1");
+    	if (project.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var project_id = project.fieldByName("project_id");
+    	var labels = db.execute("SELECT count(label_id) as pocet FROM Label WHERE project_id = ?", project_id);
+    	var count = labels.fieldByName("pocet");
+    	var params = new Object();
+    	params["project_id"] = project_id;
+    	var mo_one = model.getLabels(params);
+    	
+    	jsUnity.assertions.assertEqual(count, mo_one.length, "Label count don't match");    	
+    },
+    
+    testGetDistinctLabels: function() {
+    	var project = db.execute("SELECT project_id FROM project WHERE EXISTS (SELECT issue_id FROM Issue WHERE Issue.project_id = project.project_id AND EXISTS (SELECT label_id FROM Label WHERE Label.issue_id = Issue.issue_id)) LIMIT 1");
+    	if (project.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var project_id = project.fieldByName("project_id");
+    	var labels = db.execute("SELECT count(label_id) as pocet FROM Label WHERE issue_id IN (SELECT issue_id FROM Issue WHERE project_id = ?)", project_id);
+    	var count = labels.fieldByName("pocet");
+    	var params = new Object();
+    	params["project_id"] = project_id;
+    	var mo_one = model.getDistinctLabels(params);
+    	
+    	jsUnity.assertions.assertEqual(count, mo_one.length, "Label count don't match");    	
+    },
+    
+    testGetMilestones: function() {
+    	var project = db.execute("SELECT project_id FROM project WHERE EXISTS (SELECT milestone_id FROM Milestone WHERE Milestone.project_id = project.project_id) LIMIT 1");
+    	if (project.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var project_id = project.fieldByName("project_id");
+    	var issues = db.execute("SELECT count(milestone_id) as pocet FROM Milestone WHERE project_id = ?", project_id);
+    	var count = issues.fieldByName("pocet");    	
+    	var params = new Object();
+    	params["project_id"] = project_id;
+    	var mo_one = model.getMilestones(params);
+    	
+    	jsUnity.assertions.assertEqual(count, mo_one.length, "Milestone count don't match");    	
+    },
+    
+    testGetMilestone: function() {
+    	var one = db.execute("SELECT milestone_id,title FROM Milestone LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var milestone_id = one.fieldByName("milestone_id");
+    	var milestone_title = one.fieldByName("title");
+    	var params = new Object();
+    	params["milestone_id"] = milestone_id;
+    	var mo_one = model.getMilestone(params);
+    	
+    	jsUnity.assertions.assertEqual(milestone_title, mo_one.title, "Milestone titles don't match");
+    	jsUnity.assertions.assertEqual(milestone_id, mo_one.milestone_id, "Milestone ID's don't match");
+    },
+    
+    testGetMilestonePercent: function() {
+    	var one = db.execute("SELECT milestone_id FROM Milestone WHERE EXISTS (SELECT issue_id FROM Issue WHERE Issue.milestone_id = Milestone.milestone_id) LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var milestone_id = one.fieldByName("milestone_id");
+    	var issues = db.execute("SELECT state FROM Issue WHERE milestone_id = ?", milestone_id);
+    	var open = 0, closed = 0, state = 0;
+    	while(issues.isValidRow()) {
+    		state = issues.fieldByName("state");
+    		if (state) {
+    			open++;
+    		} else {
+    			closed++;
+    		}
+    		issues.next();
+    	}
+    	var percent = (open * 100) / (open+closed);
+    	var params = new Object();
+    	params["milestone_id"] = milestone_id;
+    	var mo_percent = model.getMilestonePercent(params);
+    	
+    	jsUnity.assertions.assertEqual(percent, mo_percent, "Milestone's active percent don't match");
+    },
+    
+    testGetUsers: function() {
+    	var project = db.execute("SELECT project_id FROM project WHERE EXISTS (SELECT user_id FROM User WHERE User.project_id = project.project_id) LIMIT 1");
+    	if (project.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var project_id = project.fieldByName("project_id");
+    	var users = db.execute("SELECT count(user_id) as pocet FROM User WHERE project_id = ?", project_id);
+    	var count = issues.fieldByName("pocet");
+    	var params = new Object();
+    	params["project_id"] = project_id;
+    	var mo_one = model.getUsers(params);
+    	
+    	jsUnity.assertions.assertEqual(count, mo_one.length, "User count don't match");
+    },
+    
+    testGetUser: function() {
+    	var one = db.execute("SELECT user_id,name FROM User LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var user_id = one.fieldByName("user_id");
+    	var user_name = one.fieldByName("name");
+    	var params = new Object();
+    	params["user_id"] = user_id;
+    	var mo_one = model.getUser(params);
+    	
+    	jsUnity.assertions.assertEqual(user_title, mo_one.title, "User titles don't match");
+    	jsUnity.assertions.assertEqual(user_id, mo_one.user_id, "User ID's don't match");
+    },
+    
+    testSaveProject: function() {
+    	var name = "TEST", description = "TEST", state = 0;
+    	var new_project = new Project(name, description);
+    	new_project.state = state;    	    	
+    	
+    	var labels = new Array(), i = 0;
+    	labels[++i] = new Label(0, 0, "test", 0);
+    	labels[++i] = new Label(0, 0, "test2", 0);
+    	new_project.labels = labels;
+    	
+    	var area_name = "work00XX00TEST";
+    	var area = new Area(0, area_name);
+    	new_project.area = area;
+    	
+    	var project_id = model.saveProject(new_project);    	    	
+    	
+    	var project = db.execute("SELECT name,description,state,area_id FROM project WHERE project_id = ?", project_id);
+    	var labels = db.execute("SELECT count(label_id) as pocet FROM Label WHERE project_id = ?", project_id);
+    	var area = db.execute("SELECT area_id FROM Area WHERE title = ?", area_name);
+    	
+    	var db_name = project.fieldByName("name"), 
+    		db_description = project.fieldByName("description"), 
+    		db_state = project.fieldByName("state"),
+    		db_project_area_id = project.fieldByName("area_id"),
+    	 	db_label_count = labels.fieldByName("pocet"),
+    		db_area_id = area.fieldByName("area_id");
+    	
+    	db.execute("DELETE FROM project WHERE project_id = ?", project_id);
+    	db.execute("DELETE FROM Label WHERE project_id = ?", project_id);
+    	db.execute("DELETE FROM Area WHERE title = ?", area_name);
+    	
+    	jsUnity.assertions.assertEqual(name, db_name, "Project names don't match");
+    	jsUnity.assertions.assertEqual(description, db_description, "Project descriptions don't match");
+    	jsUnity.assertions.assertEqual(state, db_state, "Project states don't match");
+    	jsUnity.assertions.assertEqual(i, db_label_count, "Project label count don't match");
+    	jsUnity.assertions.assertEqual(db_area_id, db_project_area_id, "Project area ID's don't match");
+    },
+    
+    testSaveIssue: function() {
+    	var one = db.execute("SELECT project_id,name,type,description FROM project LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var project = new Project(one.fieldByName("name"), one.fieldByName("description"));
+    	project.project_id = one.fieldByName("project_id");
+    	project.type = one.fieldByName("type");
+    	
+    	var title = "TEST", description = "TEST", state = 1;
+    	var issue = new Issue(0, title, description);
+    	issue.state = state;
+    	issue.project = project;
+    	
+    	var labels = new Array(), i = 0;
+    	labels[++i] = new Label(0, 0, "test", 0);
+    	labels[++i] = new Label(0, 0, "test2", 0);
+    	issue.labels = labels;
+    	
+    	var milestone_title = "work00XX00TEST";
+    	var milestone = new Milestone(0, milestone_title, "", 0);
+    	issue.milestone = milestone;
+    	
+    	var issue_id = model.saveIssue(issue);
+    	
+    	var issue = db.execute("SELECT title,description,state,milestone_id FROM Issue WHERE issue_id = ?", issue_id);
+    	var labels = db.execute("SELECT count(label_id) as pocet FROM Label WHERE issue_id = ?", issue_id);
+    	var milestone = db.execute("SELECT milestone_id FROM Milestone WHERE title = ?", milestone_title);
+    	
+    	var db_title = issue.fieldByName("title"),
+    		db_description = issue.fieldByName("description"),
+    		db_state = issue.fieldByName("state"),
+    		db_issue_milestone_id = issue.fieldByName("milestone_id"),
+    		db_label_count = labels.fieldByName("pocet"),
+    		db_milestone_id = milestone.fieldByName("milestone_id");
+    	
+    	db.execute("DELETE FROM Issue WHERE issue_id = ?", issue_id);
+    	db.execute("DELETE FROM Label WHERE issue_id = ?", issue_id);
+    	db.execute("DELETE FROM Milestone WHERE title = ?", milestone_title);
+    	
+    	jsUnity.assertions.assertEqual(title, db_title, "Issue titles don't match");
+    	jsUnity.assertions.assertEqual(description, db_description, "Issue descriptions don't match");
+    	jsUnity.assertions.assertEqual(state, db_state, "Issue states don't match");
+    	jsUnity.assertions.assertEqual(i, db_label_count, "Issue label count don't match");
+    	jsUnity.assertions.assertEqual(db_milestone_id, db_issue_milestone_id, "Issue milestone ID's don't match");
+    },
+    
+    testSaveIssueNumber: function() {
+    	var title = "TEST", description = "TEST", id = 1;
+    	db.execute("INSERT INTO Issue (title,description) VALUES (?,?)", title, description);
+    	var issue_id = db.lastInsertRowId;
+    	var issue = new Issue(id, title, description);
+    	issue.issue_id = issue_id;
+    	
+    	model.saveIssueNumber(issue);
+    	
+    	var number = db.execute("SELECT id FROM Issue WHERE issue_id = ?", issue_id);
+    	var db_id = number.fieldByName("id");
+    	
+    	db.execute("DELETE FROM Issue WHERE issue_id = ?", issue_id);
+    	
+    	jsUnity.assertions.assertEqual(id, db_id, "Issue ID's don't match");
+    },
+    
+    testSaveLabels: function() {
+    	var title = "TEST", description = "TEST", id = 1;
+    	db.execute("INSERT INTO Issue (title,description) VALUES (?,?)", title, description);
+    	var issue_id = db.lastInsertRowId;
+    	
+    	var labels = new Array(), i = 0;
+    	labels[++i] = new Label(0, 0, "test", 0);
+    	labels[++i] = new Label(0, 0, "test2", 0);
+    	
+    	model.saveLabels(labels, issue_id, 0);
+    	
+    	var labels = db.execute("SELECT count(label_id) as pocet FROM Label WHERE issue_id = ?", issue_id);
+    	var count = labels.fieldByName("pocet");
+    	
+    	db.execute("DELETE FROM Issue WHERE issue_id = ?", issue_id);
+    	db.execute("DELETE FROM Label WHERE issue_id = ?", issue_id);
+    	
+    	jsUnity.assertions.assertEqual(i, count, "Labels count don't match");
+    },
+    
+    testSaveMilestone: function() {
+    	var one = db.execute("SELECT project_id FROM project LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	project_id = one.fieldByName("project_id");
+    	
+    	var title = "TESTXXX000";
+    	var milestone = new Milestone(0, title, "", project_id);
+    	
+    	var milestone_id = model.saveMilestone(milestone);
+    	
+    	var milestone = db.execute("SELECT title FROM Milestone WHERE milestone_id = ?", milestone_id);
+    	var db_title = milestone.fieldByName("title");
+    	
+    	db.execute("DELETE FROM Milestone WHERE title = ?", title);
+    	
+    	jsUnity.assertions.assertEqual(title, db_title, "Milestone titles don't match");
+    },
+    
+    testSaveUser: function() {
+    	var one = db.execute("SELECT project_id FROM project LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var project_id = one.fieldByName("project_id");
+    	
+    	var name = "TESTXX00", email = "test@test.cz";
+    	var user = new User(name, email, null);
+    	
+    	var user_id = model.saveUser(user, project_id);
+    	
+    	var users = db.execute("SELECT name FROM User WHERE user_id = ?", user_id);
+    	var db_name = users.fieldByName("name");
+    	
+    	db.execute("DELETE FROM User WHERE name = ?", name);
+    	
+    	jsUnity.assertions.assertEqual(name, db_name, "User names don't match");
+    },
+    
+    testSaveUserWithProject: function() {
+    	var one = db.execute("SELECT project_id,name,description FROM project LIMIT 1");
+    	if (one.rowCount() == 0)
+    		jsUnity.assertions.fail("Not enough results to test");
+    	var project = new Project(one.fieldByName("name"), one.fieldByName("description"));
+    	project.project_id = one.fieldByName("project_id");
+    	
+    	var name = "TESTXX00", email = "test@test.cz";
+    	var user = new User(name, email, null);
+    	user.project = project;
+    	
+    	var user_id = model.saveUser(user);
+    	
+    	var users = db.execute("SELECT name,project_id FROM User WHERE user_id = ?", user_id);
+    	var db_name = users.fieldByName("name");
+    	var db_project_id = users.fieldByName("project_id");
+    	
+    	db.execute("DELETE FROM User WHERE name = ?", name);
+    	
+    	jsUnity.assertions.assertEqual(name, db_name, "User names don't match");
+    	jsUnity.assertions.assertEqual(project.project_id, db_project_id, "User project ID's don't match");
+    },
+    
+    testSaveArea: function() {
+    	var title = "TESTXX00";
+    	var area = new Area(0, title);
+    	
+    	var area_id = model.saveArea(area);
+    	
+    	var areas = db.execute("SELECT title FROM Area WHERE area_id = ?", area_id);
+    	var db_title = areas.fieldByName("title");
+    	
+    	db.execute("DELETE FROM Area WHERE title = ?", title);
+    	
+    	jsUnity.assertions.assertEqual(title, db_title, "Area titles don't match");
+    },
+    
+    testDBClose: function() {
     	db.close();
+    	jsUnity.assertions.assertTrue(1);
     }
+    
 };

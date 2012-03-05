@@ -154,12 +154,12 @@ function handleRunTest(event, element) {
 		id: "unitTestDialog",		
 		url: "app://tests/run.html",
 		baseURL: "app://",
-		width: 200,
-		height: 200,
+		width: 500,
+		height: 550,
 		visible: true,
 		closeable: true,
-		maximizable: false,
-		resizable: false,
+		maximizable: true,
+		resizable: true,
 		topMost: true
 	});	
 }

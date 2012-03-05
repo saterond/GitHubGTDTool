@@ -319,16 +319,23 @@ var GTDModel = Class.create({
 	},
 	saveProject: function(project) {
 		var app = Titanium.API.get("app");
+		var model = Titanium.API.get("model");
 		var db = app.db, project_id;
 		if (project.project_id == 0) {
 			db.execute("INSERT INTO project (name,description,type,state) VALUES (?,?,?,?)", 
 						project.name, project.description, project.type, project.state);
-			project_id = db.lastInsertRowId;
+			project.project_id = db.lastInsertRowId;
 		} else {
 			db.execute("UPDATE project SET name = ?, description = ?, state = ?, type = ? WHERE project_id = ?",
 						project.name, project.description, project.state, project.type, project.project_id);
 		}
-		return project_id;
+		if (project.labels.length > 0)
+			model.saveLabels(project.labels, 0, project.project_id);
+		if (project.area != null) {
+			var area_id = model.saveArea(project.area);
+			db.execute("UPDATE project SET area_id = ? WHERE project_id = ?", area_id, project.project_id);
+		}
+		return project.project_id;
 	},
 	saveIssue: function(issue) {
 		var app = Titanium.API.get("app");
@@ -364,31 +371,26 @@ var GTDModel = Class.create({
 			db.execute("UPDATE Issue SET id = ? WHERE issue_id = ?", issue.id, issue.issue_id);
 		}
 	},
-	saveLabels: function(labels, issue_id) {
+	saveLabels: function(labels, issue_id, project_id) {
 		var app = Titanium.API.get("app");		
 		var db = app.getDb();
 		var rs = null;
 		labels.each(function(label) {
-			rs = db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ?", issue_id, label);
+			if (issue_id != 0) {
+				rs = db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ?", issue_id, label.text);
+			} else {
+				rs = db.execute("SELECT label_id FROM Label WHERE project_id = ? AND text = ?", project_id, label.text);
+			}
 			if (rs.rowCount() == 0) {
-				if (label.search(":") == -1) {
-					db.execute("INSERT INTO Label (text,issue_id,local) VALUES (?,?,?)", label, issue_id, 1);
-				} else {
-					var texts = label.split(":");
-					db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
-				}
-			} else if (label.search(":") != -1) {
-				var texts = label.split(":");
-				rs = db.execute("SELECT label_id FROM Label WHERE issue_id = ? AND text = ? AND text2 = ?", issue_id, texts[0], texts[1]);
-				if (rs.rowCount() == 0) {
-					db.execute("INSERT INTO Label (text,text2,issue_id,local) VALUES (?,?,?,?)", texts[0], texts[1], issue_id, 1);
-				}
+				db.execute("INSERT INTO Label (text,text2,issue_id,local,project_id) VALUES (?,?,?,?,?)", label.text, label.text2, issue_id, label.local, project_id);
 			}
 		});
 	},
 	saveMilestone: function(milestone, project_id) {
 		var app = Titanium.API.get("app");		
 		var db = app.getDb();
+		if (milestone.project_id != 0)
+			project_id = milestone.project_id;
 		var rs = db.execute("SELECT milestone_id FROM Milestone WHERE title = ? AND project_id = ? LIMIT 1"
 			, milestone.title, project_id);
 		var milestone_id = 0;
@@ -404,15 +406,32 @@ var GTDModel = Class.create({
 	saveUser: function(user, project_id) {
 		var app = Titanium.API.get("app");
 		var db = app.getDb();
-		var rs = null, userID = 0;
+		if (user.project != null && user.project.project_id != 0)
+			project_id = user.project.project_id;
+		var rs = null, user_id = 0;
 		rs = db.execute("SELECT user_id FROM User WHERE name = ? AND project_id = ?", user.name, project_id);
 		if (rs.rowCount() > 0) {
-			userID = rs.fieldByName("user_id");
+			user_id = rs.fieldByName("user_id");
 			db.execute("UPDATE User SET name = ?, email = ?, id = ? WHERE user_id = ?", 
 						user.name, user.email, user.id, userID);
 		} else {
 			db.execute("INSERT INTO User (name,email,id,project_id) VALUES (?,?,?,?)",
 						user.name, user.email, user.id, project_id);
+			user_id = db.lastInsertRowId;
 		}
+		return user_id;
+	},
+	saveArea: function(area) {
+		var app = Titanium.API.get("app");
+		var db = app.getDb();
+		var rs = null, area_id = 0;
+		rs = db.execute("SELECT area_id FROM Area WHERE title = ?", area.title);
+		if (rs.rowCount() == 0) {
+			db.execute("INSERT INTO Area (title) VALUES (?)", area.title);
+			area_id = db.lastInsertRowId;
+		} else {
+			area_id = rs.fieldByName("area_id");
+		}
+		return area_id;
 	}
 });

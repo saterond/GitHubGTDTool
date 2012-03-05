@@ -2,5 +2,5 @@
  * @author saterond
  */
 jsUnity.log = function(message) {
-    Titanium.API.info(message);
+    document.write(message + "\n<br>");
 };
