@@ -155,7 +155,7 @@ function handleRunTest(event, element) {
 		url: "app://tests/run.html",
 		baseURL: "app://",
 		width: 500,
-		height: 550,
+		height: 580,
 		visible: true,
 		closeable: true,
 		maximizable: true,
