@@ -55,14 +55,17 @@ var GTDViewer = Class.create({
 		Titanium.API.set("projects", projects);
 	},
 	generateIssueList: function(issues) {
-		var viewer = Titanium.API.get("viewer");
 		var issue = "", content = "", type = "", labels, cssClass, milestonePercent = 0;
-		var template = viewer.getFileContent("templates/issue.tpl");		
+		var template = this.getFileContent("templates/issue.tpl");		
 		issues.each(function(issuee) {			
 			issue = template;
 			issue = issue.replace(/{issue_id}/g, issuee.issue_id);
 			issue = issue.replace("{title}", issuee.title);
-			issue = issue.replace("{description-short}", issuee.description.substr(0, 100));
+			if (issuee.description != null) {
+				issue = issue.replace("{description-short}", issuee.description.substr(0, 100));
+			} else {
+				issue = issue.replace("{description-short}", "");
+			}			
 			issue = issue.replace("{description-full}", issuee.description);
 			if (issuee.state) {
 				issue = issue.replace("{state-active}", ' checked="checked"');
@@ -71,9 +74,9 @@ var GTDViewer = Class.create({
 				issue = issue.replace("{state-active}", '');
 				issue = issue.replace("{state-completed}", ' checked="checked"');
 			}
-			issue = issue.replace("{coworkers}", '');			
-			if (issuee.milestone != null) {				
-				milestonePercent = Titanium.API.get("viewer").model.getMilestonePercent(Titanium.API.get("viewer").getParamsObject("milestone_id", issuee.milestone.milestone_id));
+			issue = issue.replace("{coworkers}", '');
+			if (issuee.milestone != null) {
+				milestonePercent = Titanium.API.get("model").getMilestonePercent(Titanium.API.get("model").getParamsObject("milestone_id", issuee.milestone.milestone_id));
 			} else {
 				milestonePercent = 0;
 			}
@@ -86,29 +89,32 @@ var GTDViewer = Class.create({
 			
 			cssClass = "";
 			labels = "";
-			issuee.labels.each(function(label) {
-				cssClass = "label";
-				if (!label.local) {
-					cssClass = "label global";
-				}
-				if (label.text2 != "") {
-					labels += '<span class="' + cssClass + '">' + label.text + ':' + label.text2 + '</span>';
-				} else {
-					labels += '<span class="' + cssClass + '">' + label.text + '</span>';
-				}
-			});			
-			issue = issue.replace("{labels}", labels);
-			
+			if (issuee.labels != null) {
+				issuee.labels.each(function(label) {
+					cssClass = "label";
+					if (!label.local) {
+						cssClass = "label global";
+					}
+					if (label.text2 != "") {
+						labels += '<span class="' + cssClass + '">' + label.text + ':' + label.text2 + '</span>';
+					} else {
+						labels += '<span class="' + cssClass + '">' + label.text + '</span>';
+					}
+				});
+			}
+			issue = issue.replace("{labels}", labels);			
 			content += issue;						
-		});		
+		});
 		return content;
 	},
-	reloadIssues: function(projectID) {		
+	reloadIssues: function(projectID) {
 		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
 		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
-		var labels = this.model.getDistinctLabels(this.getParamsObject("project_id", projectID));				
+		var labels = this.model.getDistinctLabels(this.getParamsObject("project_id", projectID));
+		var project_labels = this.model.getLabels(this.getParamsObject("project_id", projectID));
 		var content = this.generateIssueList(issues);
 		
+		var type = "general";
 		switch(project.type) {
 			case 1: type = "assembla"; break;
 			case 2: type = "gcode"; break;
@@ -121,7 +127,20 @@ var GTDViewer = Class.create({
 		$$("div.projectButtons").each(function(e) {
 			e.update(syncButton);
 		});
-		
+		if (project_labels.length > 0) {
+			var labels_wrapper = new Element("div", {"class" : "labels project-labels"});
+			var label_span = null;
+			project_labels.each(function(label) {
+				label_span = new Element("span", {"class" : "label", "data-key" : label.label_id}).update(label.text);
+				label_span.on("click", handleSelectLabel);
+				labels_wrapper.insert({
+					top : label_span
+				});
+			});
+			$$("div.projectButtons").first().insert({
+				bottom : labels_wrapper
+			});
+		}
 		key = 'project*'+project.type+'*'+projectID;
 		Titanium.API.set("active", key);
 		
@@ -131,13 +150,18 @@ var GTDViewer = Class.create({
 			e.removeClassName('github');
 			e.addClassName(type);
 		});
-		$$("div.projectHeader h2").each(function(e) {
-			e.update(project.name);
-		});
+		if (project.area != null) {
+			$$("div.projectHeader h2").each(function(e) {
+				e.update(project.name + " [" + project.area.title + "]");
+			});
+		} else {
+			$$("div.projectHeader h2").each(function(e) {
+				e.update(project.name);
+			});
+		}
 		$("issues").update("");
 		$("issues").update(content);
 		$("editProjectButton").writeAttribute("data-key", projectID);
-		
 		if (labels.length > 0) {
 			var wrapper = new Element("div", {"class" : "labels"});
 			var span = null;			
@@ -193,6 +217,12 @@ var GTDViewer = Class.create({
 				name = "Tasks scheduled for later";
 				key = "scheduled*0*5";
 				issues = viewer.model.getIssues(viewer.getParamsObject("scheduled", 1));
+				content = viewer.generateIssueList(issues);
+				break;
+			case 7:
+				name = "Global project overview";
+				key = "global*0*7";
+				issues = new Array();
 				content = viewer.generateIssueList(issues);
 				break;
 			case 10:

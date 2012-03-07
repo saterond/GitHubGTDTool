@@ -62,13 +62,16 @@ body.dialog {background: none;}
 .labels .label {
 	float: left;
 	padding: 3px 5px;
-	background: #ccc;
+	background-color: #ccc;
 	margin-right: 5px;
 	-webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+}
+.project-labels .label {
+	background-color: #76b347;
 }
 .labels .label.global {
 	background: #6699FF;

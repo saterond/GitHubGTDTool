@@ -219,7 +219,10 @@
                     
                     var labels = new Array();
                     if (labels_raw != "") {
-                        labels = labels_raw.split(",");                        
+                        var labels_arr = labels_raw.split(","), i = 1;
+                        labels_arr.each(function(label) {
+                            labels[i++] = new Label(0, 0, label, 0);
+                        });
                     }
                     issue.labels = labels;
                     issue.dueDate = due_date;

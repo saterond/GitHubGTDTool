@@ -6,14 +6,16 @@ Event.observe(window, 'load', function() {
 		var sync = new Sync(app.getConfig(), app.getDb(), model);
 		Titanium.API.info("Sync ready");
 		var viewer = new GTDViewer(app.getDb(), model);
-		Titanium.API.info("Viewer ready");
-		
-		viewer.reloadProjects();		
+		Titanium.API.info("Viewer ready");		
 		
 		Titanium.API.set("app", app);
 		Titanium.API.set("sync", sync);
 		Titanium.API.set("viewer", viewer);
 		Titanium.API.set("model", model);
+		
+		viewer.reloadProjects();
+		var params = new Object(); params["selection"] = 7;
+		viewer.loadSelection(params);
 		
 		var menu = Titanium.UI.createMenu();
 		var app = Titanium.UI.createMenuItem("Application");
@@ -51,7 +53,8 @@ Event.observe(window, 'load', function() {
 			alert("Not ready yet");
 		});
 		var tests = Titanium.UI.createMenuItem("Run tests");
-		tests.addItem("Model", handleRunTest);
+		tests.addItem("Model", handleRunModelTest);
+		tests.addItem("Viewer", handleRunViewerTest);
 		menu.appendItem(app);
 		menu.appendItem(sync);
 		menu.appendItem(help);

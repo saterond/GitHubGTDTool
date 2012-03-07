@@ -9,8 +9,8 @@ var config = Titanium.JSON.parse(configFile.read());
 var db = Titanium.Database.open(config.database);
 var model = new GTDModel(db);
 
-var DataTestSuite = {
-    suiteName: "Data Test Suite",       
+var ModelTestSuite = {
+    suiteName: "Model Test Suite",       
     
     setUp: function() {
     },
@@ -288,6 +288,39 @@ var DataTestSuite = {
     	
     	jsUnity.assertions.assertEqual(user_name, mo_one.name, "User names don't match");
     	jsUnity.assertions.assertEqual(user_id, mo_one.user_id, "User ID's don't match");
+    },
+    
+    testGetAreas: function() {
+    	var area = new Area(0, "testxx00");
+    	db.execute("INSERT INTO Area (title) VALUES (?)", area.title);
+    	var area_id = db.lastInsertRowId;
+    	var area2 = new Area(0, "testxx002");
+    	db.execute("INSERT INTO Area (title) VALUES (?)", area2.title);
+    	var area_id2 = db.lastInsertRowId;
+    	
+ 		var all = db.execute("SELECT count(area_id) as pocet FROM Area");
+ 		var db_count = all.fieldByName("pocet");
+ 		var areas = model.getAreas();
+ 		var mo_count = areas.length;
+ 		
+ 		db.execute("DELETE FROM Area WHERE area_id = ?", area_id);
+ 		db.execute("DELETE FROM Area WHERE area_id = ?", area_id2);
+ 		
+ 		jsUnity.assertions.assertEqual(db_count, mo_count, "Model have found different count of areas");
+    },
+    
+    testGetArea: function() {
+    	var area = new Area(0, "testxx00");
+    	db.execute("INSERT INTO Area (title) VALUES (?)", area.title);
+    	var area_id = db.lastInsertRowId;
+    	
+    	var params = new Object();
+    	params["area_id"] = area_id;
+    	var mo_area = model.getArea(params);
+ 		
+ 		db.execute("DELETE FROM Area WHERE area_id = ?", area_id); 		
+ 		
+ 		jsUnity.assertions.assertEqual(area.title, mo_area.title, "Area titles don't match");
     },
     
     testSaveProject: function() {

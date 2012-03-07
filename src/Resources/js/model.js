@@ -30,14 +30,14 @@ var GTDModel = Class.create({
 	},
 	getProject: function(params) {
 		var viewer = Titanium.API.get("viewer");
-		var rs = null,project,name,description;
+		var rs = null,project,name,description,area_id;
 		if ('project_id' in params) {			
 			var projectID = parseInt(params["project_id"]);
-			rs = this.db.execute('SELECT name,description,type,state From project WHERE project_id = ? LIMIT 1', projectID);			
+			rs = this.db.execute('SELECT name,description,type,state,area_id From project WHERE project_id = ? LIMIT 1', projectID);			
 		} else if (('project_name' in params) && ('project_type' in params)) {
 			var project_name = params["project_name"];
 			var project_type = params["project_type"];
-			rs = this.db.execute('SELECT project_id,name,description,type,state From project WHERE name = ? AND type = ? LIMIT 1', project_name, project_type);
+			rs = this.db.execute('SELECT project_id,name,description,type,state,area_id From project WHERE name = ? AND type = ? LIMIT 1', project_name, project_type);
 			var projectID = rs.fieldByName('project_id');
 		} else {
 			Titanium.API.error("Zatim nelze issues filtrovat jinak nez podle project_id");
@@ -54,6 +54,12 @@ var GTDModel = Class.create({
 			project.project_id = projectID;
 			project.state = rs.fieldByName('state');
 			project.labels = this.getLabels(this.getParamsObject("project_id", projectID));
+			area_id = rs.fieldByName("area_id");
+			if (area_id != null) {
+				project.area = this.getArea(this.getParamsObject("area_id", area_id));
+			} else {
+				project.area = null;
+			}
 		}
 		return project;
 	},
@@ -317,6 +323,32 @@ var GTDModel = Class.create({
 		}
 		return user;
 	},
+	getAreas: function() {
+		var rs = null, title = "", area_id = 0, areas = new Array(), i = 0, area = null;
+		rs = this.db.execute("SELECT area_id,title FROM Area ORDER BY title ASC");
+		while(rs.isValidRow()) {
+			area_id = rs.fieldByName("area_id");
+			title = rs.fieldByName("title");			
+			areas[i++] = new Area(area_id, title);
+			rs.next();
+		}
+		return areas;
+	},
+	getArea: function(params) {
+		var rs = null, title = "", area = null;
+		if ('area_id' in params) {			
+			var area_id = parseInt(params["area_id"]);
+			rs = this.db.execute("SELECT title FROM Area WHERE area_id = ?", area_id);			
+		} else {
+			Titanium.API.error("Area nelze ziskat jinak nez podle area_id");
+			return null;
+		}
+		if (rs.rowCount() > 0) {
+			title = rs.fieldByName("title");
+			area = new Area(area_id, title);
+		}
+		return area;
+	},
 	saveProject: function(project) {
 		var app = Titanium.API.get("app");
 		var model = Titanium.API.get("model");
@@ -332,7 +364,7 @@ var GTDModel = Class.create({
 		if (project.labels.length > 0)
 			model.saveLabels(project.labels, 0, project.project_id);
 		if (project.area != null) {
-			var area_id = model.saveArea(project.area);
+			var area_id = (project.area.area_id == 0) ? model.saveArea(project.area) : project.area.area_id;
 			db.execute("UPDATE project SET area_id = ? WHERE project_id = ?", area_id, project.project_id);
 		}
 		return project.project_id;
@@ -360,7 +392,7 @@ var GTDModel = Class.create({
 			issue.issue_id = db.lastInsertRowId;
 		}		
 		if (issue.labels.length != 0) {
-			model.saveLabels(issue.labels, issue.issue_id);
+			model.saveLabels(issue.labels, issue.issue_id, 0);
 		}
 		return issue.issue_id;
 	},

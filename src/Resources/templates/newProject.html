@@ -11,9 +11,10 @@
         <script type="text/javascript">
             Event.observe(window, 'load', function() {
                 var editProjectID = Titanium.API.get("editProject");
-                if (editProjectID != 0 && editProjectID != null) {
-                    var sync = Titanium.API.get("sync");
-                    var project = sync.model.getProject(sync.getParamsObject("project_id", editProjectID));
+                var sync = Titanium.API.get("sync");
+                var areas = sync.model.getAreas();
+                if (editProjectID != 0 && editProjectID != null) {                    
+                    var project = sync.model.getProject(sync.getParamsObject("project_id", editProjectID));                    
                     
                     var form = $('dialogNewProject');
                     
@@ -43,7 +44,35 @@
                         $(field).setValue(labels);
                     }
                     
+                    if (areas.length > 0) {
+                        $("project_area").update("");
+                        var option = new Element("option", {"value" : 0}).update(" - none - ");
+                        $("project_area").insert({
+                            bottom : option
+                        });
+                        areas.each(function(area) {
+                            option = new Element("option", {"value" : area.area_id}).update(area.title);
+                            $("project_area").insert({
+                                bottom : option
+                            });
+                        });                        
+                    }
+                    
                     $("dialogSaveProject").update("Edit project");
+                } else {
+                    if (areas.length > 0) {
+                        $("project_area").update("");
+                        var option = new Element("option", {"value" : 0}).update(" - none - ");
+                        $("project_area").insert({
+                            bottom : option
+                        });
+                        areas.each(function(area) {
+                            option = new Element("option", {"value" : area.area_id}).update(area.title);
+                            $("project_area").insert({
+                                bottom : option
+                            });
+                        });                        
+                    }
                 }
             });
         </script>       
@@ -55,12 +84,10 @@
                     <td colspan="2"><input type="text" name="project_name" id="project_name" size="65" placeholder="Project name / title" class="issueTitle"></td>
                 </tr>
                 <tr>
-                    <td>
-                        <input type="text" name="labels" id="labels" placeholder="new label">
+                    <td colspan="2">
+                        <input type="text" name="labels" id="labels" placeholder="new label" size="65">
                         <button class="minimal">Add</button>
-                    <td>
-                        <div class="labels"><span>one</span><span>two</span><span>three</span></div>
-                    </td>
+                    </td>                    
                 </tr>
                 <tr>
                     <td rowspan="3"><textarea name="project_description" rows="10" cols="50"></textarea></td>
@@ -76,6 +103,7 @@
                     <td>
                         <label for="project_type">Type</label><br>
                         <select name="project_type" id="project_type">
+                            <option value="0">general</option>
                             <option value="1">Assembla</option>
                             <option value="2">Google Code</option>
                             <option value="3">GitHub</option>
@@ -83,7 +111,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <td></td>
+                    <td>
+                        <label for="project_area">Area</label><br>
+                        <select name="project_area" id="project_area"></select>
+                        <br>
+                        -- OR --
+                        <br>
+                        <input type="text" name="project_area_new" id="project_area_new" placeholder="New area" />
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -112,8 +147,34 @@
                     field = form["project_description"];
                     var description = $(field).getValue();
                     
+                    field = form["project_area"];
+                    var area_f = $(field).getValue();
+                    
+                    field = form["project_area_new"];
+                    var area_new = $(field).getValue();
+                    
+                    field = form["labels"];
+                    var labels_raw = $(field).getValue();
+                    
+                    var labels = new Array();
+                    if (labels_raw != "") {
+                        var labels_arr = labels_raw.split(","), i = 1;
+                        labels_arr.each(function(label) {
+                            labels[i++] = new Label(0, 0, label, 0);
+                        });
+                    }                    
+                    
                     var project = new Project(name, description);
                     project.type = parseInt(type);
+                    project.labels = labels;
+                    
+                    if (area_f != 0) {
+                        project.area = new Area(area_f, "");
+                    } else if (area_new != "") {
+                        project.area = new Area(0, area_new);
+                    } else {
+                        project.area = null;
+                    }
                     
                     field = form["project_id"];
                     project.project_id = $(field).getValue();
