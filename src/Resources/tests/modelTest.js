@@ -19,55 +19,72 @@ var DataTestSuite = {
     },
  
     testGetProjects: function() {
+    	var project = new Project("TESTXX00", "testxx00");    	
+    	db.execute("INSERT INTO project (name,description) VALUES (?,?)", project.name, project.description);
+    	var project_id = db.lastInsertRowId;
+    	var project2 = new Project("TESTXX00", "testxx00");    	
+    	db.execute("INSERT INTO project (name,description) VALUES (?,?)", project2.name, project2.description);
+    	var project_id2 = db.lastInsertRowId;
+    	
  		var all = db.execute("SELECT count(project_id) as pocet FROM project");
- 		if (all.rowCount() == 0)
-    		jsUnity.assertions.fail("Not enough results to test");
  		var db_count = all.fieldByName("pocet");
  		var projects = model.getProjects();
  		var mo_count = projects.length;
+ 		
+ 		db.execute("DELETE FROM project WHERE project_id = ?", project_id);
+ 		db.execute("DELETE FROM project WHERE project_id = ?", project_id2);
+ 		
  		jsUnity.assertions.assertEqual(db_count, mo_count, "Model have found different count of projects");
     },
     
     testGetProjectByID: function() {
-    	var one = db.execute("SELECT project_id,name FROM project LIMIT 1");
-    	if (one.rowCount() == 0)
-    		jsUnity.assertions.fail("Not enough results to test");
-    	var project_id = one.fieldByName("project_id");
-    	var project_name = one.fieldByName("name");    	
+    	var project = new Project("TESTXX00", "testxx00");    	
+    	db.execute("INSERT INTO project (name,description) VALUES (?,?)", project.name, project.description);
+    	var project_id = db.lastInsertRowId;
+    	
     	var params = new Object();
     	params["project_id"] = project_id;
     	var mo_one = model.getProject(params);
     	
-    	jsUnity.assertions.assertEqual(project_name, mo_one.name, "Project names don't match");
+    	db.execute("DELETE FROM project WHERE project_id = ?", project_id);
+    	
+    	jsUnity.assertions.assertEqual(project.name, mo_one.name, "Project names don't match");
     	jsUnity.assertions.assertEqual(project_id, mo_one.project_id, "Project ID's don't match");    	
     },
     
     testGetProjectByNameAndType: function() {
-    	var one = db.execute("SELECT project_id,name,type FROM project LIMIT 1");
-    	if (one.rowCount() == 0)
-    		jsUnity.assertions.fail("Not enough results to test");
-    	var project_id = one.fieldByName("project_id");
-    	var project_name = one.fieldByName("name");
-    	var project_type = one.fieldByName("type");
+    	var project = new Project("TESTXX00", "testxx00");
+    	project.type = 2;
+    	db.execute("INSERT INTO project (name,type) VALUES (?,?)", project.name, project.type);
+    	var project_id = db.lastInsertRowId;
+    	
     	var params = new Object();
-    	params["project_name"] = project_name;
-    	params["project_type"] = project_type;
+    	params["project_name"] = project.name;
+    	params["project_type"] = project.type;
     	var mo_one = model.getProject(params);
     	
-    	jsUnity.assertions.assertEqual(project_name, mo_one.name, "Project names don't match");
-    	jsUnity.assertions.assertEqual(project_type, mo_one.type, "Project types don't match");    	
+    	db.execute("DELETE FROM project WHERE project_id = ?", project_id);
+    	
+    	jsUnity.assertions.assertEqual(project.name, mo_one.name, "Project names don't match");
+    	jsUnity.assertions.assertEqual(project.type, mo_one.type, "Project types don't match");    	
     },
     
     testGetIssuesByProjectID: function() {
-    	var project = db.execute("SELECT project_id FROM project WHERE EXISTS (SELECT issue_id FROM Issue WHERE Issue.project_id = project.project_id) LIMIT 1");
-    	if (project.rowCount() == 0)
-    		jsUnity.assertions.fail("Not enough results to test");
-    	var project_id = project.fieldByName("project_id");
-    	var issues = db.execute("SELECT count(issue_id) as pocet FROM Issue WHERE project_id = ?", project_id);
-    	var count = issues.fieldByName("pocet");    	
+    	var project = new Project("TESTXX00", "testxx00");
+    	db.execute("INSERT INTO project (name,description) VALUES (?,?)", project.name, project.description);
+    	var project_id = db.lastInsertRowId;
+    	var issue = new Issue(0, "testxx000", "testxx000");
+    	db.execute("INSERT INTO Issue (title,description,project_id) VALUES (?,?,?)", issue.title, issue.description, project_id);
+    	var issue2 = new Issue(0, "testxx0002", "testxx0002");
+    	db.execute("INSERT INTO Issue (title,description,project_id) VALUES (?,?,?)", issue2.title, issue2.description, project_id);
+    	
+    	var count = 2;
     	var params = new Object();
     	params["project_id"] = project_id;
     	var mo_one = model.getIssues(params);
+    	
+    	db.execute("DELETE FROM Issue WHERE project_id = ?", project_id);
+    	db.execute("DELETE FROM project WHERE project_id = ?", project_id);
     	
     	jsUnity.assertions.assertEqual(count, mo_one.length, "Issue count don't match");    	
     },
@@ -79,60 +96,58 @@ var DataTestSuite = {
 		var day_really = datum.getDate();
 		var day = (day_really < 10) ? "0"+day_really : day_really;
 		var today = datum.getFullYear() + "-" + month + "-" + day;
-    	var issues = db.execute("SELECT count(issue_id) as pocet FROM Issue WHERE dueDate = ?", today);
-    	if (issues.rowCount() == 0)
-    		jsUnity.assertions.fail("Not enough results to test");
-    	var count = issues.fieldByName("pocet");
+		
+		var issue = new Issue(0, "testxx000", "testxx000");
+		issue.dueDate = today;
+    	db.execute("INSERT INTO Issue (title,description,dueDate) VALUES (?,?,?)", issue.title, issue.description, issue.dueDate);
+    	var issue_id = db.lastInsertRowId;
+		
+    	var count = 1;
     	var params = new Object();
     	params["today"] = 1;
     	var mo_one = model.getIssues(params);
+    	
+    	db.execute("DELETE FROM Issue WHERE issue_id = ?", issue_id);
     	
     	jsUnity.assertions.assertEqual(count, mo_one.length, "Issue count don't match");    	
     },
     
     testGetIssue: function() {
-    	var one = db.execute("SELECT issue_id,title FROM Issue LIMIT 1");
-    	if (one.rowCount() == 0)
-    		jsUnity.assertions.fail("Not enough results to test");
-    	var issue_id = one.fieldByName("issue_id");
-    	var issue_title = one.fieldByName("title");
+    	var issue = new Issue(0, "testxx000", "testxx000");
+    	db.execute("INSERT INTO Issue (title,description) VALUES (?,?)", issue.title, issue.description);
+    	var issue_id = db.lastInsertRowId;
+    	
     	var params = new Object();
     	params["issue_id"] = issue_id;
     	var mo_one = model.getIssue(params);
     	
-    	jsUnity.assertions.assertEqual(issue_title, mo_one.title, "Issue titles don't match");
+    	db.execute("DELETE FROM Issue WHERE issue_id = ?", issue_id);
+    	
+    	jsUnity.assertions.assertEqual(issue.title, mo_one.title, "Issue titles don't match");
     	jsUnity.assertions.assertEqual(issue_id, mo_one.issue_id, "Issue ID's don't match");    	
     },
     
     testGetLabelsByIssueID: function() {
-    	var issue = db.execute("SELECT issue_id FROM Issue WHERE EXISTS (SELECT label_id FROM Label WHERE Label.issue_id = Issue.issue_id) LIMIT 1");
-    	if (issue.rowCount() == 0)
-    		jsUnity.assertions.fail("Not enough results to test");
-    	var issue_id = issue.fieldByName("issue_id");
-    	var labels = db.execute("SELECT count(label_id) as pocet FROM Label WHERE issue_id = ?", issue_id);
-    	var count = labels.fieldByName("pocet");
+    	var issue = new Issue(0, "testxx000", "testxx000");
+    	db.execute("INSERT INTO Issue (title,description) VALUES (?,?)", issue.title, issue.description);
+    	var issue_id = db.lastInsertRowId;
+    	var label = new Label(0, issue_id, "testXX00", 0);
+    	db.execute("INSERT INTO Label (text,issue_id) VALUES (?,?)", label.text, issue_id);
+    	var label2 = new Label(0, issue_id, "testXX002", 0);
+    	db.execute("INSERT INTO Label (text,issue_id) VALUES (?,?)", label2.text, issue_id);
+    	
+    	var count = 2;
     	var params = new Object();
     	params["issue_id"] = issue_id;
     	var mo_one = model.getLabels(params);
+    	
+    	db.execute("DELETE FROM Label WHERE issue_id = ?", issue_id);
+    	db.execute("DELETE FROM Issue WHERE issue_id = ?", issue_id);
     	
     	jsUnity.assertions.assertEqual(count, mo_one.length, "Label count don't match");    	
     },
     
     testGetLabelsByProjectID: function() {
-    	var project = db.execute("SELECT project_id FROM project WHERE EXISTS (SELECT label_id FROM Label WHERE Label.project_id = project.project_id) LIMIT 1");
-    	if (project.rowCount() == 0)
-    		jsUnity.assertions.fail("Not enough results to test");
-    	var project_id = project.fieldByName("project_id");
-    	var labels = db.execute("SELECT count(label_id) as pocet FROM Label WHERE project_id = ?", project_id);
-    	var count = labels.fieldByName("pocet");
-    	var params = new Object();
-    	params["project_id"] = project_id;
-    	var mo_one = model.getLabels(params);
-    	
-    	jsUnity.assertions.assertEqual(count, mo_one.length, "Label count don't match");    	
-    },
-    
-    testGetDistinctLabels: function() {
     	var project = new Project("TESTXX00", "testxx00");
     	db.execute("INSERT INTO project (name,description) VALUES (?,?)", project.name, project.description);
     	var project_id = db.lastInsertRowId;
@@ -142,10 +157,9 @@ var DataTestSuite = {
     	db.execute("INSERT INTO Label (text,project_id) VALUES (?,?)", label2.text, project_id);
     	
     	var count = 2;
-    	
     	var params = new Object();
     	params["project_id"] = project_id;
-    	var mo_one = model.getDistinctLabels(params);
+    	var mo_one = model.getLabels(params);
     	
     	db.execute("DELETE FROM Label WHERE project_id = ?", project_id);
     	db.execute("DELETE FROM project WHERE project_id = ?", project_id);
@@ -153,7 +167,32 @@ var DataTestSuite = {
     	jsUnity.assertions.assertEqual(count, mo_one.length, "Label count don't match");    	
     },
     
-    /*testGetMilestones: function() {
+    testGetDistinctLabels: function() {
+    	var project = new Project("TESTXX00", "testxx00");
+    	db.execute("INSERT INTO project (name,description) VALUES (?,?)", project.name, project.description);
+    	var project_id = db.lastInsertRowId;
+    	var issue = new Issue(0, "testxx000", "testxx000");
+    	db.execute("INSERT INTO Issue (title,description,project_id) VALUES (?,?,?)", issue.title, issue.description, project_id);
+    	var issue_id = db.lastInsertRowId;
+    	var label = new Label(0, issue_id, "testXX00", 0);
+    	db.execute("INSERT INTO Label (text,issue_id) VALUES (?,?)", label.text, issue_id);
+    	var label2 = new Label(0, issue_id, "testXX002", 0);
+    	db.execute("INSERT INTO Label (text,issue_id) VALUES (?,?)", label2.text, issue_id);
+    	
+    	var count = 2;
+    	
+    	var params = new Object();
+    	params["project_id"] = project_id;
+    	var mo_one = model.getDistinctLabels(params);
+    	
+    	db.execute("DELETE FROM Label WHERE issue_id = ?", issue_id);
+    	db.execute("DELETE FROM Issue WHERE project_id = ?", project_id);
+    	db.execute("DELETE FROM project WHERE project_id = ?", project_id);
+    	
+    	jsUnity.assertions.assertEqual(count, mo_one.length, "Label count don't match");    	
+    },
+    
+    testGetMilestones: function() {
     	var project = new Project("TESTXX00", "testxx00");
     	db.execute("INSERT INTO project (name,description) VALUES (?,?)", project.name, project.description);
     	var project_id = db.lastInsertRowId;    	
@@ -443,7 +482,7 @@ var DataTestSuite = {
     	db.execute("DELETE FROM Area WHERE title = ?", title);
     	
     	jsUnity.assertions.assertEqual(title, db_title, "Area titles don't match");
-    },*/
+    },
     
     testDBClose: function() {
     	db.close();
