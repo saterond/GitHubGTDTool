@@ -76,18 +76,28 @@ document.observe("dom:loaded", function() {
 	$('saveNewIssue').observe('click', handleShowNewIssueDialog);	
 	$('saveNewProject').observe('click', handleShowNewProjectDialog);
 	
-	$$('li.selection').each(function(li){		
+	$$('li.selection').each(function(li){
 		li.observe("click", function(evt) {
 			var key = li.readAttribute("data-key");			
 			var viewer = Titanium.API.get("viewer");
 			viewer.loadSelection(viewer.getParamsObject("selection", key));
 		})
 	});
-	
-	/*var handlerSyncIssues = document.on('click', 'button[id="syncIssues"]', handleSyncIssues.bind(this));
-	handlerSyncIssues.stop();handlerSyncIssues.start();*/
+	$$('button.selection').each(function(button){
+		button.observe("click", function(evt) {
+			var key = button.readAttribute("data-key");			
+			var viewer = Titanium.API.get("viewer");
+			viewer.loadSelection(viewer.getParamsObject("selection", key));
+		})
+	});
 	
 	var handlerEditIssue = document.on('click', 'button[id="editIssue"]', handleShowEditIssueDialog.bind(this));
+	handlerEditIssue.stop();handlerEditIssue.start();
+	
+	var handlerEditIssue = document.on('click', 'button[id="archiveIssue"]', handleSaveIssueToArchive.bind(this));
+	handlerEditIssue.stop();handlerEditIssue.start();
+	
+	var handlerEditIssue = document.on('click', 'button[id="trashIssue"]', handleMoveToTrash.bind(this));
 	handlerEditIssue.stop();handlerEditIssue.start();
 	
 	var handlerEditProject = document.on('click', 'button[id="editProjectButton"]', handleShowEditProjectDialog.bind(this));

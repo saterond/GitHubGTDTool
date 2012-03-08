@@ -32,8 +32,10 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3" align="right">
-					<button class="cupid-green" data-key="{issue_id}" id="editIssue">Edit issue</button>
+				<td align="right" colspan="3">					
+					<button class="minimal" data-key="{issue_id}" id="archiveIssue" style="float:left">Archive issue</button>
+					<button class="minimal" data-key="{issue_id}" id="trashIssue" style="float:left;margin-left:10px">Trash issue</button>
+					<button class="cupid-green" data-key="{issue_id}" id="editIssue">Edit issue</button>					
 				</td>
 			</tr>
     </table>

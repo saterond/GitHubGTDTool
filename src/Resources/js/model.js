@@ -86,6 +86,9 @@ var GTDModel = Class.create({
 			issuesRS = this.db.execute(
 				"SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE issue_id IN "+
 				"(SELECT issue_id FROM Label WHERE label_id = ?)", label_id);
+		} else if ('archived' in params) {
+			var archived = parseInt(params["archived"]);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE archived = ?", archived);
 		} else {
 			Titanium.API.error("Zatim nelze issues filtrovat podle techto parametru");
 			return new Array();
@@ -149,6 +152,26 @@ var GTDModel = Class.create({
 		}
 		issuesRS.close();
 		return issue;
+	},
+	getTrashedIssues: function() {
+		var issuesRS = this.db.execute("SELECT title,description,issue_id,state,status FROM Trash");
+		var issues = new Array(), i = 0, id, title, description, issue, milestone_id;
+		while (issuesRS.isValidRow()) {			
+			title = issuesRS.fieldByName('title');
+			description = issuesRS.fieldByName('description');
+			
+			issue = new Issue(0, title, description);
+			issue.issue_id = issuesRS.fieldByName('issue_id');
+			issue.state = issuesRS.fieldByName('state');
+			issue.status = issuesRS.fieldByName('status');
+			issue.project_type = issuesRS.fieldByName('project_type');
+			issue.labels = this.getLabels(this.getParamsObject("issue_id", issue.issue_id));
+			
+			issues[i++] = issue;
+			issuesRS.next();
+		}
+		issuesRS.close();
+		return issues;
 	},
 	getLabels: function(params) {
 		var labelsRS = null;
@@ -465,5 +488,22 @@ var GTDModel = Class.create({
 			area_id = rs.fieldByName("area_id");
 		}
 		return area_id;
+	},
+	archiveIssue: function(issue_id) {
+		var app = Titanium.API.get("app");
+		var db = app.getDb();
+		db.execute("UPDATE Issue SET archived = 1 WHERE issue_id = ?", issue_id);
+	},
+	moveToTrash: function(issue_id) {
+		var app = Titanium.API.get("app");
+		var db = app.getDb(), rs = null;
+		rs = db.execute("SELECT title,description,state,status FROM Issue WHERE issue_id = ?", issue_id);
+		if (rs.rowCount() > 0) {
+			db.execute(
+				"INSERT INTO Trash (issue_id,title,description,state,status) VALUES (?,?,?,?,?)",
+				issue_id, rs.fieldByName("title"), rs.fieldByName("description"), rs.fieldByName("state"), rs.fieldByName("status")
+			);
+			db.execute("DELETE FROM Issue WHERE issue_id = ?", issue_id);
+		}
 	}
 });

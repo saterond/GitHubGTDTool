@@ -182,3 +182,51 @@ function handleRunViewerTest(event, element) {
 function handlePrint(event, element) {
 	window.print();
 }
+
+function handleSaveIssueToArchive(event, element) {
+	var viewer = Titanium.API.get("viewer");
+	var model = Titanium.API.get("model");
+	var id = element.readAttribute("data-key");
+	
+	model.archiveIssue(id);
+	
+	var active_project = Titanium.API.get("active");
+	var parts = active_project.split("*");
+	var params = new Object();
+	if (parts[0] == "project") {
+		var project_id = parts[2];
+		viewer.reloadIssues(project_id);
+	} else if (parts[0] == "label") {
+		var label = parts[2];
+		params["label"] = label;
+		viewer.loadSelection(params);
+	} else {
+		var selection = parts[2];
+		params["selection"] = selection;
+		viewer.loadSelection(params);
+	}
+}
+
+function handleMoveToTrash(event, element) {
+	var viewer = Titanium.API.get("viewer");
+	var model = Titanium.API.get("model");
+	var id = element.readAttribute("data-key");
+	
+	model.moveToTrash(id);
+	
+	var active_project = Titanium.API.get("active");
+	var parts = active_project.split("*");
+	var params = new Object();
+	if (parts[0] == "project") {
+		var project_id = parts[2];
+		viewer.reloadIssues(project_id);
+	} else if (parts[0] == "label") {
+		var label = parts[2];
+		params["label"] = label;
+		viewer.loadSelection(params);
+	} else {
+		var selection = parts[2];
+		params["selection"] = selection;
+		viewer.loadSelection(params);
+	}
+}

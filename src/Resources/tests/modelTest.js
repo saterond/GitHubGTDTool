@@ -517,6 +517,27 @@ var ModelTestSuite = {
     	jsUnity.assertions.assertEqual(title, db_title, "Area titles don't match");
     },
     
+    testMoveToTrash: function() {
+    	var title = "TEST", description = "TEST", state = 1, status = "aa";
+    	db.execute("INSERT INTO Issue (title,description,state,status) VALUES (?,?,?,?)", 
+    		title, description, state, status);
+    	var issue_id = db.lastInsertRowId;
+    	
+    	var rs = db.execute("SELECT count(issue_id) as pocet FROM Trash");
+    	var trash_count_pre = rs.fieldByName("pocet");
+    	
+    	model.moveToTrash(issue_id);
+    	
+    	rs = db.execute("SELECT count(issue_id) as pocet FROM Trash");
+    	var trash_count_post = rs.fieldByName("pocet");
+    	
+    	db.execute("DELETE FROM Issue WHERE issue_id = ?", issue_id);
+    	
+    	jsUnity.assertions.assertEqual(++trash_count_pre, trash_count_post, "Issue haven't been moved to trash");
+    	
+    	db.execute("DELETE FROM Trash WHERE issue_id = ?", issue_id);
+    },
+    
     testDBClose: function() {
     	db.close();
     	jsUnity.assertions.assertTrue(1);

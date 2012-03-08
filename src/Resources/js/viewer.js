@@ -190,7 +190,7 @@ var GTDViewer = Class.create({
 		switch(task) {
 			case 1:
 				name = "Inbox";
-				key = "inbox*0*0";
+				key = "inbox*0*1";
 				issues = viewer.model.getIssues(viewer.getParamsObject("inbox", 1));
 				labels = viewer.model.getDistinctLabels(viewer.getParamsObject("project_id", 0));
 				content = viewer.generateIssueList(issues);
@@ -215,7 +215,7 @@ var GTDViewer = Class.create({
 				break;
 			case 6:
 				name = "Tasks scheduled for later";
-				key = "scheduled*0*5";
+				key = "scheduled*0*6";
 				issues = viewer.model.getIssues(viewer.getParamsObject("scheduled", 1));
 				content = viewer.generateIssueList(issues);
 				break;
@@ -223,6 +223,18 @@ var GTDViewer = Class.create({
 				name = "Global project overview";
 				key = "global*0*7";
 				issues = new Array();
+				content = viewer.generateIssueList(issues);
+				break;
+			case 8:
+				name = "Archived issues";
+				key = "archived*0*8";
+				issues = viewer.model.getIssues(viewer.getParamsObject("archived", 1));
+				content = viewer.generateIssueList(issues);
+				break;
+			case 9:
+				name = "Trashed issues";
+				key = "trash*0*8";
+				issues = viewer.model.getTrashedIssues();
 				content = viewer.generateIssueList(issues);
 				break;
 			case 10:
