@@ -100,6 +100,9 @@ document.observe("dom:loaded", function() {
 	var handlerEditIssue = document.on('click', 'button[id="trashIssue"]', handleMoveToTrash.bind(this));
 	handlerEditIssue.stop();handlerEditIssue.start();
 	
+	var handlerEmptyTrash = document.on('click', 'button[id="trash-empty"]', handleEmptyTrash.bind(this));
+	handlerEmptyTrash.stop();handlerEmptyTrash.start();		
+	
 	var handlerEditProject = document.on('click', 'button[id="editProjectButton"]', handleShowEditProjectDialog.bind(this));
 	handlerEditProject.stop();handlerEditProject.start();
 	

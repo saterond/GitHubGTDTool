@@ -505,5 +505,10 @@ var GTDModel = Class.create({
 			);
 			db.execute("DELETE FROM Issue WHERE issue_id = ?", issue_id);
 		}
+	},
+	emptyTrash: function() {
+		var app = Titanium.API.get("app");
+		var db = app.getDb();
+		db.execute("DELETE FROM Trash");
 	}
 });

@@ -198,6 +198,7 @@ button.button-big {
 	background: #e5e5e5;
 	color: #333; font-weight: bold;
 	width: 80px; height: 50px;
+	vertical-align: middle;
 	border: 1px #a6a6a6 solid;
 	margin-right: 7px;
 	-moz-box-shadow: 2px 2px 5px #888; -webkit-box-shadow: 2px 2px 5px#888;	box-shadow: 2px 2px 5px #888;

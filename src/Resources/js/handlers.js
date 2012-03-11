@@ -230,3 +230,8 @@ function handleMoveToTrash(event, element) {
 		viewer.loadSelection(params);
 	}
 }
+
+function handleEmptyTrash(event, element) {
+	var model = Titanium.API.get("model");	
+	model.emptyTrash();
+}
