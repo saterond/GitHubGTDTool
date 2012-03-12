@@ -78,27 +78,65 @@ body.dialog {background: none;}
 	color: #fff;
 }
 /*---------------------------
+		BROWSE PROJECT
+----------------------------*/
+#content .project {
+	width: 100%;
+	background-color: #96CA6D;
+	border-radius: 6px;
+}
+.projectInfoHeader {
+	height: 40px;
+	margin-top: 6px;
+	padding: 8px 5px;
+	background-color: #DADADA;
+  	border-radius: 5px;
+}
+.projectInfoHeader .title {
+	font-size: 120%; font-weight: bold;
+}
+.projectInfoHeader .labels {
+	float: right;
+	padding: 12px 15px 0 0;
+}
+.projectInfoHeader .labels a {
+	background: #999;
+	padding: 3px 8px;	margin-right: 5px;
+	color: #fff; text-decoration: none;
+  	border-radius: 5px;
+}
+.projectInfoHeader .labels a:hover {text-decoration: underline;}
+.projectInfoHeader .description {
+	float: left;
+	width: 500px; height: 8px;
+	overflow: hidden;
+	margin: 0; padding: 8px 5px 8px 0px;
+	font-style: italic;
+}
+.projectInfoHeader button {
+	float: right;
+	margin-top: 5px;
+}
+.projectInfo {
+	padding: 10px;
+}
+.projectInfo table {margin-bottom: 0;}
+.projectInfo table td,.projectInfo table th {font-size: 10px;}
+
+/*---------------------------
 		BROWSE ISSUE
 ----------------------------*/
 .issue {
 	width: 100%;
 	background-color: #EFEFEF;
-	-webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  -ms-border-radius: 6px;
-  -o-border-radius: 6px;
-  border-radius: 6px;
+	border-radius: 6px;
 }
 .issueHeader {
 	height: 40px;
 	margin-top: 6px;
 	padding: 8px 5px;
-	background-color: #DADADA;
-	-webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+	background-color: #DADADA;	
+  	border-radius: 5px;
 }
 .issueHeader.assigned {
 	background: #87CEFA;
@@ -122,12 +160,8 @@ body.dialog {background: none;}
 .issue .labels a {
 	background: #999;
 	padding: 3px 8px;	margin-right: 5px;
-	color: #fff; text-decoration: none;
-	-webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+	color: #fff; text-decoration: none;	
+  	border-radius: 5px;
 }
 .issue .labels a:hover {text-decoration: underline;}
 .issue button {

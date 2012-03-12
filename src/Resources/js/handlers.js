@@ -112,6 +112,11 @@ function handleSelectLabel(event, element) {
 	viewer.loadSelection(viewer.getParamsObject("label", key));
 }
 
+function handleLoadGlobalProjectOverview(event, element) {
+	var viewer = Titanium.API.get("viewer");
+	viewer.loadSelection(viewer.getParamsObject("selection", 7));
+}
+
 function handleSyncIssues(event, element) {	
 	var key = element.readAttribute("data-key");
 	var parts = key.split('*');

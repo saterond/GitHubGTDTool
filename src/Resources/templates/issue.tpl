@@ -6,7 +6,7 @@
 		<span class="labels">{labels}</span>
 		<br />
 		<div class="description">{description-short}</div>
-  </div>
+  	</div>
 	<div class="issueInfo hidden" id="info_{issue_id}">
 		<div class="description">{description-full}</div>
 		<table>

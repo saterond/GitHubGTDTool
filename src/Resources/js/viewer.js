@@ -107,6 +107,46 @@ var GTDViewer = Class.create({
 		});
 		return content;
 	},
+	generateProjectList: function(projects, counts) {
+		var project = "", content = "", type = "", labels, cssClass, temp;
+		var template = this.getFileContent("templates/project.tpl");
+		projects.each(function(project) {			
+			temp = template;
+			temp = temp.replace(/{project_id}/g, project.project_id);
+			temp = temp.replace("{title}", project.name);
+			if (project.area != null) {
+				temp = temp.replace("{area}", " [" + project.area.title + "]");
+			} else {
+				temp = temp.replace("{area}", "");
+			}
+			
+			temp = temp.replace("{description}", project.description);
+			
+			cssClass = "";
+			labels = "";
+			if (project.labels != null) {
+				project.labels.each(function(label) {
+					cssClass = "label";
+					if (!label.local) {
+						cssClass = "label global";
+					}
+					if (label.text2 != "") {
+						labels += '<span class="' + cssClass + '">' + label.text + ':' + label.text2 + '</span>';
+					} else {
+						labels += '<span class="' + cssClass + '">' + label.text + '</span>';
+					}
+				});
+			}
+			temp = temp.replace("{labels}", labels);
+			
+			temp = temp.replace("{issue_count}", counts[project.project_id]["all"]);
+			temp = temp.replace("{issue_completed}", counts[project.project_id]["completed"]);
+			temp = temp.replace("{issue_due}", counts[project.project_id]["due"]);
+						
+			content += temp;
+		});
+		return content;
+	},
 	reloadIssues: function(projectID) {
 		var issues = this.model.getIssues(this.getParamsObject("project_id", projectID));
 		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
@@ -186,7 +226,7 @@ var GTDViewer = Class.create({
 			selector = parseInt(params["label"]);
 		}
 		var viewer = Titanium.API.get("viewer");
-		var issues = null, content = "", name = "", labels = new Array(), key = "";
+		var issues = null, projects = null, content = "", name = "", labels = new Array(), key = "";
 		switch(task) {
 			case 1:
 				name = "Inbox";
@@ -222,8 +262,9 @@ var GTDViewer = Class.create({
 			case 7:
 				name = "Global project overview";
 				key = "global*0*7";
-				issues = new Array();
-				content = viewer.generateIssueList(issues);
+				projects = viewer.model.getProjects();
+				var issue_counts = viewer.model.getIssueCounts(projects);
+				content = viewer.generateProjectList(projects, issue_counts);
 				break;
 			case 8:
 				name = "Archived issues";

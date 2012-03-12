@@ -22,6 +22,7 @@ Event.observe(window, 'load', function() {
 		app.addItem("New project", handleShowNewProjectDialog);
 		app.addItem("New issue", handleShowNewIssueDialog);
 		app.addSeparatorItem();
+		app.addItem("Global project overview", handleLoadGlobalProjectOverview);
 		app.addItem("Print selection", handlePrint);
 		app.addSeparatorItem();
 		app.addItem("Configuration", handleShowConfigurationDialog);

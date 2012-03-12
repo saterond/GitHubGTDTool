@@ -13,7 +13,7 @@ var GTDModel = Class.create({
 	},
 	getProjects: function() {
 		var projectsRS = this.db.execute("SELECT * FROM Project");				
-		var projects = new Array(), i = 0, id, name, type, project, description;
+		var projects = new Array(), i = 0, id, name, type, project, description, area_id;
 		while (projectsRS.isValidRow()) {			
 			id = projectsRS.fieldByName('project_id');
 			name = projectsRS.fieldByName('name');
@@ -22,6 +22,10 @@ var GTDModel = Class.create({
 			project = new Project(name, description);
 			project.type = type;
 			project.project_id = id;
+			area_id = projectsRS.fieldByName('area_id');
+			if (area_id != null) {
+				project.area = this.getArea(this.getParamsObject("area_id", area_id));
+			}
 			projects[i++] = project;
 			projectsRS.next();
 		}
@@ -371,6 +375,22 @@ var GTDModel = Class.create({
 			area = new Area(area_id, title);
 		}
 		return area;
+	},
+	getIssueCounts: function(projects) {
+		var app = Titanium.API.get("app");
+		var db = app.getDb();
+		var rs = null, counts = new Array(), results = null;
+		projects.each(function(project) {
+			results = new Array();
+			rs = db.execute("SELECT count(issue_id) as pocet FROM Issue WHERE project_id = ?", project.project_id);
+			results["all"] = rs.fieldByName("pocet");
+			rs = db.execute("SELECT count(issue_id) as pocet FROM Issue WHERE state = 1 AND project_id = ?", project.project_id);
+			results["completed"] = rs.fieldByName("pocet");
+			rs = db.execute("SELECT min(dueDate) as minimum FROM Issue WHERE project_id = ?", project.project_id);
+			results["due"] = rs.fieldByName("minimum");
+			counts[project.project_id] = results;
+		});
+		return counts;
 	},
 	saveProject: function(project) {
 		var app = Titanium.API.get("app");
