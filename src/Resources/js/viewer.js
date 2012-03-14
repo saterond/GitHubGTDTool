@@ -213,7 +213,15 @@ var GTDViewer = Class.create({
 			$$("div.projectButtons").first().insert({
 				bottom : wrapper
 			});
-		}		
+		}
+		
+		Sortable.create('issues' , {
+			tag: 'div',
+			onUpdate: function() {
+				var data = Sortable.sequence('issues');
+				handleChangeIssueOrder(data);
+			}
+		});
 	},
 	loadSelection: function(params) {
 		var task = 0, selector = "";

@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>Sorting Example</title>
+<script type="text/javascript" src="scripts/prototype.js"></script>
+<script type="text/javascript" src="scripts/scriptaculous.js"></script>
+
+<script type="text/javascript">
+window.onload = function() {
+   Sortable.create('Issue' , {
+      onUpdate: function() {
+				var data = Sortable.sequence('Issue');
+				console.log(data);
+      }
+   });
+}
+</script>
+
+<style type="text/css">
+	li {cursor: move}
+	ul {width: 88px; padding: 3px 3px 3px 20px}
+</style>
+</head>
+<body>
+	<p>When you will change the order, AJAX Request will be made automatically.</p>
+	<div style="float:left">
+		<ul id="Issue">
+		   <li id="Issue_1">Physics</li>
+		   <li id="Issue_22">Chemistry</li>
+		   <li id="Issue_30">Maths</li>
+		   <li id="Issue_45">Botany</li>
+		</ul>
+	</div>
+</body>
+</html>

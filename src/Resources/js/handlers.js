@@ -249,3 +249,13 @@ function handleEmptyTrash(event, element) {
 	var model = Titanium.API.get("model");	
 	model.emptyTrash();
 }
+
+function handleChangeIssueOrder(list) {
+	if (list.length > 0) {
+		var i = 0;
+		var model = Titanium.API.get("model");
+		list.each(function(entry) {
+			model.changeIssueOrder(parseInt(entry), i++);
+		});
+	}
+}

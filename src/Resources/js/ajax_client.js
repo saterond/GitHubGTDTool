@@ -11,9 +11,11 @@ var Ajax_client = Class.create({
 	sendRequest: function(_requestURL, _method, callback, returnFunction, project) {
 		var client = Titanium.Network.createHTTPClient();
 		
-		client.onload = function() {
+		client.onload = function() {			
 			var response = this.responseText;
 			var json = Titanium.JSON.parse(response);
+			if (json == undefined)
+				json = new Array();
 			callback(json, returnFunction, project);
 		}
 		client.onreadystatechange = function() {

@@ -161,7 +161,7 @@ var Sync = Class.create({
 				project = model.getProject(params);
 				projectType = project.type;
 				projectID = project.project_id;
-			}	
+			}
 			if (issue.milestone != null)
 				model.saveMilestone(issue.milestone, projectID);
 			if (issue.user != null)

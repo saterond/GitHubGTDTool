@@ -80,10 +80,10 @@ var GTDModel = Class.create({
 		var issuesRS = null;
 		if ('project_id' in params) {			
 			var projectID = parseInt(params["project_id"]);
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE project_id = ?", projectID);			
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE project_id = ? ORDER BY sort_order ASC", projectID);			
 		} else if ('inbox' in params) {
 			var inbox = parseInt(params["inbox"]);
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE inbox = ?", inbox);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE inbox = ? ORDER BY sort_order ASC", inbox);
 		} else if ('today' in params) {
 			var datum = new Date();
 			var month_really = datum.getMonth() + 1;
@@ -91,17 +91,17 @@ var GTDModel = Class.create({
 			var day_really = datum.getDate();
 			var day = (day_really < 10) ? "0"+day_really : day_really;
 			var today = datum.getFullYear() + "-" + month + "-" + day;
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE dueDate = ?", today);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE dueDate = ? ORDER BY sort_order ASC", today);
 		} else if ('scheduled' in params) {			
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE dueDate <> ''");
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE dueDate <> '' ORDER BY sort_order ASC");
 		} else if ('label' in params) {
 			var label_text = params["label"];
 			issuesRS = this.db.execute(
-				"SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE issue_id IN "+
-				"(SELECT issue_id FROM Label WHERE text = ?)", label_text);
+				"SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE issue_id IN "+
+				"(SELECT issue_id FROM Label WHERE text = ?) ORDER BY sort_order ASC", label_text);
 		} else if ('archived' in params) {
 			var archived = parseInt(params["archived"]);
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE archived = ?", archived);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE archived = ? ORDER BY sort_order ASC", archived);
 		} else {
 			Titanium.API.error("Zatim nelze issues filtrovat podle techto parametru");
 			return new Array();
@@ -119,6 +119,7 @@ var GTDModel = Class.create({
 			issue.state = issuesRS.fieldByName('state');
 			issue.status = issuesRS.fieldByName('status');
 			issue.project_type = issuesRS.fieldByName('project_type');
+			issue.sort_order = issuesRS.fieldByName('sort_order');
 			issue.labels = this.getLabels(this.getParamsObject("issue_id", issue.issue_id));
 			if (milestone_id != "")
 				issue.milestone = this.getMilestone(this.getParamsObject("milestone_id", milestone_id))
@@ -133,7 +134,7 @@ var GTDModel = Class.create({
 		var issuesRS = null;
 		if ('issue_id' in params) {			
 			var issueID = parseInt(params["issue_id"]);
-			issuesRS = this.db.execute('SELECT id,title,description,state,status,user_id,project_id FROM Issue WHERE issue_id = ?', issueID);		
+			issuesRS = this.db.execute('SELECT id,title,description,state,status,user_id,project_id,sort_order FROM Issue WHERE issue_id = ? ORDER BY sort_order ASC', issueID);		
 		} else {			
 			Titanium.API.error("Zatim nelze issues vyhledavat jinak nez podle issue_id");
 			return new Array();
@@ -148,7 +149,8 @@ var GTDModel = Class.create({
 			issue = new Issue(id, title, description);
 			issue.issue_id = issueID;
 			issue.state = issuesRS.fieldByName('state');
-			issue.status = issuesRS.fieldByName('status');			
+			issue.status = issuesRS.fieldByName('status');
+			issue.sort_order = issuesRS.fieldByName('sort_order');
 			issue.user = this.getUser(this.getParamsObject("user_id", issuesRS.fieldByName('user_id')));
 			project_id = issuesRS.fieldByName('project_id');
 			if (project_id != 0) {
@@ -446,6 +448,12 @@ var GTDModel = Class.create({
 			issue.user = new User("", "", null);
 			issue.user.user_id = 0;
 		}
+		if (issue.id != 0) {
+			var rs = db.execute("SELECT issue_id FROM Issue WHERE id = ?", issue.id);
+			if (rs.rowCount() > 0) {
+				issue.issue_id = rs.fieldByName("issue_id");
+			}
+		}
 		if (issue.issue_id != 0) {
 			db.execute(
 				'UPDATE Issue SET id = ?, title = ?, description = ?, status = ?, project_id = ?, milestone_id = ?, inbox = ?, user_id = ?, dueDate = ?, state = ? WHERE issue_id = ?'
@@ -510,7 +518,7 @@ var GTDModel = Class.create({
 		if (rs.rowCount() > 0) {
 			user_id = rs.fieldByName("user_id");
 			db.execute("UPDATE User SET name = ?, email = ?, id = ? WHERE user_id = ?", 
-						user.name, user.email, user.id, userID);
+						user.name, user.email, user.id, user_id);
 		} else {
 			db.execute("INSERT INTO User (name,email,id,project_id) VALUES (?,?,?,?)",
 						user.name, user.email, user.id, project_id);
@@ -552,5 +560,10 @@ var GTDModel = Class.create({
 		var app = Titanium.API.get("app");
 		var db = app.getDb();
 		db.execute("DELETE FROM Trash");
+	},
+	changeIssueOrder: function(issue_id, sort_order) {
+		var app = Titanium.API.get("app");
+		var db = app.getDb();
+		db.execute("UPDATE Issue SET sort_order = ? WHERE issue_id = ?", sort_order, issue_id);
 	}
 });

@@ -31,35 +31,36 @@ var GitHubAPI = Class.create(API, {
 		var issue, id, title, description, labels, milestone;
 		var issues = new Array();
 		var i = 0, j = 0;
-		json.each(function(item){
-			id = item.number;
-			title = item.title;
-			description = item.body;
-			issue = new Issue(id, title, description);
-			issue.project = new GitHubProject(project, "");
-			issue.state = (item.state == "open") ? 1 : 0;
-			
-			j = 0;
-			labels = new Array();
-			item.labels.each(function(label) {
-				labels[j++] = new Label(0, 0, label.name);
+		if (json.each != undefined)
+			json.each(function(item){
+				id = item.number;
+				title = item.title;
+				description = item.body;
+				issue = new Issue(id, title, description);
+				issue.project = new GitHubProject(project, "");
+				issue.state = (item.state == "open") ? 1 : 0;
+				
+				j = 0;
+				labels = new Array();
+				item.labels.each(function(label) {
+					labels[j++] = new Label(0, 0, label.name);
+				});
+				issue.labels = labels;
+				
+				milestone = null;
+				if (item.milestone != null) {
+					milestone = new Milestone(0, item.milestone.title, item.milestone.due_on, 0);
+				}
+				issue.milestone = milestone;
+				
+				user = null;
+				if (item.assignee != null) {
+					user = new User(item.assignee.login, "", 0);
+				}
+				issue.user = user;
+				
+				issues[i++] = issue;
 			});
-			issue.labels = labels;
-			
-			milestone = null;
-			if (item.milestone != null) {
-				milestone = new Milestone(0, item.milestone.title, item.milestone.due_on, 0);
-			}
-			issue.milestone = milestone;
-			
-			user = null;
-			if (item.assignee != null) {
-				user = new User(item.assignee.login, "", 0);
-			}
-			issue.user = user;
-			
-			issues[i++] = issue;
-		});
 		callback(issues);
 	},
 	getUsers: function(project, callback) {

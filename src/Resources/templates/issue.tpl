@@ -1,4 +1,4 @@
-<div class="issue">
+<div class="issue" id="issues_{issue_id}">
 	<div class="issueHeader">
 		<span class="handle"></span>
 		<span class="title {projectType}">{title}</span>
