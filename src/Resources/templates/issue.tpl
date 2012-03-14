@@ -12,15 +12,10 @@
 		<table>
 			<tr>
 				<td>
-					<label for="state_1">Change state:</label>
-					<select name="state" id="state_{issue_id}">
-						<option value="0"{state-active}>active</option>
-						<option value="1"{state-completed}>completed</option>
-					</select>
+					State: <strong>{state}</strong>
 				</td>
 				<td>
-					<label for="assignee_{issue_id}">Change assignee:</label>
-					<select name="assignee" id="assignee_{issue_id}">{coworkers}</select>
+					Assigned to: <strong>{assigned}</strong>				
 				</td>
 				<td>
 					<span class="issueComplete now{milestone-percent}">Milestone {milestone-percent}%</span>
@@ -33,8 +28,9 @@
 			</tr>
 			<tr>
 				<td align="right" colspan="3">					
-					<button class="minimal" data-key="{issue_id}" id="archiveIssue" style="float:left">Archive issue</button>
-					<button class="minimal" data-key="{issue_id}" id="trashIssue" style="float:left;margin-left:10px">Trash issue</button>
+					<button class="minimal" data-key="{issue_id}" id="archiveIssue" style="float:left">Archive</button>
+					<button class="minimal" data-key="{issue_id}" id="trashIssue" style="float:left;margin-left:10px">Trash</button>
+					<button class="minimal" data-key="{issue_id}" id="closeIssue" style="float:left;margin-left:10px">Close</button>
 					<button class="cupid-green" data-key="{issue_id}" id="editIssue">Edit issue</button>					
 				</td>
 			</tr>

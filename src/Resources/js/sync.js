@@ -188,5 +188,11 @@ var Sync = Class.create({
 		users.each(function(user){
 			model.saveUser(user, project.project_id);
 		});
+	},
+	closeIssue: function(issue_id) {
+		var sync = Titanium.API.get("sync");
+		var issue = sync.model.getIssue(sync.getParamsObject("issue_id", issue_id));
+		issue.state = 0;
+		sync.saveIssue(issue);
 	}
 });

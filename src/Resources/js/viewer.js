@@ -6,7 +6,7 @@ var GTDViewer = Class.create({
 		this.model = model;
 	},
 	showMessage: function(message) {
-		Titanium.API.error("CHYBA v aplikaci: " + message);
+		Titanium.API.error("Notification: " + message);
 	},
 	getFileContent: function(filename) {		
 		var resourceDir = Titanium.Filesystem.getResourcesDirectory();	
@@ -68,11 +68,17 @@ var GTDViewer = Class.create({
 			if (issuee.state) {
 				issue = issue.replace("{state-active}", ' checked="checked"');
 				issue = issue.replace("{state-completed}", '');
+				issue = issue.replace("{state}", 'open');
 			} else {
 				issue = issue.replace("{state-active}", '');
 				issue = issue.replace("{state-completed}", ' checked="checked"');
+				issue = issue.replace("{state}", 'closed');
 			}
-			issue = issue.replace("{coworkers}", '');
+			if (issue.user != null) {
+				issue = issue.replace("{assigned}", issue.user.name);
+			} else {
+				issue = issue.replace("{assigned}", 'none');
+			}			
 			if (issuee.milestone != null) {
 				milestonePercent = Titanium.API.get("model").getMilestonePercent(Titanium.API.get("model").getParamsObject("milestone_id", issuee.milestone.milestone_id));
 			} else {
@@ -80,10 +86,6 @@ var GTDViewer = Class.create({
 			}
 			issue = issue.replace(/{milestone-percent}/g, milestonePercent);
 			issue = issue.replace("{commits}", '');
-			
-			/*var editButton = new Element("button", {"class":"cupid-green", "data-key":issuee.issue_id, "id":"editIssue"}).update("Edit issue");
-			editButton.on("click", handleShowEditIssueDialog);
-			issue = issue.replace("{editButton}", editButton);*/
 			
 			cssClass = "";
 			labels = "";
@@ -139,7 +141,7 @@ var GTDViewer = Class.create({
 			
 			temp = temp.replace("{issue_count}", counts[project.project_id]["all"]);
 			temp = temp.replace("{issue_completed}", counts[project.project_id]["completed"]);
-			temp = temp.replace("{issue_due}", counts[project.project_id]["due"]);
+			temp = temp.replace("{issue_due}", counts[project.project_id]["due"]);						
 						
 			content += temp;
 		});
@@ -331,6 +333,24 @@ var GTDViewer = Class.create({
 		});		
 		$("issues").update("");
 		$("issues").update(content);
+		
+		if (projects.length > 0) {
+			var chart = null, userImpact = null;
+			projects.each(function(project) {
+				userImpact = viewer.model.getUserImpact(project.project_id);
+				chart = new Highcharts.Chart({
+					chart: {renderTo: 'container_' + project.project_id},
+					title: {text: 'User Impact'},
+					tooltip: {formatter: function() {return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';}},
+					series: [{
+						type: 'pie',
+						name: 'User Impact',
+						data: userImpact
+					}]
+				});
+			});
+		}
+		
 		$("editProjectButton").writeAttribute("data-key", 0);
 	}
 });

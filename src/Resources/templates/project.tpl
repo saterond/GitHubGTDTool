@@ -21,6 +21,9 @@
                     <td>{issue_completed}</td>
                     <td>{issue_due}</td>
                 </tr>
+                <tr>
+                    <div id="container_{project_id}" style="width: 400px; height: 250px; text-align: center">Graph of user impacts</div>
+                </tr>
             </tbody>
         </table>
     </div>
