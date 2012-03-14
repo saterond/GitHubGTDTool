@@ -190,9 +190,11 @@ var Sync = Class.create({
 		});
 	},
 	closeIssue: function(issue_id) {
+		var app = Titanium.API.get("app");
 		var sync = Titanium.API.get("sync");
 		var issue = sync.model.getIssue(sync.getParamsObject("issue_id", issue_id));
 		issue.state = 0;
+		issue.closed_on = app.getSQLDate(0);
 		sync.saveIssue(issue);
 	}
 });

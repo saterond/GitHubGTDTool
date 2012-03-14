@@ -85,12 +85,8 @@ var GTDModel = Class.create({
 			var inbox = parseInt(params["inbox"]);
 			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE inbox = ? AND state = 1 ORDER BY sort_order ASC", inbox);
 		} else if ('today' in params) {
-			var datum = new Date();
-			var month_really = datum.getMonth() + 1;
-			var month = (month_really < 10) ? "0"+month_really : month_really;
-			var day_really = datum.getDate();
-			var day = (day_really < 10) ? "0"+day_really : day_really;
-			var today = datum.getFullYear() + "-" + month + "-" + day;
+			var app = Titanium.API.get("app");
+			var today = app.getSQLDate(0);
 			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE dueDate = ? AND state = 1 ORDER BY sort_order ASC", today);
 		} else if ('scheduled' in params) {			
 			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE dueDate <> '' AND state = 1 ORDER BY sort_order ASC");
@@ -102,6 +98,11 @@ var GTDModel = Class.create({
 		} else if ('archived' in params) {
 			var archived = parseInt(params["archived"]);
 			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE archived = ? ORDER BY sort_order ASC", archived);
+		} else if ('review' in params) {
+			var modify = parseInt(params["review"]);
+			var app = Titanium.API.get("app");
+			var date = app.getSQLDate(modify);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE closed_on >= ? ORDER BY sort_order ASC", date);
 		} else {
 			Titanium.API.error("Zatim nelze issues filtrovat podle techto parametru");
 			return new Array();
@@ -471,12 +472,12 @@ var GTDModel = Class.create({
 		}
 		if (issue.issue_id != 0) {
 			db.execute(
-				'UPDATE Issue SET id = ?, title = ?, description = ?, status = ?, project_id = ?, milestone_id = ?, inbox = ?, user_id = ?, dueDate = ?, state = ? WHERE issue_id = ?'
-				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate, issue.state, issue.issue_id);
+				'UPDATE Issue SET id = ?, title = ?, description = ?, status = ?, project_id = ?, milestone_id = ?, inbox = ?, user_id = ?, dueDate = ?, state = ?, closed_on = ? WHERE issue_id = ?'
+				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate, issue.state, issue.closed_on, issue.issue_id);
 		} else {			
 			db.execute(
-				'INSERT INTO Issue (id, title, description, state, status, project_type, project_id, milestone_id, inbox, user_id, dueDate) VALUES (?,?,?,?,?,?,?,?,?,?,?)'
-				, issue.id, issue.title, issue.description, issue.state, issue.status, issue.project.type, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate);
+				'INSERT INTO Issue (id, title, description, state, status, project_type, project_id, milestone_id, inbox, user_id, dueDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'
+				, issue.id, issue.title, issue.description, issue.state, issue.status, issue.project.type, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate, issue.closed_on);
 			issue.issue_id = db.lastInsertRowId;
 		}		
 		if (issue.labels.length != 0) {

@@ -65,6 +65,7 @@ var Issue = Class.create({
 	inbox: false,
 	user: null,
 	sort_order: 0,
+	closed_on: null,
 	initialize: function(_id, _title, _description) {
 		this.id = _id;
 		this.title = _title;

@@ -32,6 +32,7 @@ Event.observe(window, 'load', function() {
 			Titanium.App.exit();
 		});
 		app.addSeparatorItem();		
+		
 		var sync = Titanium.UI.createMenuItem("Synchronization");
 		sync.addItem("Reload projects", function(e){
 			var viewer = Titanium.API.get("viewer");
@@ -45,6 +46,12 @@ Event.observe(window, 'load', function() {
 			var sync = Titanium.API.get("sync");
 			sync.syncUsers();
 		});
+		
+		var reviews = Titanium.UI.createMenuItem("Review");
+		reviews.addItem("Today", handleLoadDayReview);
+		reviews.addItem("This week", handleLoadWeekReview);
+		reviews.addItem("This month", handleLoadMonthReview);
+		
 		var help = Titanium.UI.createMenuItem("Help");
 		help.addItem("Main help", function(e){
 			alert("Not ready yet");
@@ -53,13 +60,17 @@ Event.observe(window, 'load', function() {
 		help.addItem("About Us", function(e){
 			alert("Not ready yet");
 		});
+		
 		var tests = Titanium.UI.createMenuItem("Run tests");
 		tests.addItem("Model", handleRunModelTest);
 		tests.addItem("Viewer", handleRunViewerTest);
+		
 		menu.appendItem(app);
 		menu.appendItem(sync);
+		menu.appendItem(reviews);
 		menu.appendItem(help);
 		menu.appendItem(tests);
+	    
 	    Titanium.UI.setMenu(menu);				
 	} else {
 		Titanium.API.info("Chyba s databazi");

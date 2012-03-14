@@ -121,6 +121,21 @@ function handleSelectProjectLabel(event, element) {
 	viewer.loadSelection(viewer.getParamsObject("plabel", label.text));
 }
 
+function handleLoadDayReview(event) {
+	var viewer = Titanium.API.get("viewer");
+	viewer.loadSelection(viewer.getParamsObject("selection", 2));
+}
+
+function handleLoadWeekReview(event) {
+	var viewer = Titanium.API.get("viewer");
+	viewer.loadSelection(viewer.getParamsObject("selection", 3));
+}
+
+function handleLoadMonthReview(event) {
+	var viewer = Titanium.API.get("viewer");
+	viewer.loadSelection(viewer.getParamsObject("selection", 4));
+}
+
 function handleLoadGlobalProjectOverview(event, element) {
 	var viewer = Titanium.API.get("viewer");
 	viewer.loadSelection(viewer.getParamsObject("selection", 7));

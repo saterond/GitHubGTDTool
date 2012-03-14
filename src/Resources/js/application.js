@@ -45,5 +45,18 @@ var GTDApplication = Class.create({
 		file.write(Titanium.JSON.stringify(this.config));
 		
 		Titanium.API.info('Configuration file has been changed!');
+	},
+	getSQLDate: function(modify) {
+		var datum = new Date();
+		if (modify != undefined && modify != 0)
+			datum.setDate(datum.getDate() - modify);
+		
+		var month_really = datum.getMonth() + 1;
+		var month = (month_really < 10) ? "0"+month_really : month_really;
+		var day_really = datum.getDate();
+		var day = (day_really < 10) ? "0"+day_really : day_really;
+		var today = datum.getFullYear() + "-" + month + "-" + day;
+		
+		return today;
 	}
 });
