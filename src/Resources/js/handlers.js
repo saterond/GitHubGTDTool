@@ -109,7 +109,16 @@ function handleSelectLabel(event, element) {
 	var key = element.readAttribute("data-key");
 	
 	var viewer = Titanium.API.get("viewer");
-	viewer.loadSelection(viewer.getParamsObject("label", key));
+	var label = viewer.model.getLabel(key);
+	viewer.loadSelection(viewer.getParamsObject("label", label.text));
+}
+
+function handleSelectProjectLabel(event, element) {
+	var key = element.readAttribute("data-key");
+	
+	var viewer = Titanium.API.get("viewer");
+	var label = viewer.model.getLabel(key);
+	viewer.loadSelection(viewer.getParamsObject("plabel", label.text));
 }
 
 function handleLoadGlobalProjectOverview(event, element) {

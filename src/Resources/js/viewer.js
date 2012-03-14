@@ -32,8 +32,7 @@ var GTDViewer = Class.create({
 		}
 		return false;
 	},
-	reloadProjects: function() {
-		$("loader").removeClassName("hidden");
+	reloadProjects: function() {		
 		var projects_db = this.model.getProjects();
 		var i = 0, html = new Array(), li = null, key = "", projects = new Array();
 		projects_db.each(function(project) {
@@ -50,7 +49,6 @@ var GTDViewer = Class.create({
 				bottom : li
 			});
 		});		
-		$("loader").addClassName("hidden");
 		
 		Titanium.API.set("projects", projects);
 	},
@@ -172,7 +170,7 @@ var GTDViewer = Class.create({
 			var label_span = null;
 			project_labels.each(function(label) {
 				label_span = new Element("span", {"class" : "label", "data-key" : label.label_id}).update(label.text);
-				label_span.on("click", handleSelectLabel);
+				label_span.on("click", handleSelectProjectLabel);
 				labels_wrapper.insert({
 					top : label_span
 				});
@@ -223,7 +221,10 @@ var GTDViewer = Class.create({
 			task = parseInt(params["selection"]);
 		} else if ('label' in params) {
 			task = 10;
-			selector = parseInt(params["label"]);
+			selector = params["label"];
+		} else if ('plabel' in params) {
+			task = 11;
+			selector = params["plabel"];
 		}
 		var viewer = Titanium.API.get("viewer");
 		var issues = null, projects = null, content = "", name = "", labels = new Array(), key = "";
@@ -283,6 +284,13 @@ var GTDViewer = Class.create({
 				key = "label*0*" + selector;
 				issues = viewer.model.getIssues(viewer.getParamsObject("label", selector));
 				content = viewer.generateIssueList(issues);
+				break;
+			case 11:
+				name = "Project label based selection";
+				key = "label*0*" + selector;
+				projects = viewer.model.getProjects(viewer.getParamsObject("plabel", selector));
+				var issue_counts = viewer.model.getIssueCounts(projects);
+				content = viewer.generateProjectList(projects, issue_counts);
 				break;
 			default:
 				name = "Unknown selection";

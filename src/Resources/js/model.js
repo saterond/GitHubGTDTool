@@ -11,8 +11,17 @@ var GTDModel = Class.create({
 		obj[key] = value;
 		return obj;
 	},
-	getProjects: function() {
-		var projectsRS = this.db.execute("SELECT * FROM Project");				
+	getProjects: function(params) {
+		if (params == undefined) {
+			var projectsRS = this.db.execute("SELECT * FROM project");
+		} else if ('plabel' in params) {
+			var label_text = params["plabel"];
+			var projectsRS = this.db.execute(
+				"SELECT * FROM project WHERE" + 
+				" EXISTS (SELECT project_id FROM Label WHERE Label.project_id = project.project_id AND Label.text = ?)", label_text);
+		} else {
+			var projectsRS = this.db.execute("SELECT * FROM project");
+		}
 		var projects = new Array(), i = 0, id, name, type, project, description, area_id;
 		while (projectsRS.isValidRow()) {			
 			id = projectsRS.fieldByName('project_id');
@@ -86,10 +95,10 @@ var GTDModel = Class.create({
 		} else if ('scheduled' in params) {			
 			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE dueDate <> ''");
 		} else if ('label' in params) {
-			var label_id = parseInt(params["label"]);
+			var label_text = params["label"];
 			issuesRS = this.db.execute(
 				"SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE issue_id IN "+
-				"(SELECT issue_id FROM Label WHERE label_id = ?)", label_id);
+				"(SELECT issue_id FROM Label WHERE text = ?)", label_text);
 		} else if ('archived' in params) {
 			var archived = parseInt(params["archived"]);
 			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id FROM Issue WHERE archived = ?", archived);
@@ -176,6 +185,19 @@ var GTDModel = Class.create({
 		}
 		issuesRS.close();
 		return issues;
+	},
+	getLabel: function(label_id) {
+		var rs = null, label = null, issue_id, project_id, text;
+		rs = this.db.execute("SELECT issue_id,project_id,text,local,text2 From Label WHERE label_id = ?", label_id);
+		if (rs.rowCount() > 0) {
+			issue_id = rs.fieldByName("issue_id");
+			project_id = rs.fieldByName("project_id");
+			text = rs.fieldByName("text");
+			label = new Label(label_id, issue_id, text, project_id);
+			label.local = rs.fieldByName("local");
+			label.text2 = rs.fieldByName("text2");
+		}
+		return label;
 	},
 	getLabels: function(params) {
 		var labelsRS = null;
