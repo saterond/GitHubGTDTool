@@ -9,8 +9,8 @@ var Sync = Class.create({
 		this.config = config;
 		this.db = database;		
 		this.model = model;
-		//this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
-		//this.gcode.username = this.config.gcode.name;
+		this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
+		this.gcode.username = this.config.gcode.name;
 		this.assembla = new AssemblaAPI(this.config.assembla.name, this.config.assembla.password, this.config.assembla.user_id);
 		this.github = new GitHubAPI(this.config.github.name, this.config.github.auth);
 	},
@@ -33,9 +33,11 @@ var Sync = Class.create({
 			case 1: 
 				this.assembla.getIssues(project, this.saveIssuesToDatabase);
 				this.assembla.getMilestones(project, this.saveMilestonesToDatabase);
+				this.assembla.getUsers(project, this.saveUsersToDatabase);
 				break;
 			case 2:
-				this.gcode.getIssues(project, this.saveIssuesToDatabase); 
+				this.gcode.getIssues(project, this.saveIssuesToDatabase);
+				this.gcode.getUsers(project, this.saveUsersToDatabase);
 				break;
 			case 3:
 				this.github.getIssues(project, this.saveIssuesToDatabase); 
@@ -69,21 +71,21 @@ var Sync = Class.create({
 				if (issue.id != 0) {
 					this.assembla.editIssue(issue, this.showMessage);
 				} else {
-					this.assembla.addIssue(issue, this.model.saveIssueNumberInDatabase);
+					this.assembla.addIssue(issue, this.model.saveIssueNumber);
 				}				
 				break;
 			case 2:				
 				if (issue.id != 0) {
 					this.gcode.editIssue(issue, this.showMessage);
 				} else {					
-					this.gcode.addIssue(issue, this.model.saveIssueNumberInDatabase);	
+					this.gcode.addIssue(issue, this.model.saveIssueNumber);	
 				} 
 				break;
 			case 3:
 				if (issue.id != 0) {
 					this.github.editIssue(issue, this.showMessage);
 				} else {
-					this.github.addIssue(issue, this.model.saveIssueNumberInDatabase);	
+					this.github.addIssue(issue, this.model.saveIssueNumber);	
 				}
 				break;
 		}

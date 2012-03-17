@@ -77,6 +77,7 @@ var AssemblaAPI = Class.create(API, {
 			if (milestoneID != '') {
 				issue.milestone = new Milestone(milestoneID, '', '', 0);
 			}
+			issue.labels = new Array();
 			issues[i] = issue;
 		}
 		callback(issues);
@@ -171,7 +172,11 @@ var AssemblaAPI = Class.create(API, {
 		data += "<ticket>";
 		//data += "<number>" + issue.id + "</number>";
 		data += "<summary>" + issue.title + "</summary>";
-		data += "<description>" + issue.description + "</description>";
+		if (issue.description != "") {
+			data += "<description>" + issue.description + "</description>";
+		} else {
+			data += "<description>created from GTD Tool app</description>";			
+		}
 		data += "<priority>1</priority>";
 		if (issue.user != null && issue.user.id != 0)
 			data += "<assigned-to-id>" + issue.user.id + "</assigned-to-id>";

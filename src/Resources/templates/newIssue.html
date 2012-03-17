@@ -130,6 +130,8 @@
                         <select name="assignee" id="assignee">
                             <option value="0"> - none - </option>
                         </select>
+                        &nbsp;
+                        <input type="text" name="newassignee" id="newassignee" value="" placeholder="New user" />
                     </td>
                 </tr>
                 <tr>
@@ -210,7 +212,10 @@
                     
                     field = form["assignee"];
                     var assignee = $(field);
-                    var user_id = assignee.value;                    
+                    var user_id = assignee.value;
+                    
+                    field = form["newassignee"];
+                    var newassignee = $(field).getValue();
                     
                     field = form["labels"];
                     var labels_raw = $(field).getValue();
@@ -241,8 +246,13 @@
 					if (user_id != 0) {
 					    issue.user = sync.model.getUser(sync.getParamsObject("user_id", user_id));				        
 					} else {
-					    issue.user = new User("", "", null);
-					    issue.user.user_id = 0;
+					    if (newassignee != "") {
+					        issue.user = new User(newassignee, "", null);
+                            issue.user.user_id = 0;
+					    } else {
+    					    issue.user = new User("", "", null);
+    					    issue.user.user_id = 0;
+					    }
 					}
 					if (milestone != 0) {
     					issue.milestone = sync.model.getMilestone(sync.getParamsObject("milestone_id", milestone));    					

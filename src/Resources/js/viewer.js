@@ -162,7 +162,7 @@ var GTDViewer = Class.create({
 		}
 				
 		var key = project.name+'*'+project.type+'*'+projectID;
-		var syncButton = new Element("button", {"id" : "syncIssues", "data-key" : key}).update("Sync issues");
+		var syncButton = new Element("button", {"id" : "syncIssues", "data-key" : key, "class" : "cupid-blue"}).update("Sync issues");
 		syncButton.on("click", handleSyncIssues);
 		$$("div.projectButtons").each(function(e) {
 			e.update(syncButton);
@@ -340,7 +340,7 @@ var GTDViewer = Class.create({
 		$("issues").update("");
 		$("issues").update(content);
 		
-		if (projects.length > 0) {
+		if (projects != null && projects.length > 0) {
 			var chart = null, userImpact = null;
 			projects.each(function(project) {
 				userImpact = viewer.model.getUserImpact(project.project_id);

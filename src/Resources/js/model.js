@@ -463,6 +463,9 @@ var GTDModel = Class.create({
 		if (issue.user == null) {
 			issue.user = new User("", "", null);
 			issue.user.user_id = 0;
+		} else if (issue.user.name != "") {
+			issue.user.project = issue.project;
+			issue.user.user_id = model.saveUser(issue.user);
 		}
 		if (issue.id != 0) {
 			var rs = db.execute("SELECT issue_id FROM Issue WHERE id = ?", issue.id);
@@ -476,7 +479,7 @@ var GTDModel = Class.create({
 				, issue.id, issue.title, issue.description, issue.status, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate, issue.state, issue.closed_on, issue.issue_id);
 		} else {			
 			db.execute(
-				'INSERT INTO Issue (id, title, description, state, status, project_type, project_id, milestone_id, inbox, user_id, dueDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'
+				'INSERT INTO Issue (id, title, description, state, status, project_type, project_id, milestone_id, inbox, user_id, dueDate, closed_on) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'
 				, issue.id, issue.title, issue.description, issue.state, issue.status, issue.project.type, issue.project.project_id, milestoneID, issue.inbox, issue.user.user_id, issue.dueDate, issue.closed_on);
 			issue.issue_id = db.lastInsertRowId;
 		}		

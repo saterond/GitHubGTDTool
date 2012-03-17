@@ -45,20 +45,61 @@ var GCodeAPI = Class.create(API, {
 		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
 		data += '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:issues="http://schemas.google.com/projecthosting/issues/2009">';
 		if (issue.id != 0) {
-			var id = "https://code.google.com/feeds/issues/p/" + issue.project + "/issues/full/" + issue.id;
+			var id = "https://code.google.com/feeds/issues/p/" + issue.project.name + "/issues/full/" + issue.id;
 			data += "<id>" + id + "</id>";
 		}
-		data += "<content type='html'>" + issue.description + "</content>";
+		if (issue.description != "") {
+			data += "<content type=\"html\">" + issue.description + "</content>";
+		} else {
+			data += "<content type=\"html\">created from GTD Tool app</content>";
+		}
 		data += "<title>" + issue.title + "</title>";
+		data += "<issues:owner>";
+		data += "<issues:username>" + this.username + "</issues:username>";
+		data += "</issues:owner>";
 		data += "<author>";
 	    data += "<name>" + this.username + "</name>";
 	  	data += "</author>";
 		issue.labels.each(function(item) {
-			data += "<issues:label>"+item+"</issues:label>";
+			data += "<issues:label>"+item.text+"</issues:label>";
 		});		
 		if (issue.status != "") {
 			data += "<issues:status>"+issue.status+"</issues:status>";
+		} else {
+			data += "<issues:status>New</issues:status>";
 		}
+		data += "</entry>";
+		
+		var file = Titanium.Filesystem.createTempFile();
+		file.write(data);
+		var uploadStream = Titanium.Filesystem.getFileStream(file);
+		uploadStream.open(Titanium.Filesystem.MODE_READ);
+		var content = uploadStream.read();
+		uploadStream.close();
+		
+		return content;
+	},
+	convertIssueToUpdateRequest: function(issue) {
+		var data = '<?xml version="1.0" encoding="UTF-8" ?>';
+		data += '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:issues="http://schemas.google.com/projecthosting/issues/2009">';
+		/*if (issue.id != 0) {
+			var id = "https://code.google.com/feeds/issues/p/" + issue.project.name + "/issues/full/" + issue.id;
+			data += "<id>" + id + "</id>";
+		}*/
+		data += "<content type='html'>" + issue.description + "</content>";
+		
+		data += "<author>";
+	    data += "<name>" + this.username + "</name>";
+	  	data += "</author>";
+	  	data += "<issues:updates>";
+	  	//data += "<issues:title>" + issue.title + "</title>";
+		issue.labels.each(function(item) {
+			data += "<issues:label>"+item.text+"</issues:label>";
+		});
+		if (issue.state == 0) {
+			data += "<issues:status>Fixed</issues:status>";
+		}
+		data += "</issues:updates>";
 		data += "</entry>";
 		
 		var file = Titanium.Filesystem.createTempFile();
@@ -95,6 +136,7 @@ var GCodeAPI = Class.create(API, {
 			issue = new Issue(id, name, description);
 			issue.status = status;
 			issue.project = new GCodeProject(projectName, "");
+			issue.labels = new Array();
 			issues[i] = issue;
 		}
 		callback(issues);
@@ -106,7 +148,7 @@ var GCodeAPI = Class.create(API, {
 		
 		this.restClient.sendFile(requestURL, "POST", content, "", this.confirmNewIssue, callback, issue.issue_id);
 	},
-	confirmNewIssue: function(xmlDoc, callback, issue_id) {		
+	confirmNewIssue: function(xmlDoc, callback, issue_id) {
 		var entries = xmlDoc.getElementsByTagName("entry");
 		var count = entries.length;
 		var id_full, parts, number;
@@ -121,9 +163,9 @@ var GCodeAPI = Class.create(API, {
 		callback(issue);
 	},
 	editIssue: function(issue, callback) {
-		var name = issue.project;
-		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full/" + issue.id;		
-		var content = this.convertIssueToPOSTRequest(issue);
+		var name = issue.project.name;
+		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/" + issue.id + "/comments/full";
+		var content = this.convertIssueToUpdateRequest(issue);
 		
 		this.restClient.sendFile(requestURL, "POST", content, "", this.confirmEditIssue, callback);
 	},
@@ -148,7 +190,7 @@ var GCodeAPI = Class.create(API, {
 		callback(users, project);
 	},
 	getLabels: function(issue, callback) {
-		var name = issue.project;
+		var name = issue.project.name;
 		var requestURL = "https://code.google.com/feeds/issues/p/"+name+"/issues/full?id=" + issue.id;		
 		
 		this.restClient.sendRequest(requestURL, "GET", this.parseLabels, callback);
