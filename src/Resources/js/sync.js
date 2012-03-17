@@ -9,8 +9,8 @@ var Sync = Class.create({
 		this.config = config;
 		this.db = database;		
 		this.model = model;
-		this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
-		this.gcode.username = this.config.gcode.name;
+		//this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
+		//this.gcode.username = this.config.gcode.name;
 		this.assembla = new AssemblaAPI(this.config.assembla.name, this.config.assembla.password, this.config.assembla.user_id);
 		this.github = new GitHubAPI(this.config.github.name, this.config.github.auth);
 	},

@@ -20,6 +20,14 @@ h3 {margin-bottom: 7px;}
 .divider {width: 100%; display: block; height: 1px; background: #a0a0a0; margin: 10px 0;}
 .hidden {display: none;}
 
+.notifications {
+	position: absolute; right: 20px; top: 20px; 
+	padding: 15px 60px; 
+	background-color: #FFD473; 
+	color: #A67300; font-weight: bold;
+	border-radius: 7px;
+}
+
 #sidebar h3 {color: #fff;}
 #sidebar ul.items {list-style-type: none; padding: 0; width: 100%;}
 #sidebar ul.items li {
@@ -274,7 +282,7 @@ button.cupid-blue {
   color: #fff; font: bold 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
   line-height: 1; text-align: center; text-shadow: 0 -1px 0 #4c9021;
   padding: 7px 0 8px 0;
-  width: 250px; }
+  width: 100px; }
   button.cupid-blue:hover {
     background-color: rgb(25,120,171);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(25,120,171)), color-stop(100%, rgb(53,156,206)));

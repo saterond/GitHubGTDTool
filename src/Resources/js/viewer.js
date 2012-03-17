@@ -7,6 +7,8 @@ var GTDViewer = Class.create({
 	},
 	showMessage: function(message) {
 		Titanium.API.error("Notification: " + message);
+		$("notifications").update(message);
+		new Effect.Notify('notifications');
 	},
 	getFileContent: function(filename) {		
 		var resourceDir = Titanium.Filesystem.getResourcesDirectory();	

@@ -1,4 +1,13 @@
 Event.observe(window, 'load', function() {
+	Effect.Notify = function(element) {
+		element = $(element);
+		return new Effect.Appear(element, {
+			afterFinishInternal: function(effect) {
+				new Effect.Fade(effect.element,{ delay: 2.0 });
+			}
+		});
+	}
+	
 	var app = new GTDApplication();
 	if (app.dbOk) {
 		var model = new GTDModel(app.getDb());
@@ -6,7 +15,7 @@ Event.observe(window, 'load', function() {
 		var sync = new Sync(app.getConfig(), app.getDb(), model);
 		Titanium.API.info("Sync ready");
 		var viewer = new GTDViewer(app.getDb(), model);
-		Titanium.API.info("Viewer ready");		
+		Titanium.API.info("Viewer ready");
 		
 		Titanium.API.set("app", app);
 		Titanium.API.set("sync", sync);
@@ -122,5 +131,5 @@ document.observe("dom:loaded", function() {
 	handlerCloseIssue.stop();handlerCloseIssue.start();
 	
 	var handlerShowIssueInfo = document.on('click', 'button[class~="showInfo"]', handleShowIssueInfo.bind(this));
-	handlerShowIssueInfo.stop();handlerShowIssueInfo.start();
+	handlerShowIssueInfo.stop();handlerShowIssueInfo.start();		
 });
