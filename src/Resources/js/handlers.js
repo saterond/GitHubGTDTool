@@ -141,23 +141,31 @@ function handleLoadGlobalProjectOverview(event, element) {
 	viewer.loadSelection(viewer.getParamsObject("selection", 7));
 }
 
-function handleSyncIssues(event, element) {	
+function handleSyncIssues(event, element) {
+	var model = Titanium.API.get("model");
 	var key = element.readAttribute("data-key");
 	var parts = key.split('*');
-	var project = null;
 	
-	switch(parseInt(parts[1])) {
-		case 1:
-			project = new AssemblaProject(parts[0], "");
-			break;
-		case 2:
-			project = new GCodeProject(parts[0], "");
-			break;
-		case 3:				
-			project = new GitHubProject(parts[0], "");
-			break;
-		default:
-			Titanium.API.error("Nepodporovany typ projektu (events)");
+	var params = new Object();
+	params["project_type"] = parseInt(parts[1]);
+	params["project_name"] = parts[0];
+	
+	var project = model.getProject(params);
+	
+	if (project == null) {
+		switch(parseInt(parts[1])) {
+			case 1:
+				project = new AssemblaProject(parts[0], "");
+				break;
+			case 2:
+				project = new GCodeProject(parts[0], "");
+				break;
+			case 3:				
+				project = new GitHubProject(parts[0], "");
+				break;
+			default:
+				Titanium.API.error("Nepodporovany typ projektu (events)");
+		}
 	}
 	
 	var sync = Titanium.API.get("sync");		

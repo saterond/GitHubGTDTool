@@ -43,15 +43,15 @@ var GTDModel = Class.create({
 	},
 	getProject: function(params) {
 		var viewer = Titanium.API.get("viewer");
-		var rs = null,project,name,description,area_id;
+		var rs = null,project,name,description,area_id,projectID;
 		if ('project_id' in params) {			
-			var projectID = parseInt(params["project_id"]);
+			projectID = parseInt(params["project_id"]);
 			rs = this.db.execute('SELECT name,description,type,state,area_id From project WHERE project_id = ? LIMIT 1', projectID);			
 		} else if (('project_name' in params) && ('project_type' in params)) {
 			var project_name = params["project_name"];
 			var project_type = params["project_type"];
 			rs = this.db.execute('SELECT project_id,name,description,type,state,area_id From project WHERE name = ? AND type = ? LIMIT 1', project_name, project_type);
-			var projectID = rs.fieldByName('project_id');
+			projectID = rs.fieldByName('project_id');
 		} else {
 			Titanium.API.error("Zatim nelze issues filtrovat jinak nez podle project_id");
 			return null;
@@ -513,17 +513,35 @@ var GTDModel = Class.create({
 	saveMilestone: function(milestone, project_id) {
 		var app = Titanium.API.get("app");		
 		var db = app.getDb();
+		var milestone_id = 0, rs = null;
 		if (milestone.project_id != 0)
 			project_id = milestone.project_id;
-		var rs = db.execute("SELECT milestone_id FROM Milestone WHERE title = ? AND project_id = ? LIMIT 1"
-			, milestone.title, project_id);
-		var milestone_id = 0;
-		if (rs.rowCount() == 0) {
-			db.execute("INSERT INTO Milestone (id,title,date,project_id) VALUES (?,?,?,?)"
-				, milestone.id, milestone.title, milestone.date, project_id);
-			milestone_id = db.lastInsertRowId;
+		if (milestone.id != 0) {
+			rs = db.execute("SELECT milestone_id FROM Milestone WHERE id = ? AND project_id = ?", milestone.id, project_id);
+			if (rs.rowCount() > 0) {
+				milestone_id = rs.fieldByName("milestone_id");
+				if (milestone.title != "" && milestone.date != "") {
+					db.execute("UPDATE Milestone SET title = ?, date = ? WHERE milestone_id = ?", milestone.title, milestone.date, milestone_id);
+				} else if (milestone.title != "") {
+					db.execute("UPDATE Milestone SET title = ? WHERE milestone_id = ?", milestone.title, milestone_id);
+				} else if (milestone.date != "") {
+					db.execute("UPDATE Milestone SET date = ? WHERE milestone_id = ?", milestone.date, milestone_id);
+				}
+			} else {
+				db.execute("INSERT INTO Milestone (id,title,date,project_id) VALUES (?,?,?,?)"
+					, milestone.id, milestone.title, milestone.date, project_id);
+				milestone_id = db.lastInsertRowId;
+			}
 		} else {
-			milestone_id = rs.fieldByName("milestone_id");
+			rs = db.execute("SELECT milestone_id FROM Milestone WHERE title = ? AND project_id = ? LIMIT 1"
+				, milestone.title, project_id);			
+			if (rs.rowCount() == 0) {
+				db.execute("INSERT INTO Milestone (id,title,date,project_id) VALUES (?,?,?,?)"
+					, milestone.id, milestone.title, milestone.date, project_id);
+				milestone_id = db.lastInsertRowId;
+			} else {
+				milestone_id = rs.fieldByName("milestone_id");
+			}
 		}
 		return milestone_id;
 	},

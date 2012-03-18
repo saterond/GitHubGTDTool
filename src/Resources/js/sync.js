@@ -156,22 +156,26 @@ var Sync = Class.create({
 		var model = Titanium.API.get("model");
 		var projectType, projectID = null, project;
 		issues.each(function(issue) {
-			if (projectID == null) {
+			if (projectID == null && (issue.project == null || issue.project.project_id == 0)) {
 				var params = new Object();
 				params["project_type"] = issue.project.type;
 				params["project_name"] = issue.project.name;
 				project = model.getProject(params);
 				projectType = project.type;
 				projectID = project.project_id;
+			} else if (issue.project != null && issue.project.project_id != 0) {
+				project = issue.project;
+				projectType = project.type;
+				projectID = project.project_id;
 			}
-			if (issue.milestone != null)
+			if (issue.milestone != null && projectType != 1)
 				model.saveMilestone(issue.milestone, projectID);
 			if (issue.user != null)
 				model.saveUser(issue.user, projectID);
 			issue.project = project;
 			model.saveIssue(issue);
 		});
-		if (projectType != 1 && projectID != null) {
+		if (projectID != null && projectID != 0) {
 			var viewer = Titanium.API.get("viewer");
 			viewer.reloadIssues(projectID);
 		}

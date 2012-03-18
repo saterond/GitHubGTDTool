@@ -54,7 +54,7 @@ var AssemblaAPI = Class.create(API, {
 	getIssues: function(project, callback) {
 		var name = this.webalizeString(project.getName());
 		var requestURL = "http://www.assembla.com/spaces/"+name+"/tickets/";
-		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback, project.name);
+		this.restClient.sendRequest(requestURL, "GET", this.parseIssues, callback, project);
 	},
 	parseIssues: function(xmlDoc, callback, project) {
 		var tickets = xmlDoc.getElementsByTagName("ticket");
@@ -64,7 +64,11 @@ var AssemblaAPI = Class.create(API, {
 		for(i = 0; i < count; i++) {				
 			id = tickets[i].getElementsByTagName("number")[0].childNodes[0].nodeValue;
 			name = tickets[i].getElementsByTagName("summary")[0].childNodes[0].nodeValue;
-			description = tickets[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;
+			if (tickets[i].getElementsByTagName("description")[0].childNodes[0] != undefined) {
+				description = tickets[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;	
+			} else {
+				description = "";
+			}
 			status = tickets[i].getElementsByTagName("status-name")[0].childNodes[0].nodeValue;
 			if (tickets[i].getElementsByTagName("milestone-id")[0].childNodes[0] != undefined) {
 				milestoneID = tickets[i].getElementsByTagName("milestone-id")[0].childNodes[0].nodeValue;
@@ -73,7 +77,7 @@ var AssemblaAPI = Class.create(API, {
 			}
 			issue = new Issue(id, name, description);
 			issue.status = status;
-			issue.project = new AssemblaProject(project, "");
+			issue.project = project;
 			if (milestoneID != '') {
 				issue.milestone = new Milestone(milestoneID, '', '', 0);
 			}
@@ -253,7 +257,6 @@ var AssemblaAPI = Class.create(API, {
 		this.restClient.sendFile(requestURL, "PUT", fullContent, boundary, this.confirmEditIssue, callback);			
 	},
 	confirmEditIssue: function(response, callback) {
-		console.log(response);
 		var message = "Issue changed";
 		callback(message);
 	},
@@ -286,7 +289,7 @@ var AssemblaAPI = Class.create(API, {
 			} else {
 				date = '';
 			}
-			milestone = new Milestone(id, title, date, project);
+			milestone = new Milestone(id, title, date, project.project_id);
 			milestones[i] = milestone;
 		}
 		callback(milestones, project);
