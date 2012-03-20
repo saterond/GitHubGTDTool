@@ -13,6 +13,7 @@
 		<script type="text/javascript">
 			Event.observe(window, 'load', function() {
 			    var projects = Titanium.API.get("projects");
+			    var sync = Titanium.API.get("sync");
 				
 				var option = "";
 				$('issue_project').insert('<option value="0">INBOX</option>');
@@ -23,6 +24,12 @@
 				
 				var activeProject = Titanium.API.get("active");				
 				
+				$("assignee").update("");
+                var option = new Element("option", {"value" : 0}).update(" - none - ");
+                $("assignee").insert({
+                    bottom : option
+                });
+                
 				if (activeProject != "") {
 				    var parts = activeProject.split("*"), key = 0;
 				    if (parts[0] == "project") {
@@ -36,11 +43,18 @@
                         throw $break;
                       }
                     });
+                    
+                    var users = sync.model.getUsers(sync.getParamsObject("project_id", key));
+                    users.each(function(user) {
+                        option = new Element("option", {"value" : user.user_id}).update(user.name);
+                        $("assignee").insert({
+                            bottom : option
+                        });
+                    });
 				}
 				
 				var editIssueID = Titanium.API.get("editIssue");
-				if (editIssueID != 0 && editIssueID != null) {
-    				var sync = Titanium.API.get("sync");
+				if (editIssueID != 0 && editIssueID != null) {    				
     				var issue = sync.model.getIssue(sync.getParamsObject("issue_id", editIssueID));
     				if (issue != null) {
     				    var form = $('dialogNewIssue');
@@ -62,19 +76,6 @@
                             field = form["labels"];
                             $(field).setValue(labels);
                         }
-                        
-                        var users = sync.model.getUsers(sync.getParamsObject("project_id", issue.project.project_id));
-                        $("assignee").update("");
-                        var option = new Element("option", {"value" : 0}).update(" - none - ");
-                        $("assignee").insert({
-                            bottom : option
-                        });
-                        users.each(function(user) {
-                            option = new Element("option", {"value" : user.user_id}).update(user.name);
-                            $("assignee").insert({
-                                bottom : option
-                            });
-                        });
                         
                         if (issue.user.user_id != 0) {
                             key = issue.user.user_id;
@@ -127,8 +128,7 @@
                 <tr>
                     <td>
                         <label for="assignee">Assignee</label><br>
-                        <select name="assignee" id="assignee">
-                            <option value="0"> - none - </option>
+                        <select name="assignee" id="assignee">                            
                         </select>
                         &nbsp;
                         <input type="text" name="newassignee" id="newassignee" value="" placeholder="New user" />

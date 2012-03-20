@@ -80,40 +80,42 @@ var GTDModel = Class.create({
 		var issuesRS = null;
 		if ('project_id' in params) {			
 			var projectID = parseInt(params["project_id"]);
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE project_id = ? AND state = 1 ORDER BY sort_order ASC", projectID);			
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order,user_id,project_id FROM Issue WHERE project_id = ? AND state = 1 ORDER BY sort_order ASC", projectID);			
 		} else if ('inbox' in params) {
 			var inbox = parseInt(params["inbox"]);
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE inbox = ? AND state = 1 ORDER BY sort_order ASC", inbox);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order,user_id,project_id FROM Issue WHERE inbox = ? AND state = 1 ORDER BY sort_order ASC", inbox);
 		} else if ('today' in params) {
 			var app = Titanium.API.get("app");
 			var today = app.getSQLDate(0);
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE dueDate = ? AND state = 1 ORDER BY sort_order ASC", today);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order,user_id,project_id FROM Issue WHERE dueDate = ? AND state = 1 ORDER BY sort_order ASC", today);
 		} else if ('scheduled' in params) {			
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE dueDate <> '' AND state = 1 ORDER BY sort_order ASC");
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order,user_id,project_id FROM Issue WHERE dueDate <> '' AND state = 1 ORDER BY sort_order ASC");
 		} else if ('label' in params) {
 			var label_text = params["label"];
 			issuesRS = this.db.execute(
-				"SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE state = 1 AND issue_id IN "+
+				"SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order,user_id,project_id FROM Issue WHERE state = 1 AND issue_id IN "+
 				"(SELECT issue_id FROM Label WHERE text = ?) ORDER BY sort_order ASC", label_text);
 		} else if ('archived' in params) {
 			var archived = parseInt(params["archived"]);
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE archived = ? ORDER BY sort_order ASC", archived);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order,user_id,project_id FROM Issue WHERE archived = ? ORDER BY sort_order ASC", archived);
 		} else if ('review' in params) {
 			var modify = parseInt(params["review"]);
 			var app = Titanium.API.get("app");
 			var date = app.getSQLDate(modify);
-			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order FROM Issue WHERE closed_on >= ? ORDER BY sort_order ASC", date);
+			issuesRS = this.db.execute("SELECT id,title,description,issue_id,state,status,project_type,milestone_id,sort_order,user_id,project_id FROM Issue WHERE closed_on >= ? ORDER BY sort_order ASC", date);
 		} else {
 			Titanium.API.error("Zatim nelze issues filtrovat podle techto parametru");
 			return new Array();
 		}
-		var issues = new Array(), i = 0, id, title, description, issue, milestone_id;
+		var issues = new Array(), i = 0, id, title, description, issue, milestone_id, user_id, project_id;
 		var paramss = new Object();
 		while (issuesRS.isValidRow()) {			
 			id = issuesRS.fieldByName('id');
 			title = issuesRS.fieldByName('title');
 			description = issuesRS.fieldByName('description');
 			milestone_id = issuesRS.fieldByName('milestone_id');
+			user_id = issuesRS.fieldByName('user_id');
+			project_id = issuesRS.fieldByName('project_id');
 			
 			issue = new Issue(id, title, description);
 			issue.issue_id = issuesRS.fieldByName('issue_id');
@@ -122,6 +124,9 @@ var GTDModel = Class.create({
 			issue.project_type = issuesRS.fieldByName('project_type');
 			issue.sort_order = issuesRS.fieldByName('sort_order');
 			issue.labels = this.getLabels(this.getParamsObject("issue_id", issue.issue_id));
+			issue.user = this.getUser(this.getParamsObject("user_id", user_id));
+			if (project_id != 0)
+				issue.project = this.getProject(this.getParamsObject("project_id", project_id));
 			if (milestone_id != "")
 				issue.milestone = this.getMilestone(this.getParamsObject("milestone_id", milestone_id))
 			
@@ -419,14 +424,17 @@ var GTDModel = Class.create({
 	},
 	getUserImpact: function(project_id) {
 		var app = Titanium.API.get("app");
-		var db = app.getDb(), impact = new Array(), username, count, entry, i = 0;
-		var rs = db.execute("SELECT User.name as jmeno,count(Issue.issue_id) as pocet FROM Issue LEFT JOIN User ON Issue.user_id = User.user_id WHERE Issue.state = 0 AND Issue.project_id = ? GROUP BY Issue.user_id", project_id);
+		var db = app.getDb(), impact = new Array(), username, count, entry, i = 0, percent = 0;
+		var rs = db.execute("SELECT count(issue_id) as pocet FROM Issue WHERE state = 0 AND project_id = ?", project_id);
+		var all_count = rs.fieldByName("pocet");
+		rs = db.execute("SELECT User.name as jmeno,count(Issue.issue_id) as pocet FROM Issue LEFT JOIN User ON Issue.user_id = User.user_id WHERE Issue.state = 0 AND Issue.project_id = ? GROUP BY Issue.user_id", project_id);
 		while(rs.isValidRow()) {
 			count = rs.fieldByName("pocet");
 			username = rs.fieldByName("jmeno");
 			if (username == "")
 				username = "not assigned";
-			entry = new Array(username, count);
+			percent = (all_count / 100) * count;
+			entry = new Array(username, percent);
 			impact[i++] = entry;
 			rs.next();
 		}

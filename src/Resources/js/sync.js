@@ -64,6 +64,10 @@ var Sync = Class.create({
 		});
 	},
 	saveIssue: function(issue) {
+		/*if (issue.user != null && issue.user.user_id == 0) {
+			var user_id = this.model.saveUser(issue.user);
+			issue.user.user_id = user_id;
+		}*/
 		var issue_id = this.model.saveIssue(issue);
 		issue.issue_id = issue_id;
 		switch(issue.project_type) {

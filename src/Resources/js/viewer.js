@@ -54,13 +54,20 @@ var GTDViewer = Class.create({
 		
 		Titanium.API.set("projects", projects);
 	},
-	generateIssueList: function(issues) {
+	generateIssueList: function(issues, showProjectName) {
+		if (showProjectName == undefined) {
+			showProjectName = true;
+		}
 		var issue = "", content = "", type = "", labels, cssClass, milestonePercent = 0;
 		var template = this.getFileContent("templates/issue.tpl");		
 		issues.each(function(issuee) {			
 			issue = template;
 			issue = issue.replace(/{issue_id}/g, issuee.issue_id);
-			issue = issue.replace("{title}", issuee.title);
+			if (showProjectName && issuee.project != null) {
+				issue = issue.replace("{title}", issuee.project.name + " / " + issuee.title);
+			} else {
+				issue = issue.replace("{title}", issuee.title);
+			}
 			if (issuee.description != null) {
 				issue = issue.replace("{description-short}", issuee.description.substr(0, 100));
 			} else {
@@ -76,8 +83,8 @@ var GTDViewer = Class.create({
 				issue = issue.replace("{state-completed}", ' checked="checked"');
 				issue = issue.replace("{state}", 'closed');
 			}
-			if (issue.user != null) {
-				issue = issue.replace("{assigned}", issue.user.name);
+			if (issuee.user != null) {
+				issue = issue.replace("{assigned}", issuee.user.name);
 			} else {
 				issue = issue.replace("{assigned}", 'none');
 			}			
@@ -154,7 +161,7 @@ var GTDViewer = Class.create({
 		var project = this.model.getProject(this.getParamsObject("project_id", projectID));
 		var labels = this.model.getDistinctLabels(this.getParamsObject("project_id", projectID));
 		var project_labels = this.model.getLabels(this.getParamsObject("project_id", projectID));
-		var content = this.generateIssueList(issues);
+		var content = this.generateIssueList(issues, false);
 		
 		var type = "general";
 		switch(project.type) {
@@ -164,11 +171,17 @@ var GTDViewer = Class.create({
 		}
 				
 		var key = project.name+'*'+project.type+'*'+projectID;
-		var syncButton = new Element("button", {"id" : "syncIssues", "data-key" : key, "class" : "cupid-blue"}).update("Sync issues");
-		syncButton.on("click", handleSyncIssues);
-		$$("div.projectButtons").each(function(e) {
-			e.update(syncButton);
-		});
+		if (project.type != 0) {
+			var syncButton = new Element("button", {"id" : "syncIssues", "data-key" : key, "class" : "cupid-blue"}).update("Sync issues");
+			syncButton.on("click", handleSyncIssues);
+			$$("div.projectButtons").each(function(e) {
+				e.update(syncButton);
+			});
+		} else {
+			$$("div.projectButtons").each(function(e) {
+				e.update();
+			});
+		}
 		if (project_labels.length > 0) {
 			var labels_wrapper = new Element("div", {"class" : "labels project-labels"});
 			var label_span = null;
@@ -252,7 +265,7 @@ var GTDViewer = Class.create({
 				name = "Day review";
 				key = "review*0*2";
 				issues = viewer.model.getIssues(viewer.getParamsObject("review", 0));
-				content = viewer.generateIssueList(issues);				
+				content = viewer.generateIssueList(issues);
 				break;
 			case 3:
 				name = "Week review";
