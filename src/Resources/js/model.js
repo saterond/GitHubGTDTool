@@ -109,6 +109,7 @@ var GTDModel = Class.create({
 		}
 		var issues = new Array(), i = 0, id, title, description, issue, milestone_id, user_id, project_id;
 		var paramss = new Object();
+		
 		while (issuesRS.isValidRow()) {			
 			id = issuesRS.fieldByName('id');
 			title = issuesRS.fieldByName('title');
@@ -131,7 +132,7 @@ var GTDModel = Class.create({
 				issue.milestone = this.getMilestone(this.getParamsObject("milestone_id", milestone_id))
 			
 			issues[i++] = issue;
-			issuesRS.next();
+			issuesRS.next();			
 		}
 		issuesRS.close();
 		return issues;

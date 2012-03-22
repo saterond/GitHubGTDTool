@@ -74,9 +74,9 @@ var ModelTestSuite = {
     	db.execute("INSERT INTO project (name,description) VALUES (?,?)", project.name, project.description);
     	var project_id = db.lastInsertRowId;
     	var issue = new Issue(0, "testxx000", "testxx000");
-    	db.execute("INSERT INTO Issue (title,description,project_id) VALUES (?,?,?)", issue.title, issue.description, project_id);
+    	db.execute("INSERT INTO Issue (title,description,project_id,user_id,state) VALUES (?,?,?,0,1)", issue.title, issue.description, project_id);
     	var issue2 = new Issue(0, "testxx0002", "testxx0002");
-    	db.execute("INSERT INTO Issue (title,description,project_id) VALUES (?,?,?)", issue2.title, issue2.description, project_id);
+    	db.execute("INSERT INTO Issue (title,description,project_id,user_id,state) VALUES (?,?,?,0,1)", issue2.title, issue2.description, project_id);
     	
     	var count = 2;
     	var params = new Object();
@@ -99,7 +99,7 @@ var ModelTestSuite = {
 		
 		var issue = new Issue(0, "testxx000", "testxx000");
 		issue.dueDate = today;
-    	db.execute("INSERT INTO Issue (title,description,dueDate) VALUES (?,?,?)", issue.title, issue.description, issue.dueDate);
+    	db.execute("INSERT INTO Issue (title,description,dueDate,state) VALUES (?,?,?,1)", issue.title, issue.description, issue.dueDate);
     	var issue_id = db.lastInsertRowId;
 		
     	var count = 1;
