@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reviews</title>
+  </head>
+ <body>
+  <script type="text/javascript">
+    var datum = new Date();
+		datum.setDate(datum.getDate()-30);
+		
+		var month_really = datum.getMonth() + 1;
+		var month = (month_really < 10) ? "0"+month_really : month_really;
+		var day_really = datum.getDate();
+		var day = (day_really < 10) ? "0"+day_really : day_really;
+		var today = datum.getFullYear() + "-" + month + "-" + day;
+
+		document.write(today);
+  </script>
+ </body>
+</html>

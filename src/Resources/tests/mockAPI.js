@@ -1,12 +1,17 @@
 /**
- * Abstraktni trida pro vsechna API
- * 
- * @author Ondrej Satera
+ * @author saterond
  */
-var API = Class.create({
-	initialize: function() {console.log("Method not implemented");},
+var MockAPI = Class.create(API, {
+	name: "",
+	initialize: function(_name) {
+		this.name = _name;
+	},
 	
-	getProjects: function(callback) {console.log("Method not implemented");},
+	getProjects: function(callback) {
+		var projects = new Array();
+		Titanium.API.info("API "+this.name+" - getProjects");
+		callback(projects);
+	},
 	getIssues: function(project, callback) {console.log("Method not implemented");},
 	getUsers: function(project, callback) {console.log("Method not implemented");},
 	getLabels: function(issue, callback) {console.log("Method not implemented");},

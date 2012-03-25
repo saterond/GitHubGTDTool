@@ -73,6 +73,7 @@ Event.observe(window, 'load', function() {
 		var tests = Titanium.UI.createMenuItem("Run tests");
 		tests.addItem("Model", handleRunModelTest);
 		tests.addItem("Viewer", handleRunViewerTest);
+		tests.addItem("App", handleRunApplicationTest);
 		
 		menu.appendItem(app);
 		menu.appendItem(sync);
