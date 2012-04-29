@@ -1,0 +1,29 @@
+\chapter{Závěr}
+
+\section{Závěrečné zhodnocení aplikace}
+
+Zhodnocení aplikace z pohledu splnění požadavků je snadné, stačí si projít user stories z části týkající se metodiky a hned bude jasné, které byly naplněny a které nikoliv. Pokud se tedy použije tento postup, procentuální splnění požadavků se dostane na 95\%. V aplikaci chybí párování úkolů a jednotlivých commitů ze vzdáleného serveru. Analýza totiž ukázala, že tuto možnost má pouze GitHub, ostatní ji neposkytují, proto od ní bylo upuštěno a nebyla zahrnuta do aplikace.
+
+\subsection{Práce s IDE Titanium Studio}
+
+Součástí zadání této práce byla i rešerše Titanium Studia. Jejím cílem bylo ověřit možnost použití této platformy k vývoji desktopových aplikací. Jedna strana jsou oficiální dokumentace a na druhé její reálné používání, jak se ukázalo mnohokrát během vývoje. Ve fázi testování se ale ukázalo, že spoustě problémů jsem se vyhnul tím, že jsem vyvíjel v operačním systému Windows a ne na Linuxu nebo Macu, kde už jen samotné zprovoznění IDE se ukázalo jako problém.
+
+Nicméně Titanium API poskytuje spousty funkcí, které by se jinak museli doprogramovávat ručně. Není tak nutné zahrnovat do aplikace skripty napsané v jiném jazyce (Titanium Studio podporuje vývoj v PHP, Ruby a Pythonu) a využít připravené rozhraní. Těžko si například představit, jak náročné by bylo vytvoření spojení s databází jen pomocí JavaScriptu.
+
+Všechno má ale jednu velkou vadu na kráse - vychytávání chyb (debugging). To je v tomto IDE velmi špatně zpracované. Autoři Titanium Studia sice nabízí rozšířený editor, který by měl mít debugging zpracovaný lépe, ale to už není poskytováno zdarma, a to ani ke studijním účelům. Ve většině případů je tak člověk na metodu pokus-omyl, kdy i oprava banálního překlepu může trvat velmi dlouho. Během vývoje této aplikace sice došlo k několika aktualizacím a IDE tak hlásí aspoň některé chyby, ale ve spoustě případů prostě jen zamrzne a neposkytne vůbec žádnou zpětnou vazbu o tom, co a kde se vlastně stalo.
+
+Na základě získaných zkušeností lze Titanium Studio doporučit dalším vývojářům, kteří by chtěli vyvíjet desktopové aplikace v jiném jazyce než v Javě nebo C\#. Jsouc členem redakce Programuje.com, což je momentálně nejčtenější IT magazín v ČR, využil jsem této příležitosti a sepsal jsem menší článek, představující Titanium Studio a práci s ním. Dle reakcí čtenářů lze usoudit, že platforma má před sebou budoucnost a má smysl ji dále rozvíjet.
+
+\subsection{Psaní aplikace zcela v JavaScriptu}
+
+Další teorií, kterou měla tato aplikace za cíl potvrdit nebo vyvrátit, byla otázka, zda je možné vytvořit aplikaci zcela v JavaScriptu bez pomoci dalších programovacích jazyků. Ukázalo se, že je to možné, ale zahrnuje to dost problémů a kompromisů. Není například možné vytvářet rozhraní (interface) ve smyslu Javy nebo i PHP. To samé se týká abstraktních tříd. Rozšiřování aplikace o další moduly tak není tak snadné, jak by mohlo teoreticky být.
+
+Dalším problémem je to, že JavaScript není primárně objektový jazyk, ale spíš procedurální a některé konstrukce se vytváří hodně neohrabaně. Problém, který se se často objevoval, je ztráta kontextu objektu. Nebylo tak možné přímo volat metody objektu, i když se zrovna prováděl kód v jiné z jeho metod. Toto se stávalo hlavně při obsluze asynchronního volání, kdy si metoda musela získat svého vlastníka z globálního kontejneru, kam byly všechny velké třídy (Application, Sync, Viewer a Model) ukládány.
+
+Neduhem aplikací napsaných v JavaScriptu je také přehršel funkcí, které je nutné zakládat velmi často a celý kód se tak znepřehledňuje kvůli velkému množství závorek. Tento problém by částečně mohla vyřešit knihovna CoffeeScript, která používá hlavně odsazování a spousty závorek nepotřebuje, protože je schopná si je \uv{domyslet}. Bohužel je určena hlavně pro Linux a její zprovoznění na Windows se ukázalo jako velmi problematické. Také by to znamenalo nutnost učit se novou syntaxi.
+
+\section{Závěr}
+
+Výsledkem této práce je nástroj, který v sobě integruje správu tří verzovacích serverů. Protože se poskytovaná API hodně liší, byla nutná spousta kompromisů pro zachování konzistence ovládání aplikace. Tím je sice uživatel ochuzen o několik extra funkcí poskytovaných těmito servery, ale to hlavní je v aplikaci umožněno. Na čem by se dalo určitě ještě zapracovat je vizuální stránka aplikace, která dost často rozhoduje o úspěchu aplikace.
+
+Důležitou součástí vývoje software je testování ve všech různých podobách. Při vývoji tohoto nástroje to nebylo jinak. Během vývoje byly prováděny jednotkové (unit) testy, po dokončení implementační fáze bylo provedeno zátěžové testování výpisu úkolů, což se ukázalo jako časově velmi náročná operace. Úplně nakonec byly provedeny akceptační testy na základě sepsaných user stories. Všechny provedené testy potvrdily funkčnost aplikace a jako taková je připravená k používání jinými uživateli.
