@@ -231,6 +231,21 @@ function handleRunApplicationTest(event, element) {
 	});
 }
 
+function handleRunLoadTest(event, element) {
+	Titanium.UI.showDialog({
+		id: "unitTestDialog",		
+		url: "app://tests/runLoadTest.html",
+		baseURL: "app://",
+		width: 500,
+		height: 580,
+		visible: true,
+		closeable: true,
+		maximizable: true,
+		resizable: true,
+		topMost: true
+	});
+}
+
 function handlePrint(event, element) {
 	window.print();
 }

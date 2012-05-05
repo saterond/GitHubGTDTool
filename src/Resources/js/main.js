@@ -74,6 +74,7 @@ Event.observe(window, 'load', function() {
 		tests.addItem("Model", handleRunModelTest);
 		tests.addItem("Viewer", handleRunViewerTest);
 		tests.addItem("App", handleRunApplicationTest);
+		tests.addItem("Load", handleRunLoadTest);
 		
 		menu.appendItem(app);
 		menu.appendItem(sync);
