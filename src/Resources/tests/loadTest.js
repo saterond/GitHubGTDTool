@@ -29,14 +29,14 @@ var LoadTestSuite = {
     	var params = new Object();
     	params["project_id"] = project_id;
     	
-    	for (var i=0; i < 50; i++) {
+    	/*for (var i=0; i < 50; i++) {
 			var issue = new Issue(0, "testxx00" + i, "testxx00" + i);
     		db.execute("INSERT INTO Issue (title,description,project_id,user_id,state) VALUES (?,?,?,?,1)", issue.title, issue.description, project_id, user_id);
     		var issue_id = db.lastInsertRowId;
-    		var label = new Label(0, issue_id, "label00" + i, project_id);
-    		db.execute("INSERT INTO Label (issue_id,text,project_id) VALUES (?,?,?)", label.issue_id, label.text, label.project_id);
-    		var label = new Label(0, issue_id, "label01" + i, project_id);
-    		db.execute("INSERT INTO Label (issue_id,text,project_id) VALUES (?,?,?)", label.issue_id, label.text, label.project_id);
+    		for (var j=0; j < 10; j++) {
+				var label = new Label(0, issue_id, "label00" + j + "" + i, project_id);
+    			db.execute("INSERT INTO Label (issue_id,text,project_id) VALUES (?,?,?)", label.issue_id, label.text, label.project_id);  
+			};
     		
     		var start = new Date().getTime();
     	
@@ -45,7 +45,7 @@ var LoadTestSuite = {
 	    	var end = new Date().getTime();
 			var time = end - start;
 			document.write('Execution time: ' + time + "\n<br>");
-		};    	    	    
+		};*/    	    	    
     	
     	db.execute("DELETE FROM Label WHERE project_id = ?", project_id);
     	db.execute("DELETE FROM Issue WHERE project_id = ?", project_id);
