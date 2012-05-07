@@ -37,7 +37,27 @@ Problém, který zabraňuje testování, vzniká v kroku č.3 - předání callb
 
 \section{Zátěžové testy}
 
-(grafy zavislosti poctu issues na jejich vypis)
+Součástí fáze testování této práce jsou také zátěžové testy, jejichž úkolem je ověřit, jak rychle některé operace probíhají. Jako operace byla zvolena ta, která je využívána nejčastěji, a sice výpis úkolů z daného projektu. Při používání aplikace se totiž ukázalo, že tato akce trvá poměrně dlouho a zátěžové testy by mohly ukázat, jak moc závažný problém to je.
+
+Zátěžové testy jsou postaveny na podobném principu jako jednotkové testy až na to, že zde se nesleduje výsledek testu, ale pouze jeho průběh. Test probíhá ve více iteracích, aby byla zátěž vystupňována. Bylo vytvořeno celkem 7 scénářů, které byly postupně otestovány:
+
+\begin{itemize}
+\item prázdný úkol (bez štítků a přiřazení)
+\item úkol s jedním štítkem
+\item úkol se dvěma štítky
+\item úkol přiřazený uživateli s jedním štítkem
+\item úkol přiřazený uživateli se dvěma štítky
+\item úkol přiřazený uživateli s pěti štítky
+\item úkol přiřazený uživateli s deseti štítky
+\end{itemize}
+
+Součástí každé iterace je vložení dalšího úkolu (příp. se štítky a uživatelem) do databáze a zavolání metody, starající se o načítání úkolů z databáze. Tím postupně narůstá zátěž, protože počet úkolů v databázi roste. Iterací bylo při každém testu celkem padesát. Čas spotřebovaný v rámci jedné iterace je měřen pomocí objektu Date a jeho metody getTime(). Tento čas je posléze vypsán na výstup a je dále ručně zpracováván. Hrubá data z těchto testů jsou k nalezení v přílohách této práce. Z těchto hrubých dat byl také pro lepší názornost vytvořen graf, který je vložen níže. Jeho průběh není úplně hladký, což způsobuje pravděpodobně fakt, že testovací prostředí není úplně izolované od dalších procesů běžících na stejném počítači a procesor tak může dát prioritu jiné aplikaci a test se zpomalí. Dalším důvodem může být to, že je nutné číst data z pevného disku (databáze), což může ve stejnou chvíli chtít víc aplikací.
+
+\begin{figure}[h]
+	\includegraphics[trim=0cm 11cm 0cm 11cm, clip, width=17cm]{figures/zatezove-testy}
+	\caption{Zátěžové testy}
+	\label{fig:load-tests}
+\end{figure}
 
 \section{Doporučení do dalšího vývoje}
 
