@@ -1,6 +1,6 @@
 \chapter{Testování}
 
-Každý správný vývojový cyklus software obsahuje fázi testování. Aplikaci lze testovat ve více vlnách, kdy se pokaždé provádí jiný typ testů. Obecně lze testy rozdělit do těchto dvou hlavních skupin - whitebox a blackbox.
+Každý správný vývojový cyklus software obsahuje fázi testování\cite{zivotnicyklus}. Aplikaci lze testovat ve více vlnách, kdy se pokaždé provádí jiný typ testů. Obecně lze testy rozdělit do těchto dvou hlavních skupin - whitebox a blackbox.
 
 Blackbox testy testují aplikaci zvenku a nepotřebují vědět, co se děje uvnitř. Proto se testy označují jako \uv{blackbox}. U těchto testů je aplikace černou skříňkou a jsou k dispozici pouze dva otvory - vstup a výstup. Do aplikace se pošle nějaký vstup a očekává se určitý výstup. Pokud výstup splňuje očekávání, test byl úspěšný. Hlavní výhodou těchto testů je jejich jednoduchost, protože není potřeba znát konkrétní obsah tříd a metod uvnitř aplikace. Do blackbox testů lze zařadit tyto testy:
 
@@ -16,7 +16,7 @@ Naproti tomu whitebox testy vyžadují znalost kódu aplikace a jsou pevněji sv
 
 Testování této aplikace není tak snadné jako u webových aplikací. Některé testy nejsou realizovatelné (např. testy rozhraní pomocí nástroje Selenium), protože aplikace není spustitelná v prohlížeči. Toto omezení způsobuje globální objekt Titanium, který není v prostředí prohlížeče k dispozici a aplikace se tak stává nepoužitelnou.
 
-Pro testování je využita JavaScriptová knihovna jsUnity, pomocí které jdou poměrně snadno vytvářet jednotkové testy. Poskytuje jednak běhové prostředí a hlavně assertovací metody, které ověří výsledek testu. Knihovnu je potřeba trochu poupravit, aby výsledek testů vypsala do okna a do výstupu, kde by se výsledek ztratil v záplavě runtime hlášení.
+Pro testování je využita JavaScriptová knihovna jsUnity\cite{jsunity}, pomocí které jdou poměrně snadno vytvářet jednotkové testy. Poskytuje jednak běhové prostředí a hlavně assertovací metody, které ověří výsledek testu. Knihovnu je potřeba trochu poupravit, aby výsledek testů vypsala do okna a do výstupu, kde by se výsledek ztratil v záplavě runtime hlášení.
 
 Testy jsou seskupeny v objektech, které se spouští metodou \emph{jsUnity.run()}. Aby nebyly při každém testu znovu zakládány všechny objekty, vytvoří se předem a během testů už se na nich pouze volají metody. Korektní postup je sice jejich zakládání před každým testem v metodě \emph{setUp()}, ale tento způsob se ukázal jako hodně pomalý a bylo od něj upuštěno. Nejpomalejší operace je určitě založení spojení s databází, která je potřeba u většiny testů a protože testy mají být hlavně rychlé, bylo nutné zvolit nějaký kompromis.
 
@@ -69,7 +69,7 @@ Další funkce, na které se přišlo během vývoje a které byly zařazeny do 
 \item sledování i cizích projektů
 \item vytváření vlastních přehledů úkolů (kombinace štítků a projektů)
 \item automatické sledování commitů do synchronizovaného repozitáře
-\item modulárnější vizuální stránka s využitím knihovny MustacheJS
+\item modulárnější vizuální stránka s využitím knihovny MustacheJS\cite{mustache}
 \end{itemize}
 
 Tyto funkce se ukázaly buď jako obtížně realizovatelné (vyrovnávací paměť, vytváření vlastních přehledů) nebo poměrně zbytečné (MustacheJS, sledování commitů), ale přesto byly uloženy, aby se na ně nezapomnělo.

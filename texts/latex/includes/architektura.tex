@@ -4,7 +4,7 @@
 
 Aplikaci lze rozdělit do několika balíčků, i když toto rozdělení není tak patrné jako například u Javy. Jako vzor pro celkovou architekturu bylo zvoleno MVC (model-view-controller), kde je oddělená prezentační část od výkonné a obsahové. Nicméně to vyžadovalo pár kompromisů protože JavaScript není primárně objektový jazyk.
 
-Celá aplikace využívá ke svému běhu knihovnu PrototypeJS, díky které lze snadno definovat objekty a omezeně i dědičnost mezi nimi. V prezentační části se navíc využívá knihovna Script.aculo.us, která je postavena na dříve zmíněném PrototypeJS a která umožňuje snadnější vytváření efektů a různých animací.
+Celá aplikace využívá ke svému běhu knihovnu PrototypeJS\cite{prototypejs}, díky které lze snadno definovat objekty a omezeně i dědičnost mezi nimi. V prezentační části se navíc využívá knihovna Script.aculo.us\cite{scriptaculous}, která je postavena na dříve zmíněném PrototypeJS a která umožňuje snadnější vytváření efektů a různých animací.
 
 Následující diagram znázorňuje rozdělení aplikace do balíčků.
 
@@ -66,15 +66,15 @@ U webových aplikací je kladen velký důraz na zabezpečení aplikace proti vn
 
 \subsection{Zabezpečení serveru Assembla}
 
-U tohoto serveru existuje jediný způsob zabezpečení a sice použití Basic Authentication, které vlastně žádné zabezpečení neposkytuje, slouží pouze k autentizaci požadavku na API.
+U tohoto serveru existuje jediný způsob zabezpečení\cite{assemblaauth} a sice použití Basic Authentication, které vlastně žádné zabezpečení neposkytuje, slouží pouze k autentizaci požadavku na API.
 
 \subsection{Zabezpečení serveru GitHub}
 
-V případě služby Github je situace komplikovanější. Upřednostňovaná forma přihlášení k serveru je OAuth2, což je protokol sloužící externím aplikacím k požádání o autorizaci bez toho, aby získaly heslo uživatele. Je preferována před Basic Authentication protože umožňuje omezit přístup jen k určitým datům a uživatel může tento přístup kdykoliv zrušit. Postup získání tohoto povolení je jednoduchý. Vývojář nejdřív svou aplikace zaregistruje a tím získá dva údaje: unikátní ID klienta a tajné heslo, které by nemělo být nikde zveřejněno. Pomocí těchto dvou údajů se klientská aplikace autentifikuje u serveru a po vyplnění přihlašovacího jména a hesla je uživatel přesměrován zpět do klientské aplikace s náhodně vygenerovaným tokenem (buď přímo v URL, nebo v hlavičce odpovědi). Tento token je pak používán u každého požadavku na server až do ukončení session. Tento postup je ale pro aplikace běžící na desktopu nepoužitelný protože není kam uživatele přesměrovat. Proto Github zároveň podporuje i Basic Authentication.
+V případě služby Github je situace komplikovanější\cite{github:summary}. Upřednostňovaná forma přihlášení k serveru je OAuth2\cite{github:oauth}, což je protokol sloužící externím aplikacím k požádání o autorizaci bez toho, aby získaly heslo uživatele. Je preferována před Basic Authentication protože umožňuje omezit přístup jen k určitým datům a uživatel může tento přístup kdykoliv zrušit. Postup získání tohoto povolení je jednoduchý. Vývojář nejdřív svou aplikace zaregistruje a tím získá dva údaje: unikátní ID klienta a tajné heslo, které by nemělo být nikde zveřejněno. Pomocí těchto dvou údajů se klientská aplikace autentifikuje u serveru a po vyplnění přihlašovacího jména a hesla je uživatel přesměrován zpět do klientské aplikace s náhodně vygenerovaným tokenem (buď přímo v URL, nebo v hlavičce odpovědi). Tento token je pak používán u každého požadavku na server až do ukončení session. Tento postup je ale pro aplikace běžící na desktopu nepoužitelný protože není kam uživatele přesměrovat. Proto Github zároveň podporuje i Basic Authentication.
 
 \subsection{Zabezpečení serveru Google Code}
 
-Google Code používá službu založenou na podobném principu jako je OAuth2. Zde ale není nutná registrace aplikace přímo na serveru. Aplikace, která vyžaduje přístup k soukromým datům uživatele, a nemůže tedy využit anonymního přístupu, přesměruje uživatele na speciální URL, kde se vyplní uživatelské jméno a heslo a uživatel je posléze přesměrován zpět do klientské aplikace s vygenerovaným AuthSub tokenem uloženým v odpovědi. Obsahem požadavku jsou čtyři údaje:
+Google Code používá službu\cite{googleauth} založenou na podobném principu jako je OAuth2. Zde ale není nutná registrace aplikace přímo na serveru. Aplikace, která vyžaduje přístup k soukromým datům uživatele, a nemůže tedy využit anonymního přístupu, přesměruje uživatele na speciální URL, kde se vyplní uživatelské jméno a heslo a uživatel je posléze přesměrován zpět do klientské aplikace s vygenerovaným AuthSub tokenem uloženým v odpovědi. Obsahem požadavku jsou čtyři údaje:
 
 \begin{enumerate}
 \item next - URL, na kterou má být uživatel přesměrován (URL aplikace)
@@ -93,7 +93,7 @@ Samotné Titanium Studio je pouze vývojové prostředí, které usnadňuje prá
 
 \subsubsection{Databáze}
 
-Jako databázový engine se používá SQLite, kde je celá databáze uložena v jednom souboru a tím se snadno zálohuje nebo přenáší na jiný počítač. O připojení k databázi se postará globální objekt, nám stačí znát jméno databáze, které si můžeme předem určit. Po připojení k ní získáme objekt, na kterém už lze pokládat dotazy na databázi v jazyce SQL. Jak může takové volání vypadat, ukazuje následující příklad:
+Jako databázový engine se používá SQLite\cite{sqlite}, kde je celá databáze uložena v jednom souboru a tím se snadno zálohuje nebo přenáší na jiný počítač. O připojení k databázi se postará globální objekt, nám stačí znát jméno databáze, které si můžeme předem určit. Po připojení k ní získáme objekt, na kterém už lze pokládat dotazy na databázi v jazyce SQL. Jak může takové volání vypadat, ukazuje následující příklad:
 
 \begin{quote}
 DB.execute("INSERT INTO images (title, description) VALUES (?, ?)", "test", "description");
@@ -103,7 +103,7 @@ V tomto příkladě je vidět obrana proti útoku SQL Injection, které je reali
 
 \subsubsection{AJAX}
 
-Další velmi důležitou součástí API je mechanismus pro asynchronní volání vzdálených serverů - AJAX. Provádění těchto volání má jednu velkou výhodu oproti tomu samému volání v prohlížeči – není zde problém s cross-domain policy, což je v zásadě ochrana proti vykonávání JavaScriptu na jiném serveru, kterou mají prohlížeče zabudovánu v sobě. 
+Další velmi důležitou součástí API je mechanismus pro asynchronní volání vzdálených serverů - AJAX. Provádění těchto volání má jednu velkou výhodu oproti tomu samému volání v prohlížeči – není zde problém s cross-domain policy\cite{sameorigin}, což je v zásadě ochrana proti vykonávání JavaScriptu na jiném serveru, kterou mají prohlížeče zabudovánu v sobě. 
 
 Během volání je možné sledovat odpovědi serveru a je možné definovat si funkce, které na tyto události zareagují. API poskytuje plnou kontrolu nad tím jaká data se na server posílají a jaká metoda v rámci protokolu HTTP se použije. API verzovacích serverů totiž rozlišují požadavky i podle této metody. Takže pokud má volání něco na serveru smazat, je třeba použít metodu DELETE. Pokud je naopak účelem něco založit (úkol, projekt, milník), použije se metoda PUT. K běžnému stahování obsahu - čtení - postačí metoda GET příp. POST.
 

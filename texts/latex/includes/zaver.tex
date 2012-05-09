@@ -12,7 +12,7 @@ Nicméně Titanium API poskytuje spousty funkcí, které by se jinak museli dopr
 
 Všechno má ale jednu velkou vadu na kráse - vychytávání chyb (debugging). To je v tomto IDE velmi špatně zpracované. Autoři Titanium Studia sice nabízí rozšířený editor, který by měl mít debugging zpracovaný lépe, ale to už není poskytováno zdarma, a to ani ke studijním účelům. Ve většině případů je tak člověk na metodu pokus-omyl, kdy i oprava banálního překlepu může trvat velmi dlouho. Během vývoje této aplikace sice došlo k několika aktualizacím a IDE tak hlásí aspoň některé chyby, ale ve spoustě případů prostě jen zamrzne a neposkytne vůbec žádnou zpětnou vazbu o tom, co a kde se vlastně stalo.
 
-Na základě získaných zkušeností lze Titanium Studio doporučit dalším vývojářům, kteří by chtěli vyvíjet desktopové aplikace v jiném jazyce než v Javě nebo C\#. Jsouc členem redakce Programuje.com, což je momentálně nejčtenější IT magazín v ČR, využil jsem této příležitosti a sepsal jsem menší článek, představující Titanium Studio a práci s ním. Dle reakcí čtenářů lze usoudit, že platforma má před sebou budoucnost a má smysl ji dále rozvíjet.
+Na základě získaných zkušeností lze Titanium Studio doporučit dalším vývojářům, kteří by chtěli vyvíjet desktopové aplikace v jiném jazyce než v Javě nebo C\#. Jsouc členem redakce Programuje.com, což je momentálně nejčtenější IT magazín v ČR, využil jsem této příležitosti a sepsal jsem menší článek\cite{selfpromo}, představující Titanium Studio a práci s ním. Dle reakcí čtenářů lze usoudit, že platforma má před sebou budoucnost a má smysl ji dále rozvíjet.
 
 \subsection{Psaní aplikace zcela v JavaScriptu}
 
@@ -20,7 +20,7 @@ Další teorií, kterou měla tato aplikace za cíl potvrdit nebo vyvrátit, byl
 
 Dalším problémem je to, že JavaScript není primárně objektový jazyk, ale spíš procedurální a některé konstrukce se vytváří hodně neohrabaně. Problém, který se se často objevoval, je ztráta kontextu objektu. Nebylo tak možné přímo volat metody objektu, i když se zrovna prováděl kód v jiné z jeho metod. Toto se stávalo hlavně při obsluze asynchronního volání, kdy si metoda musela získat svého vlastníka z globálního kontejneru, kam byly všechny velké třídy (Application, Sync, Viewer a Model) ukládány.
 
-Neduhem aplikací napsaných v JavaScriptu je také přehršel funkcí, které je nutné zakládat velmi často a celý kód se tak znepřehledňuje kvůli velkému množství závorek. Tento problém by částečně mohla vyřešit knihovna CoffeeScript, která používá hlavně odsazování a spousty závorek nepotřebuje, protože je schopná si je \uv{domyslet}. Bohužel je určena hlavně pro Linux a její zprovoznění na Windows se ukázalo jako velmi problematické. Také by to znamenalo nutnost učit se novou syntaxi.
+Neduhem aplikací napsaných v JavaScriptu je také přehršel funkcí, které je nutné zakládat velmi často a celý kód se tak znepřehledňuje kvůli velkému množství závorek. Tento problém by částečně mohla vyřešit knihovna CoffeeScript\cite{coffeescript}, která používá hlavně odsazování a spousty závorek nepotřebuje, protože je schopná si je \uv{domyslet}. Bohužel je určena hlavně pro Linux a její zprovoznění na Windows se ukázalo jako velmi problematické. Také by to znamenalo nutnost učit se novou syntaxi.
 
 \section{Závěr}
 

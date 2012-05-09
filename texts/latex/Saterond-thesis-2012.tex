@@ -244,63 +244,10 @@ Obsahem této práce je vytvoření nástroje pro vývojáře, který umožní s
 % zapracujte) pomoci prikazu bibtex a nasledne pdflatex (nebo
 % latex). Druhy z nich alespon 2x, aby se poresily odkazy.
 
-% originally following specification for bibliography formating was used
-%\bibliographystyle{abbrv}
-
-% Here is an improvment by Petr Dlouhy (April 2010).
-% It is mainly for supervisors who expect Czech fomrating rules for references
-% Additional feature is live url addresses to sources from your pdf file
-% It requires the file csplainnat.bst (included in this sample zipfile).
-
 \bibliographystyle{csplainnat}
-
-%bibliographystyle{plain}
-%\bibliographystyle{psc}
-{
-%JZ: 11.12.2008 Kdo chce mit v techto ukazkovych odkazech take odkaz na CSTeX:
-\def\CS{$\cal C\kern-0.1667em\lower.5ex\hbox{$\cal S$}\kern-0.075em $}
 \bibliography{reference}
-}
-
-% M. Dušek radi:
-%\bibliographystyle{alpha}
-% kdy citace ma tvar [AutorRok] (napriklad [Cook97]). Sice to asi neni  podle ceske normy (BTW BibTeX stejne neodpovida ceske norme), ale je to nejprehlednejsi.
-% 3.5.2009 JZ polemizuje: BibTeX neobvinujte, napiste a poskytnete nam styl (.bst) splnujici citacni normu CSN/ISO.
 
 %*****************************************************************************
-%*****************************************************************************
-\section{Kódy programu}
-Chceme-li vysázet například část zdrojového kódu programu (bez formátování), hodí se prostředí \verb|verbatim|: 
-\begin{verbatim}
-         (* nickname2 *)
-Lego> Refine in1
-             (do_reg (nickname1 h));
-Refine by  in1 (do_reg (nickname1 h))
-   ?4 : pcdata
-   ?5 : pcdata
-          (* surname2 *)
-Lego> Refine surname1 h;
-Refine by  surname1 h
-   ?5 : pcdata
-          (* email2 *)
-Lego> Refine undo_reg (email1 h);
-Refine by  undo_reg (email1 h)
-*** QED ***
-\end{verbatim}
-
-\section{Další poznámky}
-\subsection{České uvozovky}
-V souboru \verb|k336_thesis_macros.tex| je příkaz \verb|\uv{}| pro sázení českých uvozovek. \uv{Text uzavřený do českých uvozovek.}
-
-% JZ: 3.5.2009 \chapter z book zajistí automaticky
-%\subsection{Začátky kapitol na liché stránky}
-%Ve výsledném textu je dobré, když každá kapitola začíná na liché stránce. Tedy použijte:
-%\begin{verbatim}
-%  \cleardoublepage\include{1_uvod}
-%  \cleardoublepage\include{2_teorie}
-%   atd.\ldots{}
-%\end{verbatim}
-
 %*****************************************************************************
 \chapter{Seznam použitých zkratek}
 
@@ -314,11 +261,6 @@ V souboru \verb|k336_thesis_macros.tex| je příkaz \verb|\uv{}| pro sázení č
 \item[RUP] Rational Unified Process
 \item[UML] Unified Modeling Language
 \end{description}
-\vdots
-
-%*****************************************************************************
-\chapter{UML diagramy}
-\textbf{\large Tato příloha není povinná a zřejmě se neobjeví v každé práci. Máte-li ale větší množství podobných diagramů popisujících systém, není nutné všechny umísťovat do hlavního textu, zvláště pokud by to snižovalo jeho čitelnost.}
 
 %*****************************************************************************
 \chapter{Instalační a uživatelská příručka}
