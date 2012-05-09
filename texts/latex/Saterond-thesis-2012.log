@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=latex 2012.5.9)  9 MAY 2012 17:48
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=latex 2012.5.9)  9 MAY 2012 17:54
 entering extended mode
 **Saterond-thesis-2012.tex
 (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.tex
@@ -535,9 +535,6 @@ LaTeX Info: Redefining \nameref on input line 87.
 (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.out)
 \@outlinefile=\write3
 
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
-
 ************************************************
 Zvoleny jazyk: cestina
 Typ prace: Bakal\IeC {\'a}\IeC {\v r}sk\IeC {\'a} pr\IeC {\'a}ce
@@ -597,16 +594,6 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 ]
 (D:\git\GitHubGTDTool\texts\latex\includes/uvod.tex
 Kapitola 1.
-
-Package natbib Warning: Citation `gcode' on page 1 undefined on input line 3.
-
-
-Package natbib Warning: Citation `assembla' on page 1 undefined on input line 3
-.
-
-
-Package natbib Warning: Citation `github' on page 1 undefined on input line 3.
-
 ) [1
 
 
@@ -622,43 +609,8 @@ Overfull \hbox (2.0341pt too wide) in paragraph at lines 42--58
  [] 
  []
 
-
-Package natbib Warning: Citation `gtd:web' on page 3 undefined on input line 67
-.
-
-
-Package natbib Warning: Citation `gtd:wiki' on page 3 undefined on input line 6
-7.
-
-
-Package natbib Warning: Citation `gtd:book' on page 3 undefined on input line 6
-7.
-
-[3] [4]
-
-Package natbib Warning: Citation `flash' on page 5 undefined on input line 107.
-
-
-
-Package natbib Warning: Citation `silverlight' on page 5 undefined on input lin
-e 107.
-
-) [5] (D:\git\GitHubGTDTool\texts\latex\includes/analyza.tex
+[3] [4]) [5] (D:\git\GitHubGTDTool\texts\latex\includes/analyza.tex
 Kapitola 3.
-
-Package natbib Warning: Citation `rup' on page 6 undefined on input line 3.
-
-
-Package natbib Warning: Citation `uml' on page 6 undefined on input line 3.
-
-
-Package natbib Warning: Citation `userstory' on page 6 undefined on input line 
-3.
-
-
-Package natbib Warning: Citation `userstory' on page 6 undefined on input line 
-12.
-
 [6
 
 
@@ -675,68 +627,23 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [8] [9] [10]) [11] (D:\git\GitHubGTDTool\texts\latex\includes/architektura.tex
 Kapitola 4.
-
-Package natbib Warning: Citation `prototypejs' on page 12 undefined on input li
-ne 7.
-
-
-Package natbib Warning: Citation `scriptaculous' on page 12 undefined on input 
-line 7.
-
 [12
 
 
 
-] [13]
-
-Package natbib Warning: Citation `assemblaauth' on page 14 undefined on input l
-ine 69.
-
-
-Package natbib Warning: Citation `github:summary' on page 14 undefined on input
- line 73.
-
-
-Package natbib Warning: Citation `github:oauth' on page 14 undefined on input l
-ine 73.
-
-[14]
-
-Package natbib Warning: Citation `googleauth' on page 15 undefined on input lin
-e 77.
-
-
-Package natbib Warning: Citation `sqlite' on page 15 undefined on input line 96
-.
-
-[15]
+] [13] [14] [15]
 
 Package natbib Warning: Citation `sameorigin' on page 16 undefined on input lin
 e 106.
 
 [16] [17]) [18] (D:\git\GitHubGTDTool\texts\latex\includes/nasazeni.tex
 Kapitola 5.
-
-Package natbib Warning: Citation `debian' on page 19 undefined on input line 3.
-
-
-
-Package natbib Warning: Citation `mac' on page 19 undefined on input line 3.
-
 ) [19
 
 
 
 ] (D:\git\GitHubGTDTool\texts\latex\includes/testovani.tex
 Kapitola 6.
-
-Package natbib Warning: Citation `zivotnicyklus' on page 20 undefined on input 
-line 3.
-
-
-Package natbib Warning: Citation `jsunity' on page 20 undefined on input line 1
-9.
-
 [20
 
 
@@ -751,49 +658,135 @@ Type  H <return>  for immediate help.
                                                   
 l.57 ... clip, width=17cm]{figures/zatezove-testy}
                                                   
-I could not locate the file with any of these extensions:
-.eps,.ps,.eps.gz,.ps.gz,.eps.Z
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Package natbib Warning: Citation `mustache' on page 22 undefined on input line 
-72.
-
+? 
 ) [22] [23] (D:\git\GitHubGTDTool\texts\latex\includes/zaver.tex
 Kapitola 7.
-
-Package natbib Warning: Citation `selfpromo' on page 24 undefined on input line
- 15.
-
 [24
 
 
 
+]) [25] (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.bbl
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 10.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+Underfull \hbox (badness 10000) in paragraph at lines 13--16
+[]\T1/cmr/m/it/10.95 Assembla REST API \T1/cmr/m/n/10.95 [on-line]. 2012. [cit.
+ 9.5.2012].  Do-stupné z:
+ []
+
+
+Underfull \hbox (badness 3514) in paragraph at lines 18--21
+[]\T1/cmr/m/it/10.95 CoffeeScript - a little lan-gu-age that com-pi-les into Ja
+-vaScript \T1/cmr/m/n/10.95 [on-line]. 2012.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--38
+[]\T1/cmr/m/it/10.95 OAuth | Gi-tHub API \T1/cmr/m/n/10.95 [on-line]. 2012. [ci
+t. 9.5.2012].  Do-stupné z:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--42
+[]\T1/cmr/m/it/10.95 GitHub API v3 \T1/cmr/m/n/10.95 [on-line]. 2012. [cit. 9.5
+.2012].  Do-stupné z:
+ []
+
+
+Underfull \hbox (badness 2556) in paragraph at lines 65--67
+[]\T1/cmr/m/it/10.95 Mustache - Logic-less tem-pla-tes \T1/cmr/m/n/10.95 [on-li
+ne]. 2012. [cit. 9.5.2012].  Do-stupné z:
+ []
+
+
+Underfull \hbox (badness 2951) in paragraph at lines 69--71
+[]\T1/cmr/m/it/10.95 Prototype Ja-vaScript fra-mework \T1/cmr/m/n/10.95 [on-lin
+e]. 2012. [cit. 9.5.2012].  Do-stupné z:
+ []
+
+
+Underfull \hbox (badness 1742) in paragraph at lines 73--76
+[]\T1/cmr/m/it/10.95 RUP  Rati-o-nal Uni-fied Pro-cess \T1/cmr/m/n/10.95 [on-l
+ine]. 2012. [cit. 9.5.2012].  Do-stupné z:
+ []
+
+
+Overfull \hbox (78.50328pt too wide) in paragraph at lines 73--76
+\T1/cmr/m/n/10.95 <[][][]$\T1/cmtt/m/n/10.95 http : / / testovanisoftwaru . cz 
+/ manualni-[]testovani / modely-[]zivotniho-[]cyklu-[]softwaru / rup/$[][][][]\
+T1/cmr/m/n/10.95 >. 
+ []
+
+[26
+
+
 ]
+LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 83.
 
-Package natbib Warning: Citation `coffeescript' on page 25 undefined on input l
-ine 23.
-
-) [25] (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.bbl
-
-Package natbib Warning: Empty `thebibliography' environment on input line 8.
-
-) [26
+Underfull \hbox (badness 10000) in paragraph at lines 83--86
+[]\T1/cmr/m/it/10.95 Microsoft[] Silverlight$[]$ \T1/cmr/m/n/10.95 [on-line]. 2
+012. [cit. 9.5.2012].  Do-stupné z:
+ []
 
 
-]
+Underfull \hbox (badness 1107) in paragraph at lines 92--94
+[]\T1/cmr/m/it/10.95 The Uni-fied Mo-de-ling Language$[]$ \T1/cmr/m/n/10.95 [on
+-line]. 2012. [cit. 9.5.2012].  Do-stupné z:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--99
+[]\T1/cmr/m/it/10.95 šivotní cyk-lus pro-duktu \T1/cmr/m/n/10.95 [on-line]. 201
+2. [cit. 9.5.2012].  Do-stupné z:
+ []
+
+
+Overfull \hbox (10.10283pt too wide) in paragraph at lines 96--99
+\T1/cmr/m/n/10.95 <[][][]$\T1/cmtt/m/n/10.95 http : / / testovanisoftwaru . cz 
+/ manualni-[]testovani / zivotni-[]cyklus-[]produktu/$[][][][]\T1/cmr/m/n/10.95
+ >. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 107--112
+[]\T1/cmr/m/n/10.95 ’ATERA, O.  \T1/cmr/m/it/10.95 Ti-ta-nium Stu-dio  na-pi²t
+e si desk-to-po-vou apli-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 107--112
+\T1/cmr/m/it/10.95 kaci v Ja-vaScriptu \T1/cmr/m/n/10.95 [on-line]. 2012. [cit.
+ 20.2.2012].  Do-stupné z:
+ []
+
+
+Overfull \hbox (193.6707pt too wide) in paragraph at lines 107--112
+\T1/cmr/m/n/10.95 <[][][]$\T1/cmtt/m/n/10.95 http : / / programujte . com / cla
+nek / 2012020900-[]titanium-[]studio-[]napiste-[]si-[]desktopovou-[]aplikaci-[]
+v-[]javascriptu/$[][][][]\T1/cmr/m/n/10.95 >. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 114--117
+[]\T1/cmr/m/n/10.95 P°isp¥vatelé Wi-ki-pe-die.  \T1/cmr/m/it/10.95 Adobe Flash 
+\T1/cmr/m/n/10.95 [on-line]. 2012.  Do-stupné z:
+ []
+
+) [27]
 Kapitola 8.
-[27
+[28
 
 ]
 Kapitola 9.
-[28
+[29
 
 ]
 Kapitola 10.
 
-Package natbib Warning: Citation `infodp' on page 29 undefined on input line 27
+Package natbib Warning: Citation `infodp' on page 30 undefined on input line 27
 3.
 
 File: figures/seznamcd.eps Graphic file (type eps)
@@ -802,7 +795,7 @@ File: figures/seznamcd.eps Graphic file (type eps)
 Package natbib Warning: There were undefined citations.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 283.
-[29
+[30
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 283.
@@ -817,18 +810,14 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 283.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 283.
 Package rerunfilecheck Info: File `Saterond-thesis-2012.out' has not changed.
 (rerunfilecheck)             Checksum: A0D2DA26A73A41F5FA8951F4CEDBC2F4;9480.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 7050 strings out of 494020
- 99949 string characters out of 3143900
- 187060 words of memory out of 3000000
- 10153 multiletter control sequences out of 15000+200000
- 17078 words of font info for 37 fonts, out of 3000000 for 9000
+ 7126 strings out of 494020
+ 101613 string characters out of 3143900
+ 187752 words of memory out of 3000000
+ 10223 multiletter control sequences out of 15000+200000
+ 18842 words of font info for 40 fonts, out of 3000000 for 9000
  718 hyphenation exceptions out of 8191
  33i,8n,30p,1521b,471s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Saterond-thesis-2012.dvi (38 pages, 178648 bytes).
+Output written on Saterond-thesis-2012.dvi (39 pages, 200920 bytes).

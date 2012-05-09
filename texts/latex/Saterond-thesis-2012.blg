@@ -8,6 +8,28 @@ A level-1 auxiliary file: includes/testovani.aux
 A level-1 auxiliary file: includes/zaver.aux
 The style file: csplainnat.bst
 Database file #1: reference.bib
-Warning--I didn't find a database entry for "Chen01"
+Warning--I didn't find a database entry for "sameorigin"
 Warning--I didn't find a database entry for "infodp"
-(There were 2 warnings)
+Warning--to sort, need author or key in gcode
+Warning--to sort, need author or key in assembla
+Warning--to sort, need author or key in github
+Warning--to sort, need author or key in gtd:web
+Warning--to sort, need author or key in silverlight
+Warning--to sort, need author or key in rup
+Warning--to sort, need author or key in uml
+Warning--to sort, need author or key in prototypejs
+Warning--to sort, need author or key in scriptaculous
+Warning--to sort, need author or key in assemblaauth
+Warning--to sort, need author or key in github:summary
+Warning--to sort, need author or key in github:oauth
+Warning--to sort, need author or key in googleauth
+Warning--to sort, need author or key in sqlite
+Warning--to sort, need author or key in debian
+Warning--to sort, need author or key in mac
+Warning--to sort, need author or key in zivotnicyklus
+Warning--to sort, need author or key in jsunity
+Warning--to sort, need author or key in mustache
+Warning--to sort, need author or key in coffeescript
+`address' is a missing field, not a string, for entry gtd:book
+while executing---line 1484 of file csplainnat.bst
+(There was 1 error message)

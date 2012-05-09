@@ -1,8 +1,132 @@
-\begin{thebibliography}{0}
+\begin{thebibliography}{25}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[ass(2012{\natexlab{a}})]{assembla}
+\emph{Assembla} [online]. 2012{\natexlab{a}}. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://www.assembla.com/}.
+
+\bibitem[ass(2012{\natexlab{b}})]{assemblaauth}
+\emph{Assembla REST API} [online]. 2012{\natexlab{b}}. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://www.assembla.com/spaces/breakoutdocs/wiki/Assembla_REST_API}.
+
+\bibitem[cof(2012)]{coffeescript}
+\emph{CoffeeScript - a little language that compiles into JavaScript} [online].
+  2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://coffeescript.org/}.
+
+\bibitem[deb(2012)]{debian}
+\emph{Debian -- Univerzální operační systém} [online]. 2012.
+  [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://www.debian.org/}.
+
+\bibitem[gco(2012)]{gcode}
+\emph{Google Code} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://code.google.com/}.
+
+\bibitem[git(2012{\natexlab{a}})]{github}
+\emph{GitHub} [online]. 2012{\natexlab{a}}. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://www.github.com/}.
+
+\bibitem[git(2012{\natexlab{b}})]{github:oauth}
+\emph{OAuth | GitHub API} [online]. 2012{\natexlab{b}}. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://developer.github.com/v3/oauth/}.
+
+\bibitem[git(2012{\natexlab{c}})]{github:summary}
+\emph{GitHub API v3} [online]. 2012{\natexlab{c}}. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://developer.github.com/v3/}.
+
+\bibitem[goo(2012)]{googleauth}
+\emph{Issue Tracker Data API Developer Guide} [online]. 2012.
+  [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://code.google.com/p/support/wiki/IssueTrackerAPI}.
+
+\bibitem[gtd(2008)]{gtd:web}
+\emph{Metoda GTD (Getting Things Done)} [online]. 2008. [cit.~26.\,9.\,2008].
+\newblock Dostupn{\'{e}} z:
+  \url{http://www.mitvsehotovo.cz/2008/09/metoda-gtd-getting-things-done/}.
+
+\bibitem[jsu(2012)]{jsunity}
+\emph{jsUnity - Lightweight Universal JavaScript Unit Testing Framework}
+  [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://jsunity.com/}.
+
+\bibitem[mac(2012)]{mac}
+\emph{Apple - OS X Lion - The world’s most advanced OS} [online]. 2012.
+  [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://www.apple.com/macosx/}.
+
+\bibitem[mus(2012)]{mustache}
+\emph{Mustache - Logic-less templates} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://mustache.github.com/}.
+
+\bibitem[pro(2012)]{prototypejs}
+\emph{Prototype JavaScript framework} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://www.prototypejs.org/}.
+
+\bibitem[rup(2012)]{rup}
+\emph{RUP – Rational Unified Process} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://testovanisoftwaru.cz/manualni-testovani/modely-zivotniho-cyklu-softwaru/rup/}.
+
+\bibitem[scr(2012)]{scriptaculous}
+\emph{script.aculo.us - web 2.0 javascript} [online]. 2012.
+  [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://script.aculo.us/}.
+
+\bibitem[sil(2012)]{silverlight}
+\emph{Microsoft® Silverlight™} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://www.microsoft.com/cze/web/silverlight/}.
+
+\bibitem[sql(2012)]{sqlite}
+\emph{SQLite} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://www.sqlite.org/}.
+
+\bibitem[uml(2012)]{uml}
+\emph{The Unified Modeling Language™} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://www.uml.org/}.
+
+\bibitem[ziv(2012)]{zivotnicyklus}
+\emph{Životní cyklus produktu} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://testovanisoftwaru.cz/manualni-testovani/zivotni-cyklus-produktu/}.
+
+\bibitem[Allen(2008)]{gtd:book}
+ALLEN, D.
+\newblock \emph{Mít vše hotovo}.
+\newblock Jan Melvil Publishing, s.r.o., Brno, 1st edition, 2008.
+\newblock In Czech.
+
+\bibitem[Šatera(2012)]{selfpromo}
+ŠATERA, O.
+\newblock \emph{Titanium Studio – napište si desktopovou aplikaci v
+  JavaScriptu} [online]. 2012. [cit.~20.\,2.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://programujte.com/clanek/2012020900-titanium-studio-napiste-si-desktopovou-aplikaci-v-javascriptu/}.
+
+\bibitem[{Přispěvatelé Wikipedie}(2012{\natexlab{a}})]{flash}
+{Přispěvatelé Wikipedie}.
+\newblock \emph{Adobe Flash} [online]. 2012{\natexlab{a}}.
+\newblock Dostupn{\'{e}} z: \url{http://cs.wikipedia.org/wiki/Adobe_Flash}.
+
+\bibitem[{Přispěvatelé Wikipedie}(2012{\natexlab{b}})]{gtd:wiki}
+{Přispěvatelé Wikipedie}.
+\newblock \emph{Getting Things Done} [online]. 2012{\natexlab{b}}.
+  [cit.~17.\,4.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://cs.wikipedia.org/wiki/Getting_Things_Done}.
+
+\bibitem[Sochová(2011)]{userstory}
+SOCHOVá, Z.
+\newblock \emph{Proč píšeme User Story?} [online]. 2011.
+  [cit.~2.\,11.\,2011].
+\newblock Dostupn{\'{e}} z:
+  \url{http://soch.cz/blog/management/agile/proc-piseme-user-story/}.
 
 \end{thebibliography}
