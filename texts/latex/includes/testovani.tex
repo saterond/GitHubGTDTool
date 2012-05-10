@@ -22,16 +22,15 @@ Testy jsou seskupeny v objektech, které se spouští metodou \emph{jsUnity.run(
 
 \section{Testování asynchronních volání}
 
-V aplikaci se mnoho operací děje asynchronně, aby aplikace nezamrzala (hlavně při spojení se vzdálenými servery). Tento způsob běhu aplikace bohužel znemožňuje testování jednotkovými testy. Asynchronní volání by se dalo rozepsat do těchto kroků:
+V aplikaci se mnoho operací děje asynchronně, aby aplikace nezamrzala (hlavně při spojení se vzdálenými servery). Tento způsob běhu aplikace bohužel znemožňuje testování jednotkovými testy. Jak vypadá asynchronní volání ukazuje diagram \ref{fig:async-tests}.
 
-\begin{enumerate}
-\item handler údalosti zavolá metodu na controlleru
-\item controller získá potřebná data z databáze a naparsuje je pro potřeby daného serveru
-\item pak zavolá metodu \emph{send()} nebo \emph{sendFile()} (pokud se odesílá soubor) na vytvořeném HTTP klientovi. Zároveň mu předá název funkce, kam chce dostat výsledek volání, tzv. callback
-\item klient zavolá server s danými parametry a čeká na odpověď
-\item po tom, co získá odpověď od serveru, ji naparsuje a pošle zpět controlleru na callback, který od něj získal
-\item controller zpracuje odpověď od klienta
-\end{enumerate}
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=15cm,trim=10mm 205mm 40mm 10mm, clip]{figures/async-tests}
+	\caption{Asynchronní volání}
+	\label{fig:async-tests}
+\end{center}
+\end{figure}
 
 Problém, který zabraňuje testování, vzniká v kroku č.3 - předání callbacku. Během testování se o volání metod stará běhové prostředí a není možné volat jednotlivé metody (testy) samostatně. Důsledkem tohoto chování je nemožnost \uv{vrátit} se z HTTP klienta zpět do testu a vyhodnotit správnost odpovědi.
 
@@ -54,9 +53,11 @@ Zátěžové testy jsou postaveny na podobném principu jako jednotkové testy a
 Součástí každé iterace je vložení dalšího úkolu (příp. se štítky a uživatelem) do databáze a zavolání metody, starající se o načítání úkolů z databáze. Tím postupně narůstá zátěž, protože počet úkolů v databázi roste. Iterací bylo při každém testu celkem padesát. Čas spotřebovaný v rámci jedné iterace je měřen pomocí objektu Date a jeho metody getTime(). Tento čas je posléze vypsán na výstup a je dále ručně zpracováván. Hrubá data z těchto testů jsou k nalezení v přílohách této práce. Z těchto hrubých dat byl také pro lepší názornost vytvořen graf, který je vložen níže. Jeho průběh není úplně hladký, což způsobuje pravděpodobně fakt, že testovací prostředí není úplně izolované od dalších procesů běžících na stejném počítači a procesor tak může dát prioritu jiné aplikaci a test se zpomalí. Dalším důvodem může být to, že je nutné číst data z pevného disku (databáze), což může ve stejnou chvíli chtít víc aplikací.
 
 \begin{figure}[h]
-	\includegraphics[trim=0cm 11cm 0cm 11cm, clip, width=17cm]{figures/zatezove-testy}
+\begin{center}
+	\includegraphics[trim=15mm 115mm 15mm 110mm, clip, width=15cm]{figures/zatezove-testy}
 	\caption{Zátěžové testy}
 	\label{fig:load-tests}
+\end{center}
 \end{figure}
 
 \section{Doporučení do dalšího vývoje}

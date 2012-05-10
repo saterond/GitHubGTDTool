@@ -6,11 +6,15 @@ Aplikaci lze rozdělit do několika balíčků, i když toto rozdělení není t
 
 Celá aplikace využívá ke svému běhu knihovnu PrototypeJS\cite{prototypejs}, díky které lze snadno definovat objekty a omezeně i dědičnost mezi nimi. V prezentační části se navíc využívá knihovna Script.aculo.us\cite{scriptaculous}, která je postavena na dříve zmíněném PrototypeJS a která umožňuje snadnější vytváření efektů a různých animací.
 
-Následující diagram znázorňuje rozdělení aplikace do balíčků.
+Diagram \ref{fig:class-model} znázorňuje rozdělení aplikace do balíčků.
 
-\begin{quote}
-Class model.eps
-\end{quote}
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=11cm,scale=1,trim=20mm 185mm 60mm 10mm, clip]{figures/class-model}
+	\caption{Rozdělení do balíčků}
+	\label{fig:class-model}
+\end{center}
+\end{figure}
 
 \subsection{Controller}
 
@@ -89,11 +93,30 @@ Pro aplikace běžící na desktopu je ale nutné použít nižší úroveň zab
 
 \subsection{Představení}
 
-Samotné Titanium Studio je pouze vývojové prostředí, které usnadňuje práci s platformou Titanium. Tato není závislá na operačním systému. Je tak možné vytvářet aplikace zároveň pro Windows, Linux nebo Mac. Stejně tak pokud v budoucnu dojde k vytváření mobilní verzi dané aplikace, je možné některé části kódu znovupoužít a předělat jen grafickou stránku aplikace. Jádrem celé platformy je API, které je přístupné přes globální objekt Titanium. Přes něj se dají snadno vytvářet další okna aplikace, různá menu a poskytuje snadný přístup k souborům uloženým na filesystému nebo k tabulkám v databázi. 
+Samotné Titanium Studio je pouze vývojové prostředí, které usnadňuje práci s platformou Titanium. Tato není závislá na operačním systému. Je tak možné vytvářet aplikace zároveň pro Windows, Linux nebo Mac. Stejně tak pokud v budoucnu dojde k vytváření mobilní verzi dané aplikace, je možné některé části kódu znovupoužít a předělat jen grafickou stránku aplikace. Jádrem celé platformy je API\cite{titanium:api}, které je přístupné přes globální objekt Titanium. Přes něj se dají snadno vytvářet další okna aplikace, různá menu a poskytuje snadný přístup k souborům uloženým na filesystému nebo k tabulkám v databázi. Celé API je složené z mnoha modulů, které alespoň ve zkratce představím.
+
+\begin{itemize}
+\item Titanium - top-level modul sloužící jako kontejner pro všechny ostatní moduly
+\item Titanium.API - přístup do jádra platformy Titanium
+\item Titanium.Analytics - správa analytických událostí
+\item Titanium.App - správa aktuálně běžící aplikace
+\item Titanium.Codec - poskytuje možnost dekódování/zakódování multimédií
+\item Titanium.Database - přístup do databáze
+\item Titanium.Filesystem - přístup do filesystému
+\item Titanium.JSON - umožňuje de/serializovat JSON pole
+\item Titanium.Media - správa zvuku
+\item Titanium.Network - správa síťových spojení
+\item Titanium.Notification - možnost zobrazování notifikací na ploše počítače
+\item Titanium.Platform - přístup k funkcím specifické platformy
+\item Titanium.Process - možnost vytváření procesů
+\item Titanium.UI - správa UI aplikace
+\item Titanium.UpdateManager - správa verzování aplikace (instalace updatů)
+\item Titanium.Worker - správa vláken Worker
+\end{itemize}
 
 \subsubsection{Databáze}
 
-Jako databázový engine se používá SQLite\cite{sqlite}, kde je celá databáze uložena v jednom souboru a tím se snadno zálohuje nebo přenáší na jiný počítač. O připojení k databázi se postará globální objekt, nám stačí znát jméno databáze, které si můžeme předem určit. Po připojení k ní získáme objekt, na kterém už lze pokládat dotazy na databázi v jazyce SQL. Jak může takové volání vypadat, ukazuje následující příklad:
+Jako databázový engine se používá SQLite\cite{sqlite}, kde je celá databáze uložena v jednom souboru a tím se snadno zálohuje nebo přenáší na jiný počítač. O připojení k databázi se postará globální objekt, stačí znát jméno databáze, které je možné předem určit. Po připojení se získá objekt, na kterém už lze pokládat dotazy na databázi v jazyce SQL. Jak může takové volání vypadat, ukazuje následující příklad:
 
 \begin{quote}
 DB.execute("INSERT INTO images (title, description) VALUES (?, ?)", "test", "description");
@@ -156,33 +179,12 @@ Jak je API v aplikace využíváno, bude nejlépe patrné z nějakého příklad
 \item zpracování odpovědi od serveru
 \end{enumerate}
 
-\begin{enumerate}
-\item uživatel: klikne na tlačítko \uv{New issue}
-\item systém: zavolá funkci, která obsluhuje dané tlačítko
-\item API: zobrazí dialog s obsahem, který definoval handler v předchozím kroku
-\item \begin{enumerate}
-\item API: načte z databáze uživatele a milníky daného projektu
-\end{enumerate}
-\item uživatel: vyplní formulář v dialogu a odešle ho tlačítkem ``Save''
-\item systém: vytáhne z formuláře vyplněná data a vyžádá si od API objekty reprezentující zvoleného uživatele a\slash nebo milníku
-\item \begin{enumerate}
-\item API: načte z databáze uživatele a předá ho modelové třídě
-\end{enumerate}
-\item \begin{enumerate}
-\item systém: modelová třída uživatele naparsuje do objektu a předá ho zpět
-\end{enumerate}
-\item systém: uzavře dialog zavoláním API
-\item systém: nově vytvořený objekt reprezentující úkol je předán synchronizační třídě
-\item \begin{enumerate}
-\item systém: objekt je naparsován do formátu JSON, který používá server GitHub pro komunikaci
-\end{enumerate}
-\item \begin{enumerate}
-\item API: pomocí objektu Titanium.Network.HTTPClient je řetězec s JSON odeslán na server a vrácený výsledek je poslán zpět do synchronizační třídy
-\end{enumerate}
-\item \begin{enumerate}
-\item systém: záznam o úkolu je aktualizován v databázi o údaje vrácené ze serveru
-\end{enumerate}
-\item systém: aktualizuje výpis úkolů daného projektu
-\end{enumerate}
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=15cm,scale=2,trim=10mm 145mm 10mm 10mm, clip]{figures/vyuziti-api}
+	\caption{Využití API v aplikaci}
+	\label{fig:vyuziti-api}
+\end{center}
+\end{figure}
 
-Jak je vidět z příkladu, API je skutečně integrální součástí aplikace a poskytuje spousty důležitých funkcí, které hodně zrychlují a usnadňují vývoj celé aplikace.
+Jak je vidět z diagramu \ref{fig:vyuziti-api}, API je skutečně integrální součástí aplikace a poskytuje spousty důležitých funkcí, které hodně zrychlují a usnadňují vývoj celé aplikace.

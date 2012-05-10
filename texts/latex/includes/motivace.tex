@@ -9,7 +9,7 @@ Stěžejním úkolem aplikace je správa úkolů a jejich třídění do projekt
 V tomto nástroji existují v zásadě čtyři typy projektů:
 
 \begin{itemize}
-\item obyčejný GTD projekt
+\item obyčejný projekt
 \item projekt hostovaný na serveru Assembla
 \item projekt hostovaný na serveru Google Code
 \item projekt hostovaný na serveru GitHub
@@ -17,19 +17,19 @@ V tomto nástroji existují v zásadě čtyři typy projektů:
 
 V další části jsou tyto typy projektů popsány podrobněji.
 
-\subsection{Obyčejný GTD projekt}
+\subsection{Obyčejný projekt}
 
 Obyčejný projekt neposkytuje žádné speciální funkce, poskytuje pouze možnost roztřídit si úkoly podle nějaké jejich společné vlastnosti. Uživatel si tak může například rozdělit nějaký rozsáhlejší úkol na menší části. Tento projekt ani nemusí souviset s vývojem software.
 
 \subsection{Hostované projekty}
 
-Projekty, které jsou uloženy na některém ze serverů, jsou vždy pevně svázány s některým z repozitářů uložených na daném serveru. Poskytují tak možnost synchronizace úkolů uložených na serveru s těmi v aplikaci. Při synchronizaci se zároveň stáhne seznam uživatelů, milníků a štítků, které je pak možné dále využívat. Například je možné do milníku přiřadit nový úkol a změna se automaticky projeví i na serveru. To samé je možné při přiřazování úkolů uživatelům.
+Projekty, které jsou uloženy na některém ze serverů. Tyto jsou vždy pevně svázány s některým z repozitářů uložených na daném serveru. Poskytují tak možnost synchronizace úkolů uložených na serveru s těmi v aplikaci. Při synchronizaci se zároveň stáhne seznam uživatelů, milníků a štítků, které je pak možné dále využívat. Například je možné do milníku přiřadit nový úkol a změna se automaticky projeví i na serveru. To samé je možné při přiřazování úkolů uživatelům.
 
 \subsubsection{Porovnání verzovacích serverů}
 
 Každý ze serverů poskytuje jiné funkce, tzn. i API jednotlivých služeb nebudou stejná. To přináší komplikace při vývoji nástroje, který má v sobě integrovat správu všech tří služeb.
 
-Každé z trojice používaných API poskytuje jiný přístup k datům uloženým na serveru. Assembla a Google Code se spoléhá na rozhraní REST. Github používá pro přenos dat JSON pole, která jsou snadněji zpracovatelná JavaScriptem a pomalu se dostávají i do jiných programovacích jazyků. Nejlépe zdokumentované rozhraní má jednoznačně Github. V dokumentaci lze najít i chybové hlášky a všechny typy návratových polí. Github zároveň poskytuje největší paletu nabízených služeb a klientská aplikace se tak dostane kamkoliv. Samotná webová aplikace Githubu běží nad tímto API.
+Každé z trojice používaných API poskytuje jiný přístup k datům uloženým na serveru. Assembla a Google Code se spoléhá na rozhraní typu REST\cite{rest}. Github používá pro přenos dat JSON\cite{json} pole, která jsou snadněji zpracovatelná JavaScriptem a pomalu se dostávají i do jiných programovacích jazyků. Nejlépe zdokumentované rozhraní má jednoznačně Github. V dokumentaci lze najít i chybové hlášky a všechny typy návratových polí. Github zároveň poskytuje největší paletu nabízených služeb a klientská aplikace se tak dostane kamkoliv. Samotná webová aplikace Githubu běží nad tímto API.
 
 Nejhůře je na tom s dokumentací Assembla, kde polovina údajů chybí a postup práce s API je tak spíše pokus-omyl. Nikde například nejsou k nalezení chybové hlášky, které API vrací pokud požadavek z nějakého důvodu nevyhovuje. Vývojáři tak nezbývá nic jiného, než odpověď hledat pomocí vyhledávače.
 
@@ -64,9 +64,9 @@ Kvůli těmto rozdílům jsou nutné různé kompromisy, aby bylo možné aplika
 
 \subsection{Getting Things Done}
 
-Tato metoda byla vytvořena americkým koučem Davidem Allenem\cite{gtd:web,gtd:wiki}, který ji popsal ve stejnojmenné knize\cite{gtd:book}. Neslouží přímo k organizaci času, ale orientuje se spíše na organizaci práce a její plánování. Hlavní myšlenkou Allenovi práce je fakt, že lidský mozek není diář a není uzpůsoben k tomu, aby si pamatoval každý úkol a závazek, který je nutno splnit. Člověk pracuje lépe, pokud se nemusí věnovat tomu, aby si vzpomenul, co všechno musí udělat. Jádrem této metody jsou proto různé seznamy, které obsahují veškeré úkoly, které je nutno vyřešit. Mozek se tak může soustředit čistě na práci a není rozptylován vzpomínáním na jiné nesouvisející úkoly.
+Tato metoda byla vytvořena americkým koučem Davidem Allenem, který ji popsal ve stejnojmenné knize\cite{gtd:book}. Neslouží přímo k organizaci času, ale orientuje se spíše na organizaci práce a její plánování. Hlavní myšlenkou Allenovi práce je fakt, že lidský mozek není diář a není uzpůsoben k tomu, aby si pamatoval každý úkol a závazek, který je nutno splnit. Člověk pracuje lépe, pokud se nemusí věnovat tomu, aby si vzpomenul, co všechno musí udělat. Jádrem této metody jsou proto různé seznamy, které obsahují veškeré úkoly, které je nutno vyřešit. Mozek se tak může soustředit čistě na práci a není rozptylován vzpomínáním na jiné nesouvisející úkoly.
 
-Celou metodu lze rozdělit do pěti kroků:
+Celou metodu lze rozdělit do pěti kroků\cite{gtd:wiki}:
 
 \begin{itemize}
 \item sběr úkolů
@@ -76,9 +76,9 @@ Celou metodu lze rozdělit do pěti kroků:
 \item vykonání
 \end{itemize}
 
-V aplikaci jsou zachyceny pouze prostřední tři kroky. Sběr úkolů je nutné provádět průběžně, tzn. nemusí to být v dosahu počítače. Tomuto účelu bohatě postačí nějaký papírový zápisník, příp. poznámky uložené v telefonu. Poslední krok \uv{vykonání} je zase plně v režii člověka, tam už aplikace nepomůže.
+V aplikaci jsou zachyceny pouze prostřední tři kroky. Sběr úkolů je nutné provádět průběžně, tzn. nemusí to být v dosahu počítače. Tomuto účelu bohatě postačí nějaký papírový zápisník, příp. poznámky uložené v telefonu. Poslední krok \uv{vykonání} je zase plně v režii člověka, tam už žádná aplikace nepomůže.
 
-V kroku \uv{zpracování} dochází k přesunu úkolů z různých zdrojů (zápisník, poznámky) do jedné schránky - aplikace. Nesplnitelné úkoly se buď zahodí nebo se uloží na později. Splnitelné úkoly se buď vykonají, přiřadí někomu jinému nebo se uloží na později. O tom, zda se úkol vykoná hned nebo se uloží, rozhoduje pravidlo 2 minut. Pokud vykonání úkolu zabere víc času než dvě minuty, je uložen k pozdějšímu zpracování. Zároveň pokud je krok komplexnější a k jeho splnění je potřeba víc než jeden krok, je tento rozdělen na víc částí a uložen jako projekt.
+V kroku \uv{zpracování} dochází k přesunu úkolů z různých zdrojů (zápisník, poznámky) do jedné schránky - aplikace. Nesplnitelné úkoly se buď zahodí nebo se uloží na později. Splnitelné úkoly se buď vykonají, přiřadí někomu jinému nebo se uloží na později. O tom, zda se úkol vykoná hned nebo se uloží, rozhoduje pravidlo 2 minut. Pokud vykonání úkolu zabere víc času než tyto dvě minuty, je uložen k pozdějšímu zpracování. Zároveň pokud je krok komplexnější a k jeho splnění je potřeba víc než jeden krok, je tento rozdělen na víc částí a uložen jako projekt.
 
 V další fázi - zorganizování - dochází k rozdělení úkolů do těchto pěti oblastí:
 
@@ -87,21 +87,21 @@ V další fázi - zorganizování - dochází k rozdělení úkolů do těchto p
 \item delegované úkoly - přiřazené jiným lidem, u kterých čekáme na zpracování
 \item projektové úkoly
 \item úkoly uložené na později
-\item naplánované úkoly - pevně dané datum splnění (deadline)
+\item naplánované úkoly - mají pevně dané datum splnění (deadline)
 \end{itemize}
 
 Čtvrtá fáze, která je zde označena jako zhodnocení, probíhá paralelně se všemi ostatními. Během ní člověk přehodnocuje, zda dělá to, co by dělat měl. K tomu mu poslouží seznam nesplněných úkolů a projektů. Ke zhodnocení dochází také jednou za týden, kdy se upravuje seznam úkolů tak, aby byl aktuální.
 
 \section{Důvody pro zvolení desktopové aplikace}
 
-V dnešní době už desktopové aplikace vycházejí z módy. Všechna data a aplikace se přesouvají do webového prostoru, kde je obsah přístupný odkudkoliv a je jedno přes jaké zařízení se k němu přistupuje. Dokumenty tak lze vytvářet na stolním počítači a pak je upravovat na svém smartphonu, který má připojení k internetu. Používání webových úložišť má ale i svá úskalí - bezpečnost a spolehlivost.
+V dnešní době už desktopové aplikace vycházejí z módy. Všechna data a aplikace se přesouvají do webového prostoru, kde je obsah přístupný odkudkoliv a je jedno přes jaké zařízení se k němu přistupuje. Dokumenty tak lze vytvářet na stolním počítači a pak je možné upravovat je na svém smartphonu, který má připojení k internetu. Používání webových úložišť má ale i svá úskalí - bezpečnost a spolehlivost.
 
 \subsection{Bezpečnost}
 
 Data na internetu jsou uložena na nějakém vzdáleném serveru a člověk nemá jistotu v tom, že k nim nemá přístup někdo nepovolaný. U desktopových aplikací lze bezpečnost snadno ohlídat minimálně pomocí hesla, příp. šifrováním obsahu na pevném disku. Pokud je ale obsah uložený na jednom pevném disku, zvyšuje se pravděpodobnost ztráty dat, takže je nutné pravidelné zálohování. U vzdálených serverů je obvykle o zálohování postaráno automaticky.
 
-Jak vidno, obě varianty mají svá pro a proti. Důvody pro zvolení desktopové jsou v zásadě dva - rešerše práce s vývojovým prostředím Titanium Studio a experiment, zda je možné napsat kompletní aplikaci pouze pomocí JavaScriptu. 
+Jak vidno, obě varianty mají svá pro a proti. Důvody pro zvolení desktopové aplikace jsou v zásadě dva - rešerše práce s vývojovým prostředím Titanium Studio a experiment, zda je možné napsat kompletní aplikaci pouze pomocí JavaScriptu. 
 
 \subsection{Využití JavaScriptu}
 
-JavaScript se v poslední době opět vrací na výsluní a je k nalezení téměř na každé webové stránce či aplikaci. Na rozdíl od ostatních technologií jako je Flash\cite{flash} nebo Silverlight\cite{silverlight}, není závislý na platformě a funguje stejně dobře na operačním systému Windows, Linux nebo Mac. Jeho podpora je pevně zabudována do drtivé většiny webových prohlížečů a v poslední době se jeho podpora rozšiřuje i na mobilní zařízení. Žádná jiná technologie nemá takovou podporu. JavaScript je nejsnadnější způsob, jak udělat stránku interaktivní. Změnit to může snad jedině větší rozšíření HTML 5, ale to bude ještě nějakou dobu trvat.
+JavaScript se v poslední době opět vrací na výsluní a je k nalezení téměř na každé webové stránce či webové aplikaci. Na rozdíl od ostatních technologií jako je Flash\cite{flash} nebo Silverlight\cite{silverlight}, není závislý na platformě a funguje stejně dobře na operačním systému Windows, Linux nebo Mac. Jeho podpora je pevně zabudována do drtivé většiny webových prohlížečů a v poslední době se jeho podpora rozšiřuje i na mobilní zařízení. Žádná jiná technologie nemá takovou podporu. JavaScript je nejsnadnější způsob, jak udělat stránku interaktivní. Změnit to může snad jedině větší rozšíření HTML 5, ale to bude ještě nějakou dobu trvat.
