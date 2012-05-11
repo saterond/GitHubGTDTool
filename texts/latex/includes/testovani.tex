@@ -53,3 +53,28 @@ Součástí každé iterace je vložení dalšího úkolu (příp. se štítky a
 	\label{fig:load-tests}
 \end{center}
 \end{figure}
+
+\section{Akceptační testy}
+
+V rámci fáze testování byly provedeny také akceptační testy, jejichž cílem bylo objektivně posoudit splnění požadavků. Tyto testy nevyžadují žádné zvláštní nástroje a běhová prostředí, stačí tužka a papír. Hlavním podkladem pro ně jsou vypracované user stories, které byly rozepsány v kapitole 3 - Analýza. Výsledky testů jsou v tabulce \ref{tab:failed-accept-tests}, kde jsou vypsány kvůli lepší přehlednosti pouze nesplněné user stories. Všechny ostatní lze tedy považovat za splněné.
+
+\begin{table}[h]
+\begin{center}
+	\begin{tabular}{| c | p{5cm} | p{5cm} |}
+	\hline
+	Role & User story & Důvod nesplnění \\
+	\hline
+	\hline
+	Uživatel \slash vývojář & Spárovat úkol s konkrétním commitem do repozitáře & Přehled commitů lze získat pouze z GitHubu, ostatní servery toto neumožňují \\
+	\hline
+	Uživatel \slash vývojář & Exportovat úkol a poslat ho jednoduše kolegovi v týmu, aby ho nemusel ručně přepisovat & Funkce se ukázala jako redundantní. O notifikaci se postará verzovací server. \\
+	\hline
+	Uživatel \slash  vývojář \slash  senior & Být informován o změnách v mých repozitářích na serverech & Tuto funkci opět umožňuje pouze GitHub \\
+	\hline
+	Uživatel \slash  vývojář \slash  junior & Být informován o nově přiřazených úkolech od senior vývojářů & Není nutné, postará se verzovací server \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Přehled nesplněných user stories}
+\label{tab:failed-accept-tests}
+\end{table}

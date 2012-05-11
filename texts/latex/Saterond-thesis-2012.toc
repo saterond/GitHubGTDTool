@@ -58,12 +58,13 @@
 \contentsline {section}{\numberline {6.1}Pou\IeC {\v z}it\IeC {\'y} zp\IeC {\r u}sob testov\IeC {\'a}n\IeC {\'\i }}{22}{section.6.1}
 \contentsline {section}{\numberline {6.2}Testov\IeC {\'a}n\IeC {\'\i } asynchronn\IeC {\'\i }ch vol\IeC {\'a}n\IeC {\'\i }}{23}{section.6.2}
 \contentsline {section}{\numberline {6.3}Z\IeC {\'a}t\IeC {\v e}\IeC {\v z}ov\IeC {\'e} testy}{23}{section.6.3}
-\contentsline {chapter}{\numberline {7}Shrnut\IeC {\'\i }}{25}{chapter.7}
-\contentsline {section}{\numberline {7.1}Z\IeC {\'a}v\IeC {\v e}re\IeC {\v c}n\IeC {\'e} zhodnocen\IeC {\'\i } aplikace}{25}{section.7.1}
-\contentsline {section}{\numberline {7.2}Doporu\IeC {\v c}en\IeC {\'\i } do dal\IeC {\v s}\IeC {\'\i }ho v\IeC {\'y}voje}{25}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}Pr\IeC {\'a}ce s IDE Titanium Studio}{26}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {7.2.2}Psan\IeC {\'\i } aplikace zcela v JavaScriptu}{26}{subsection.7.2.2}
-\contentsline {chapter}{\numberline {8}Z\IeC {\'a}v\IeC {\v e}r}{28}{chapter.8}
-\contentsline {chapter}{\numberline {9}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{31}{chapter.9}
-\contentsline {chapter}{\numberline {10}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{32}{chapter.10}
-\contentsline {chapter}{\numberline {11}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{33}{chapter.11}
+\contentsline {section}{\numberline {6.4}Akcepta\IeC {\v c}n\IeC {\'\i } testy}{24}{section.6.4}
+\contentsline {chapter}{\numberline {7}Shrnut\IeC {\'\i }}{26}{chapter.7}
+\contentsline {section}{\numberline {7.1}Z\IeC {\'a}v\IeC {\v e}re\IeC {\v c}n\IeC {\'e} zhodnocen\IeC {\'\i } aplikace}{26}{section.7.1}
+\contentsline {section}{\numberline {7.2}Doporu\IeC {\v c}en\IeC {\'\i } do dal\IeC {\v s}\IeC {\'\i }ho v\IeC {\'y}voje}{26}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Pr\IeC {\'a}ce s IDE Titanium Studio}{27}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Psan\IeC {\'\i } aplikace zcela v JavaScriptu}{27}{subsection.7.2.2}
+\contentsline {chapter}{\numberline {8}Z\IeC {\'a}v\IeC {\v e}r}{29}{chapter.8}
+\contentsline {chapter}{\numberline {9}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{32}{chapter.9}
+\contentsline {chapter}{\numberline {10}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{33}{chapter.10}
+\contentsline {chapter}{\numberline {11}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{34}{chapter.11}
