@@ -30,27 +30,27 @@
 \contentsline {section}{\numberline {4.1}Rozd\IeC {\v e}len\IeC {\'\i } do bal\IeC {\'\i }\IeC {\v c}k\IeC {\r u}}{12}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}Controller}{12}{subsection.4.1.1}
 \contentsline {subsubsection}{\numberline {4.1.1.1}Application}{12}{subsubsection.4.1.1.1}
-\contentsline {subsubsection}{\numberline {4.1.1.2}Sync}{12}{subsubsection.4.1.1.2}
+\contentsline {subsubsection}{\numberline {4.1.1.2}Sync}{13}{subsubsection.4.1.1.2}
 \contentsline {subsection}{\numberline {4.1.2}Model}{13}{subsection.4.1.2}
 \contentsline {subsubsection}{\numberline {4.1.2.1}Model}{13}{subsubsection.4.1.2.1}
 \contentsline {subsection}{\numberline {4.1.3}API's}{13}{subsection.4.1.3}
-\contentsline {subsubsection}{\numberline {4.1.3.1}xxxAPI}{13}{subsubsection.4.1.3.1}
+\contentsline {subsubsection}{\numberline {4.1.3.1}xxxAPI}{14}{subsubsection.4.1.3.1}
 \contentsline {subsubsection}{\numberline {4.1.3.2}Ajax\_client}{14}{subsubsection.4.1.3.2}
 \contentsline {subsubsection}{\numberline {4.1.3.3}REST\_client}{14}{subsubsection.4.1.3.3}
-\contentsline {subsection}{\numberline {4.1.4}View}{14}{subsection.4.1.4}
-\contentsline {subsubsection}{\numberline {4.1.4.1}Viewer}{14}{subsubsection.4.1.4.1}
-\contentsline {subsection}{\numberline {4.1.5}Entity}{14}{subsection.4.1.5}
+\contentsline {subsection}{\numberline {4.1.4}View}{15}{subsection.4.1.4}
+\contentsline {subsubsection}{\numberline {4.1.4.1}Viewer}{15}{subsubsection.4.1.4.1}
+\contentsline {subsection}{\numberline {4.1.5}Entity}{15}{subsection.4.1.5}
 \contentsline {section}{\numberline {4.2}Bezpe\IeC {\v c}nost}{15}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}Zabezpe\IeC {\v c}en\IeC {\'\i } serveru Assembla}{15}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Zabezpe\IeC {\v c}en\IeC {\'\i } serveru GitHub}{15}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}Zabezpe\IeC {\v c}en\IeC {\'\i } serveru Google Code}{15}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.2}Zabezpe\IeC {\v c}en\IeC {\'\i } serveru GitHub}{16}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Zabezpe\IeC {\v c}en\IeC {\'\i } serveru Google Code}{16}{subsection.4.2.3}
 \contentsline {section}{\numberline {4.3}Titanium studio}{16}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}P\IeC {\v r}edstaven\IeC {\'\i }}{16}{subsection.4.3.1}
 \contentsline {subsubsection}{\numberline {4.3.1.1}Datab\IeC {\'a}ze}{17}{subsubsection.4.3.1.1}
-\contentsline {subsubsection}{\numberline {4.3.1.2}AJAX}{17}{subsubsection.4.3.1.2}
+\contentsline {subsubsection}{\numberline {4.3.1.2}AJAX}{18}{subsubsection.4.3.1.2}
 \contentsline {subsubsection}{\numberline {4.3.1.3}Vytv\IeC {\'a}\IeC {\v r}en\IeC {\'\i } oken a nab\IeC {\'\i }dek}{18}{subsubsection.4.3.1.3}
 \contentsline {subsection}{\numberline {4.3.2}V\IeC {\'y}hody a nev\IeC {\'y}hody}{18}{subsection.4.3.2}
-\contentsline {subsection}{\numberline {4.3.3}Vyu\IeC {\v z}it\IeC {\'\i } API v aplikaci}{18}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.3}Vyu\IeC {\v z}it\IeC {\'\i } API v aplikaci}{19}{subsection.4.3.3}
 \contentsline {chapter}{\numberline {5}Nasazen\IeC {\'\i } aplikace}{21}{chapter.5}
 \contentsline {section}{\numberline {5.1}Linux}{21}{section.5.1}
 \contentsline {section}{\numberline {5.2}Mac OS X}{21}{section.5.2}

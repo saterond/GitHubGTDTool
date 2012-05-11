@@ -6,7 +6,15 @@ Návrh architektury této aplikace byl výrazně ovlivněn dvěma fakty. Za prv�
 
 Aplikaci lze rozdělit do několika balíčků, i když toto rozdělení není tak patrné jako například u Javy. Jako vzor pro celkovou architekturu bylo zvoleno MVC (model-view-controller), kde je oddělená prezentační část od výkonné a obsahové. Nicméně to vyžadovalo pár kompromisů protože JavaScript není primárně objektový jazyk.
 
-Celá aplikace využívá ke svému běhu knihovnu PrototypeJS\cite{prototypejs}, díky které lze snadno definovat objekty a omezeně i dědičnost mezi nimi. V prezentační části se navíc využívá knihovna Script.aculo.us\cite{scriptaculous}, která je postavena na dříve zmíněném PrototypeJS a která umožňuje snadnější vytváření efektů a různých animací.
+Celá aplikace využívá ke svému běhu knihovnu PrototypeJS\cite{prototypejs}, díky které lze snadno definovat objekty a omezeně i dědičnost mezi nimi. V prezentační části se navíc využívá knihovna Script.aculo.us\cite{scriptaculous}, která je postavena na dříve zmíněném PrototypeJS a která umožňuje snadnější vytváření efektů a různých animací. Ukázka výsledné podoby aplikace je vidět na obrázku \ref{fig:screenshot}.
+
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=14cm]{figures/screenshot}
+	\caption{Screenshot výsledné aplikace}
+	\label{fig:screenshot}
+\end{center}
+\end{figure}
 
 Diagram \ref{fig:class-model} znázorňuje rozdělení aplikace do balíčků.
 
