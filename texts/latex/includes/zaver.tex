@@ -1,8 +1,23 @@
-\chapter{Závěr}
+\chapter{Shrnutí}
 
 \section{Závěrečné zhodnocení aplikace}
 
 Zhodnocení aplikace z pohledu splnění požadavků je snadné, stačí si projít user stories z části týkající se metodiky a hned bude jasné, které byly naplněny a které nikoliv. Pokud se tedy použije tento postup, procentuální splnění požadavků se dostane na 95\%. V aplikaci chybí párování úkolů a jednotlivých commitů ze vzdáleného serveru. Analýza totiž ukázala, že tuto možnost má pouze GitHub, ostatní ji neposkytují, proto od ní bylo upuštěno a nebyla zahrnuta do aplikace.
+
+\section{Doporučení do dalšího vývoje}
+
+Zátěžové testy ukázaly, že aplikace se stává poměrně pomalou s přibývajícími úkoly v jednotlivých projektech. Problém tkví ve čtení dat z databáze. Řešením by mohla být nějaká vyrovnávací paměť (cache), která by byla umístěna mezi databází a zbytkem aplikace. To s sebou nutně přinese mnoho dalších komplikací a zrychlení aplikace tak může být poměrně drahé. Mezi největší problémy patří určitě volba úložiště vyrovnávací paměti a také její invalidace (smazání neaktuálních dat). Úložiště musí být dostatečně rychle přístupné, aby vůbec mělo smysl vyrovnávací paměť implementovat. Nasnadě je využití souborové cache, ale čtení dat z filesystému nemusí být zrovna nejrychlejší. Lepší by bylo ukládání dat do operační paměti, jenže k té nemá JavaScript přístup. Dalším problémem je invalidace cache, tedy odstranění neaktuálních dat z paměti. Je totiž poměrně velký problém určit, kdy už data nejsou aktuální.
+
+Další funkce, na které se přišlo během vývoje a které byly zařazeny do kategorie \uv{hezké mít} (angl. nice-to-have) jsou tyto:
+
+\begin{itemize}
+\item sledování i cizích projektů
+\item vytváření vlastních přehledů úkolů (kombinace štítků a projektů)
+\item automatické sledování commitů do synchronizovaného repozitáře
+\item modulárnější vizuální stránka s využitím knihovny MustacheJS\cite{mustache}
+\end{itemize}
+
+Tyto funkce se ukázaly buď jako obtížně realizovatelné (vyrovnávací paměť, vytváření vlastních přehledů) nebo poměrně zbytečné (MustacheJS, sledování commitů), ale přesto byly uloženy, aby se na ně nezapomnělo.
 
 \subsection{Práce s IDE Titanium Studio}
 
@@ -22,8 +37,8 @@ Dalším problémem je to, že JavaScript není primárně objektový jazyk, ale
 
 Neduhem aplikací napsaných v JavaScriptu je také přehršel funkcí, které je nutné zakládat velmi často a celý kód se tak znepřehledňuje kvůli velkému množství závorek. Tento problém by částečně mohla vyřešit knihovna CoffeeScript\cite{coffeescript}, která používá hlavně odsazování a spousty závorek nepotřebuje, protože je schopná si je \uv{domyslet}. Bohužel je určena hlavně pro Linux a její zprovoznění na Windows se ukázalo jako velmi problematické. Také by to znamenalo nutnost učit se novou syntaxi.
 
-\section{Závěr}
+\chapter{Závěr}
 
 Výsledkem této práce je nástroj, který v sobě integruje správu tří verzovacích serverů. Protože se poskytovaná API hodně liší, byla nutná spousta kompromisů pro zachování konzistence ovládání aplikace. Tím je sice uživatel ochuzen o několik extra funkcí poskytovaných těmito servery, ale to hlavní je v aplikaci umožněno. Na čem by se dalo určitě ještě zapracovat je vizuální stránka aplikace, která dost často rozhoduje o úspěchu aplikace.
 
-Důležitou součástí vývoje software je testování ve všech různých podobách. Při vývoji tohoto nástroje to nebylo jinak. Během vývoje byly prováděny jednotkové (unit) testy, po dokončení implementační fáze bylo provedeno zátěžové testování výpisu úkolů, což se ukázalo jako časově velmi náročná operace. Úplně nakonec byly provedeny akceptační testy na základě sepsaných user stories. Všechny provedené testy potvrdily funkčnost aplikace a jako taková je připravená k používání jinými uživateli.
+Důležitou součástí vývoje software je testování ve všech různých podobách. Při vývoji tohoto nástroje to nebylo jinak. Během vývoje byly prováděny jednotkové (unit) testy, po dokončení implementační fáze bylo provedeno zátěžové testování výpisu úkolů, což se ukázalo jako časově velmi náročná operace. Úplně nakonec byly provedeny akceptační testy na základě sepsaných user stories. Všechny provedené testy potvrdily funkčnost aplikace a jako taková je připravená k používání reálnými uživateli.

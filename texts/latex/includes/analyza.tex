@@ -1,8 +1,8 @@
 \chapter{Analýza}
 
-Pro vývoj aplikace v této bakalářské práci byla zvolena novější metodika vývoje, která je modernější a v mnoha ohledech jednodušší než dříve používaný Rational Unified Process (RUP)\cite{rup}. Hlavní výhoda spočívá v tom, že se nevytváří hromady dokumentů, jejichž vytvoření zabere spoustu času a ve finále je většina z nich zbytečná. RUP má smysl spíše u velkých projektů, na kterých pracuje větší tým lidí a které jsou hodně rozsáhlé. 
+Pro vývoj aplikace v této bakalářské práci byla zvolena novější - agilní - metodika vývoje, která je v mnoha ohledech jednodušší než dříve používaný Rational Unified Process (RUP)\cite{rup}. Hlavní výhoda spočívá v tom, že se nevytváří hromady dokumentů, jejichž vytvoření zabere spoustu času a ve finále je většina z nich zbytečná. RUP má smysl spíše u velkých projektů, na kterých pracuje větší tým lidí a které jsou hodně rozsáhlé. 
 
-RUP a agilní metodiky se liší už ve způsobu sběru požadavků. Zatímco RUP je orientovaný na use-case modely, vytvářené obvykle v jazyce Unified Modeling Language (UML)\cite{uml}, agilní metodiky evidují požadavky v podobě tzv. user stories\cite{userstory}.
+RUP a agilní metodiky se liší už ve způsobu sběru požadavků. Zatímco RUP je orientovaný na use-case modely, vytvářené obvykle v jazyce Unified Modeling Language (UML)\cite{uml}, agilní metodiky evidují požadavky v podobě tzv. user stories \cite{userstory}.
 
 \section{User stories}
 
@@ -86,8 +86,8 @@ Z výše zmíněných user stories byl v dalším kroku vytvořen seznam entit, 
 \subsection{Issue}
 Entita reprezentující jeden úkol, uložený v aplikaci. Má definované jméno (název problému) a popis, který obsahuje konkrétní popis problému
 
-\subsection{issueState}
-Úkoly (issues) existují v aplikaci v různých stavech. Každý stav určuje jak bude aplikace s daným úkolem zacházet.
+\subsection{IssueState}
+Úkoly (issues) existují v aplikaci v různých stavech. Každý stav určuje jak bude aplikace s daným úkolem zacházet \ref{tab:issueState}.
 
 \begin{table}[h]
 \begin{center}
@@ -108,7 +108,7 @@ Entita reprezentující jeden úkol, uložený v aplikaci. Má definované jmén
 \end{table}
 
 \subsection{Label}
-Štítky (label) slouží k filtraci úkolů (issues) a projektů (projects). Obvykle popisují nějakou obecnější vlastnost dané entity, podle které má smysl je filtrovat. To může být například priorita, programovací jazyk nebo náročnost.
+Štítky (label) slouží k filtraci úkolů (issues) a projektů (projects). Obvykle popisují nějakou obecnější vlastnost dané entity, podle které má smysl je filtrovat. To může být například priorita, programovací jazyk nebo náročnost \ref{tab:label}.
 
 \begin{table}[h]
 \begin{center}
@@ -125,7 +125,7 @@ Entita reprezentující jeden úkol, uložený v aplikaci. Má definované jmén
 \end{table}
 
 \subsection{Milestone}
-Milestone se do češtiny překládá jako milník. Je to nějaký bod v čase, do kterého musí být dokončená určitá množina úkolů (issues). Lze sledovat procentuální dokončení.
+Milestone se do češtiny překládá jako milník. Je to nějaký bod v čase, do kterého musí být dokončená určitá množina úkolů (issues). Lze sledovat procentuální dokončení \ref{tab:milestone}.
 
 \begin{table}[h]
 \begin{center}
@@ -143,7 +143,7 @@ Milestone se do češtiny překládá jako milník. Je to nějaký bod v čase, 
 \end{table}
 
 \subsection{User}
-Uživatel (user) vystupuje v aplikaci jako člen týmu, kterému je možné přiřadit nějaký úkol (issue).
+Uživatel (User) vystupuje v aplikaci jako člen týmu, kterému je možné přiřadit nějaký úkol (Issue) \ref{tab:user}.
 
 \begin{table}[h]
 \begin{center}
@@ -161,7 +161,7 @@ Uživatel (user) vystupuje v aplikaci jako člen týmu, kterému je možné při
 \end{table}
 
 \subsection{Project}
-Úkoly (issues) jsou uspořádané do projektů, které mají definované jméno a popis. I z úkolu se může stát projekt pokud je k jeho dokončení potřeba víc než jeden krok (podle GTD).
+Úkoly (issues) jsou uspořádané do projektů, které mají definované jméno a popis. I z úkolu se může stát projekt pokud je k jeho dokončení potřeba víc než jeden krok (podle GTD) \ref{tab:project}.
 
 \begin{table}[h]
 \begin{center}
@@ -178,8 +178,8 @@ Uživatel (user) vystupuje v aplikaci jako člen týmu, kterému je možné při
 \label{tab:project}
 \end{table}
 
-\subsection{projectState}
-Projekt může být buď aktivní, tzn. že se na něm pracuje, nebo dokončený.
+\subsection{ProjectState}
+Projekt může být buď aktivní, tzn. že se na něm pracuje, nebo dokončený \ref{tab:projectState}.
 
 \begin{table}[h]
 \begin{center}
@@ -196,9 +196,9 @@ Projekt může být buď aktivní, tzn. že se na něm pracuje, nebo dokončený
 \label{tab:projectState}
 \end{table}
 
-\subsection{projectType}
+\subsection{ProjectType}
 
-Každý projekt má definovaný nějaký typ, podle kterého se určí na jaký server se má synchronizovat. Pokud jde o obyčejný projekt (default) nesynchronizuje se nikam, všechny úkoly zůstávají pouze na lokálním úložišti.
+Každý projekt má definovaný nějaký typ, podle kterého se určí na jaký server se má synchronizovat. Pokud jde o obyčejný projekt (default) nesynchronizuje se nikam, všechny úkoly zůstávají pouze na lokálním úložišti \ref{tab:projectType}.
 
 \begin{table}[h]
 \begin{center}

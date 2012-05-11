@@ -4,10 +4,10 @@
 \contentsline {chapter}{\numberline {2}Motivace}{2}{chapter.2}
 \contentsline {section}{\numberline {2.1}O\IeC {\v c}ek\IeC {\'a}van\IeC {\'a} funkcionalita}{2}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Oby\IeC {\v c}ejn\IeC {\'y} projekt}{2}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}Hostovan\IeC {\'e} projekty}{2}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.2}Hostovan\IeC {\'e} projekty}{3}{subsection.2.1.2}
 \contentsline {subsubsection}{\numberline {2.1.2.1}Porovn\IeC {\'a}n\IeC {\'\i } verzovac\IeC {\'\i }ch server\IeC {\r u}}{3}{subsubsection.2.1.2.1}
-\contentsline {subsection}{\numberline {2.1.3}Getting Things Done}{3}{subsection.2.1.3}
-\contentsline {section}{\numberline {2.2}D\IeC {\r u}vody pro zvolen\IeC {\'\i } desktopov\IeC {\'e} aplikace}{5}{section.2.2}
+\contentsline {subsection}{\numberline {2.1.3}Getting Things Done}{4}{subsection.2.1.3}
+\contentsline {section}{\numberline {2.2}D\IeC {\r u}vody zvolen\IeC {\'\i } desktopov\IeC {\'e} aplikace}{5}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Bezpe\IeC {\v c}nost}{5}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}Vyu\IeC {\v z}it\IeC {\'\i } JavaScriptu}{5}{subsection.2.2.2}
 \contentsline {chapter}{\numberline {3}Anal\IeC {\'y}za}{6}{chapter.3}
@@ -18,20 +18,20 @@
 \contentsline {subsection}{\numberline {3.1.4}U\IeC {\v z}ivatel /\penalty \exhyphenpenalty v\IeC {\'y}voj\IeC {\'a}\IeC {\v r} /\penalty \exhyphenpenalty junior}{8}{subsection.3.1.4}
 \contentsline {section}{\numberline {3.2}Dom\IeC {\'e}nov\IeC {\'y} model}{8}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Issue}{8}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}issueState}{8}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.2}IssueState}{8}{subsection.3.2.2}
 \contentsline {subsection}{\numberline {3.2.3}Label}{8}{subsection.3.2.3}
 \contentsline {subsection}{\numberline {3.2.4}Milestone}{9}{subsection.3.2.4}
 \contentsline {subsection}{\numberline {3.2.5}User}{9}{subsection.3.2.5}
 \contentsline {subsection}{\numberline {3.2.6}Project}{9}{subsection.3.2.6}
-\contentsline {subsection}{\numberline {3.2.7}projectState}{9}{subsection.3.2.7}
-\contentsline {subsection}{\numberline {3.2.8}projectType}{10}{subsection.3.2.8}
+\contentsline {subsection}{\numberline {3.2.7}ProjectState}{9}{subsection.3.2.7}
+\contentsline {subsection}{\numberline {3.2.8}ProjectType}{10}{subsection.3.2.8}
 \contentsline {subsection}{\numberline {3.2.9}Area}{10}{subsection.3.2.9}
 \contentsline {chapter}{\numberline {4}Architektura}{12}{chapter.4}
 \contentsline {section}{\numberline {4.1}Rozd\IeC {\v e}len\IeC {\'\i } do bal\IeC {\'\i }\IeC {\v c}k\IeC {\r u}}{12}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}Controller}{12}{subsection.4.1.1}
 \contentsline {subsubsection}{\numberline {4.1.1.1}Application}{12}{subsubsection.4.1.1.1}
 \contentsline {subsubsection}{\numberline {4.1.1.2}Sync}{12}{subsubsection.4.1.1.2}
-\contentsline {subsection}{\numberline {4.1.2}Model}{12}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.2}Model}{13}{subsection.4.1.2}
 \contentsline {subsubsection}{\numberline {4.1.2.1}Model}{13}{subsubsection.4.1.2.1}
 \contentsline {subsection}{\numberline {4.1.3}API's}{13}{subsection.4.1.3}
 \contentsline {subsubsection}{\numberline {4.1.3.1}xxxAPI}{13}{subsubsection.4.1.3.1}
@@ -40,7 +40,7 @@
 \contentsline {subsection}{\numberline {4.1.4}View}{14}{subsection.4.1.4}
 \contentsline {subsubsection}{\numberline {4.1.4.1}Viewer}{14}{subsubsection.4.1.4.1}
 \contentsline {subsection}{\numberline {4.1.5}Entity}{14}{subsection.4.1.5}
-\contentsline {section}{\numberline {4.2}Bezpe\IeC {\v c}nost}{14}{section.4.2}
+\contentsline {section}{\numberline {4.2}Bezpe\IeC {\v c}nost}{15}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}Zabezpe\IeC {\v c}en\IeC {\'\i } serveru Assembla}{15}{subsection.4.2.1}
 \contentsline {subsection}{\numberline {4.2.2}Zabezpe\IeC {\v c}en\IeC {\'\i } serveru GitHub}{15}{subsection.4.2.2}
 \contentsline {subsection}{\numberline {4.2.3}Zabezpe\IeC {\v c}en\IeC {\'\i } serveru Google Code}{15}{subsection.4.2.3}
@@ -58,12 +58,12 @@
 \contentsline {section}{\numberline {6.1}Pou\IeC {\v z}it\IeC {\'y} zp\IeC {\r u}sob testov\IeC {\'a}n\IeC {\'\i }}{22}{section.6.1}
 \contentsline {section}{\numberline {6.2}Testov\IeC {\'a}n\IeC {\'\i } asynchronn\IeC {\'\i }ch vol\IeC {\'a}n\IeC {\'\i }}{23}{section.6.2}
 \contentsline {section}{\numberline {6.3}Z\IeC {\'a}t\IeC {\v e}\IeC {\v z}ov\IeC {\'e} testy}{23}{section.6.3}
-\contentsline {section}{\numberline {6.4}Doporu\IeC {\v c}en\IeC {\'\i } do dal\IeC {\v s}\IeC {\'\i }ho v\IeC {\'y}voje}{25}{section.6.4}
-\contentsline {chapter}{\numberline {7}Z\IeC {\'a}v\IeC {\v e}r}{26}{chapter.7}
-\contentsline {section}{\numberline {7.1}Z\IeC {\'a}v\IeC {\v e}re\IeC {\v c}n\IeC {\'e} zhodnocen\IeC {\'\i } aplikace}{26}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}Pr\IeC {\'a}ce s IDE Titanium Studio}{26}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {7.1.2}Psan\IeC {\'\i } aplikace zcela v JavaScriptu}{27}{subsection.7.1.2}
-\contentsline {section}{\numberline {7.2}Z\IeC {\'a}v\IeC {\v e}r}{27}{section.7.2}
-\contentsline {chapter}{\numberline {8}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{30}{chapter.8}
-\contentsline {chapter}{\numberline {9}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{31}{chapter.9}
-\contentsline {chapter}{\numberline {10}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{32}{chapter.10}
+\contentsline {chapter}{\numberline {7}Shrnut\IeC {\'\i }}{25}{chapter.7}
+\contentsline {section}{\numberline {7.1}Z\IeC {\'a}v\IeC {\v e}re\IeC {\v c}n\IeC {\'e} zhodnocen\IeC {\'\i } aplikace}{25}{section.7.1}
+\contentsline {section}{\numberline {7.2}Doporu\IeC {\v c}en\IeC {\'\i } do dal\IeC {\v s}\IeC {\'\i }ho v\IeC {\'y}voje}{25}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Pr\IeC {\'a}ce s IDE Titanium Studio}{26}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Psan\IeC {\'\i } aplikace zcela v JavaScriptu}{26}{subsection.7.2.2}
+\contentsline {chapter}{\numberline {8}Z\IeC {\'a}v\IeC {\v e}r}{28}{chapter.8}
+\contentsline {chapter}{\numberline {9}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{31}{chapter.9}
+\contentsline {chapter}{\numberline {10}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{32}{chapter.10}
+\contentsline {chapter}{\numberline {11}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{33}{chapter.11}

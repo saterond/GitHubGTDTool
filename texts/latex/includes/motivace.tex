@@ -1,6 +1,6 @@
 \chapter{Motivace}
 
-V této kapitole je popsána motivace, kvůli které je tento nástroj vyvíjen.
+V této kapitole je popsána motivace, kvůli které je tento nástroj vyvíjen. Obsahuje hrubé představení poskytované funkcionality a popis verzovacích serverů, jejichž API je v aplikaci využíváno.
 
 \section{Očekávaná funkcionalita}
 
@@ -43,6 +43,7 @@ Služby jsou rozdílné i z jiného úhlu pohledu. A sice z pohledu uživatele. 
 	\hline
 	Funkce & Assembla & GitHub & Google Code \\
 	\hline
+	\hline
 	Definování milníku & ano & ano & ano \\
 	Přiřazení štítků k issue & ne & ano & ano \\
 	Více různých stavů issue & ano & ne & ano \\
@@ -64,7 +65,7 @@ Kvůli těmto rozdílům jsou nutné různé kompromisy, aby bylo možné aplika
 
 \subsection{Getting Things Done}
 
-Tato metoda byla vytvořena americkým koučem Davidem Allenem, který ji popsal ve stejnojmenné knize\cite{gtd:book}. Neslouží přímo k organizaci času, ale orientuje se spíše na organizaci práce a její plánování. Hlavní myšlenkou Allenovi práce je fakt, že lidský mozek není diář a není uzpůsoben k tomu, aby si pamatoval každý úkol a závazek, který je nutno splnit. Člověk pracuje lépe, pokud se nemusí věnovat tomu, aby si vzpomenul, co všechno musí udělat. Jádrem této metody jsou proto různé seznamy, které obsahují veškeré úkoly, které je nutno vyřešit. Mozek se tak může soustředit čistě na práci a není rozptylován vzpomínáním na jiné nesouvisející úkoly.
+Tato metoda byla vytvořena americkým koučem Davidem Allenem, který ji popsal ve stejnojmenné knize \cite{gtd:book}. Neslouží přímo k organizaci času, ale orientuje se spíše na organizaci práce a její plánování. Hlavní myšlenkou Allenovi práce je fakt, že lidský mozek není diář a není uzpůsoben k tomu, aby si pamatoval každý úkol a závazek, který je nutno splnit. Člověk pracuje lépe, pokud se nemusí věnovat tomu, aby si vzpomenul, co všechno musí udělat. Jádrem této metody jsou proto různé seznamy, které obsahují veškeré úkoly, které je nutno vyřešit. Mozek se tak může soustředit čistě na práci a není rozptylován vzpomínáním na jiné nesouvisející úkoly.
 
 Celou metodu lze rozdělit do pěti kroků\cite{gtd:wiki}:
 
@@ -92,16 +93,16 @@ V další fázi - zorganizování - dochází k rozdělení úkolů do těchto p
 
 Čtvrtá fáze, která je zde označena jako zhodnocení, probíhá paralelně se všemi ostatními. Během ní člověk přehodnocuje, zda dělá to, co by dělat měl. K tomu mu poslouží seznam nesplněných úkolů a projektů. Ke zhodnocení dochází také jednou za týden, kdy se upravuje seznam úkolů tak, aby byl aktuální.
 
-\section{Důvody pro zvolení desktopové aplikace}
+\section{Důvody zvolení desktopové aplikace}
 
 V dnešní době už desktopové aplikace vycházejí z módy. Všechna data a aplikace se přesouvají do webového prostoru, kde je obsah přístupný odkudkoliv a je jedno přes jaké zařízení se k němu přistupuje. Dokumenty tak lze vytvářet na stolním počítači a pak je možné upravovat je na svém smartphonu, který má připojení k internetu. Používání webových úložišť má ale i svá úskalí - bezpečnost a spolehlivost.
 
 \subsection{Bezpečnost}
 
-Data na internetu jsou uložena na nějakém vzdáleném serveru a člověk nemá jistotu v tom, že k nim nemá přístup někdo nepovolaný. U desktopových aplikací lze bezpečnost snadno ohlídat minimálně pomocí hesla, příp. šifrováním obsahu na pevném disku. Pokud je ale obsah uložený na jednom pevném disku, zvyšuje se pravděpodobnost ztráty dat, takže je nutné pravidelné zálohování. U vzdálených serverů je obvykle o zálohování postaráno automaticky.
+Data na internetu jsou uložena na nějakém vzdáleném serveru a člověk nemá jistotu v tom, že k nim nemá přístup někdo nepovolaný. U desktopových aplikací lze bezpečnost snadno ohlídat minimálně pomocí hesla, příp. šifrováním obsahu na pevném disku. Záleží tedy na uživateli, zda se spolehne na zabezpečení vzdáleného serveru nebo bude mít radši vše pod přímou kontrolou na svém vlastním počítači. Dalším faktorem, který může rozhodování ovlivnit, je zálohování dat. Pokud je obsah uložený na jednom pevném disku, zvyšuje se pravděpodobnost ztráty dat, takže je nutné pravidelné zálohování. U vzdálených serverů je obvykle o zálohování postaráno automaticky. 
 
 Jak vidno, obě varianty mají svá pro a proti. Důvody pro zvolení desktopové aplikace jsou v zásadě dva - rešerše práce s vývojovým prostředím Titanium Studio a experiment, zda je možné napsat kompletní aplikaci pouze pomocí JavaScriptu. 
 
 \subsection{Využití JavaScriptu}
 
-JavaScript se v poslední době opět vrací na výsluní a je k nalezení téměř na každé webové stránce či webové aplikaci. Na rozdíl od ostatních technologií jako je Flash\cite{flash} nebo Silverlight\cite{silverlight}, není závislý na platformě a funguje stejně dobře na operačním systému Windows, Linux nebo Mac. Jeho podpora je pevně zabudována do drtivé většiny webových prohlížečů a v poslední době se jeho podpora rozšiřuje i na mobilní zařízení. Žádná jiná technologie nemá takovou podporu. JavaScript je nejsnadnější způsob, jak udělat stránku interaktivní. Změnit to může snad jedině větší rozšíření HTML 5, ale to bude ještě nějakou dobu trvat.
+JavaScript se v poslední době opět vrací na výsluní a je k nalezení téměř na každé webové stránce či webové aplikaci. Na rozdíl od ostatních technologií jako je Flash \cite{flash} nebo Silverlight \cite{silverlight}, není závislý na platformě a funguje stejně dobře na operačním systému Windows, Linux nebo Mac. Jeho podpora je pevně zabudována do drtivé většiny webových prohlížečů a v poslední době se jeho podpora rozšiřuje i na mobilní zařízení. Žádná jiná technologie nemá takovou podporu. JavaScript je nejsnadnější způsob, jak udělat stránku interaktivní. Změnit to může snad jedině větší rozšíření HTML 5, ale to bude ještě nějakou dobu trvat.

@@ -1,5 +1,7 @@
 \chapter{Architektura}
 
+Návrh architektury této aplikace byl výrazně ovlivněn dvěma fakty. Za prvé jde o aplikaci vyvíjenou kompletně v JavaScriptu, který není objektovým ale spíš skriptovacím programovacím jazykem a některé konstrukce nejsou možné (např. rozhraní, abstraktní třídy apod.). Nemalý vliv měla i samotná platforma Titanium, která je do aplikace pevně zadrátována a která si vyžádala určité kompromisy, ale zároveň umožnila zjednodušení celé aplikace.
+
 \section{Rozdělení do balíčků}
 
 Aplikaci lze rozdělit do několika balíčků, i když toto rozdělení není tak patrné jako například u Javy. Jako vzor pro celkovou architekturu bylo zvoleno MVC (model-view-controller), kde je oddělená prezentační část od výkonné a obsahové. Nicméně to vyžadovalo pár kompromisů protože JavaScript není primárně objektový jazyk.
@@ -38,7 +40,7 @@ V této třídě jsou umístěny všechny metody, které přímo komunikují s d
 
 \subsection{API's}
 
-Balíček tříd, které jsou používány při komunikaci se vzdálenými servery.
+Balíček tříd, které jsou používány při komunikaci se vzdálenými servery. Třídy slouží ke zpřístupnění API vzdáleného serveru aplikaci.
 
 \subsubsection{xxxAPI}
 
