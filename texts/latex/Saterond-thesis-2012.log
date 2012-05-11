@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2012.4.29)  11 MAY 2012 23:52
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2012.4.29)  12 MAY 2012 00:02
 entering extended mode
 **Saterond-thesis-2012.tex
 (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.tex
@@ -796,7 +796,7 @@ Kapitola 11.
 Package natbib Warning: Citation `infodp' on page 34 undefined on input line 27
 3.
 
-<figures/seznamcd.pdf, id=744, 793.96625pt x 539.01375pt>
+<figures/seznamcd.pdf, id=745, 793.96625pt x 539.01375pt>
 File: figures/seznamcd.pdf Graphic file (type pdf)
 
 <use figures/seznamcd.pdf>
@@ -848,9 +848,9 @@ ta\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\p
 ecbx2488.pk><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
 y10.pfb>
-Output written on Saterond-thesis-2012.pdf (43 pages, 2325000 bytes).
+Output written on Saterond-thesis-2012.pdf (43 pages, 2325118 bytes).
 PDF statistics:
- 1406 PDF objects out of 1440 (max. 8388607)
+ 1407 PDF objects out of 1440 (max. 8388607)
  167 named destinations out of 1000 (max. 500000)
  604 words of extra memory for PDF output out of 10000 (max. 10000000)
 
