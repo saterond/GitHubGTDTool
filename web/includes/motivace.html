@@ -1,0 +1,112 @@
+						<div class="post">
+							<h2 class="title">Motivace</h2>
+							<div class="entry">
+								<p>V této kapitole je popsána motivace, kvůli které je tento nástroj vyvíjen. Obsahuje hrubé představení poskytované funkcionality a popis verzovacích serverů, jejichž API je v aplikaci využíváno.</p>
+
+								<h3>Očekávaná funkcionalita</h3>
+								<p>Stěžejním úkolem aplikace je správa úkolů a jejich třídění do projektů. Úkoly lze filtrovat podle jim přiřazených štítků a je možné si zvolený výběr vytisknout pro další zpracování. K úkolům lze přiřadit uživatele, kteří mají na starosti splnění daného úkolu. Zároveň je možné sledovat procentuální splnění jednotlivých projektů pomocí grafů a přehledů.</p>
+								<p>V tomto nástroji existují v zásadě čtyři typy projektů:</p>
+
+								<ul>
+									<li>obyčejný projekt</li>
+									<li>projekt hostovaný na serveru Assembla</li>
+									<li>projekt hostovaný na serveru Google Code</li>
+									<li>projekt hostovaný na serveru GitHub</li>
+								</ul>
+
+								<p>V další části jsou tyto typy projektů popsány podrobněji.</p>
+
+								<h4>Obyčejný projekt</h4>
+								<p>Obyčejný projekt neposkytuje žádné speciální funkce, poskytuje pouze možnost roztřídit si úkoly podle nějaké jejich společné vlastnosti. Uživatel si tak může například rozdělit nějaký rozsáhlejší úkol na menší části. Tento projekt ani nemusí souviset s vývojem software.</p>
+
+								<h4>Hostované projekty</h4>
+								<p>Projekty, které jsou uloženy na některém ze serverů. Tyto jsou vždy pevně svázány s některým z repozitářů uložených na daném serveru. Poskytují tak možnost synchronizace úkolů uložených na serveru s těmi v aplikaci. Při synchronizaci se zároveň stáhne seznam uživatelů, milníků a štítků, které je pak možné dále využívat. Například je možné do milníku přiřadit nový úkol a změna se automaticky projeví i na serveru. To samé je možné při přiřazování úkolů uživatelům.</p>
+
+								<h5>Porovnání verzovacích serverů</h5>
+								<p>Každý ze serverů poskytuje jiné funkce, tzn. i API jednotlivých služeb nebudou stejná. To přináší komplikace při vývoji nástroje, který má v sobě integrovat správu všech tří služeb.</p>
+								<p>Každé z trojice používaných API poskytuje jiný přístup k datům uloženým na serveru. Assembla a Google Code se spoléhá na rozhraní typu REST\cite{rest}. Github používá pro přenos dat JSON\cite{json} pole, která jsou snadněji zpracovatelná JavaScriptem a pomalu se dostávají i do jiných programovacích jazyků. Nejlépe zdokumentované rozhraní má jednoznačně Github. V dokumentaci lze najít i chybové hlášky a všechny typy návratových polí. Github zároveň poskytuje největší paletu nabízených služeb a klientská aplikace se tak dostane kamkoliv. Samotná webová aplikace Githubu běží nad tímto API.</p>
+								<p>Nejhůře je na tom s dokumentací Assembla, kde polovina údajů chybí a postup práce s API je tak spíše pokus-omyl. Nikde například nejsou k nalezení chybové hlášky, které API vrací pokud požadavek z nějakého důvodu nevyhovuje. Vývojáři tak nezbývá nic jiného, než odpověď hledat pomocí vyhledávače.</p>
+								<p>Google Code má dokumentaci obstojnou i když pod úrovní té na Githubu. Některé informace jsou zapsány poměrně nelogicky a v místech, kde by je člověk nehledal. Svůj účel ale dokumentace plní a na většinu otázek dokáže odpovědět.</p>
+								<p>Služby jsou rozdílné i z jiného úhlu pohledu. A sice z pohledu uživatele. Pro lepší přehlednost jsou tyto rozdíly uvedeny v následující tabulce:</p>
+
+								<table border="1">
+									<thead>
+										<tr>
+											<th>Funkce</th>
+											<th>Assembla</th>
+											<th>GitHub</th>
+											<th>Google Code</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<td>Cena za měsíc<br>(pro komerční projekty)</td>
+											<td>od 9 (1GB)<br>do 99 dolarů (20GB)</td>
+											<td>od 7 (0,6GB)<br>do 22 dolarů (2,4GB)</td>
+											<td>-</td>
+										</tr>
+									</tfoot>
+									<tbody>
+									<tr>
+										<td>Definování milníku </td><td> ano </td><td> ano </td><td> ano </td>
+									</tr>
+									<tr>
+										<td>Přiřazení štítků k issue </td><td> ne </td><td> ano </td><td> ano </td>
+									</tr>
+									<tr>
+										<td>Více různých stavů issue </td><td> ano </td><td> ne </td><td> ano </td>
+									</tr>
+									<tr>
+										<td>Nastavení priority </td><td> ano </td><td> ne </td><td> ano </td>
+									</tr>
+									<tr>
+										<td>Uložení aktivity u issue </td><td> ano </td><td> ne </td><td> ne </td>
+									</tr>
+									<tr>
+										<td>Přidání přílohy k issue </td><td> ano </td><td> ne </td><td> ano </td>
+									</tr>
+									<tr>
+										<td>Sledování aktivity v issues </td><td> ano </td><td> ne </td><td> ano </td>
+									</tr>
+									</tbody>
+								</table>
+
+								<p>Kvůli těmto rozdílům jsou nutné různé kompromisy, aby bylo možné aplikaci používat konzistentně bez ohledu na to, kde je projekt hostován. Ukazuje se, že GitHub má sice nejlepší dokumentaci, ale ve funkcionalitě pokulhává. Assembla, jejíž dokumentace je nejhorší, naopak poskytuje spousty funkcí navíc. Assembla je ale spíše zaměřená na komerční projekty, kdežto zbylé dvě služby jsou orientovány spíše na open-source vývojáře. Google Code neumožňuje hostovat komerční projekty vůbec. GitHub má i placený hosting projektů, ale jeho možnosti jsou mnohem menší než u konkurenční Assembly.</p>
+
+								<h3>Getting Things Done</h3>
+								<p>Tato metoda byla vytvořena americkým koučem Davidem Allenem, který ji popsal ve stejnojmenné knize \cite{gtd:book}. Neslouží přímo k organizaci času, ale orientuje se spíše na organizaci práce a její plánování. Hlavní myšlenkou Allenovi práce je fakt, že lidský mozek není diář a není uzpůsoben k tomu, aby si pamatoval každý úkol a závazek, který je nutno splnit. Člověk pracuje lépe, pokud se nemusí věnovat tomu, aby si vzpomenul, co všechno musí udělat. Jádrem této metody jsou proto různé seznamy, které obsahují veškeré úkoly, které je nutno vyřešit. Mozek se tak může soustředit čistě na práci a není rozptylován vzpomínáním na jiné nesouvisející úkoly.</p>
+								<p>Celou metodu lze rozdělit do pěti kroků\cite{gtd:wiki}:</p>
+
+								<ul>
+									<li>sběr úkolů</li>
+									<li>zpracování</li>
+									<li>zorganizování</li>
+									<li>zhodnocení</li>
+									<li>vykonání</li>
+								</ul>
+
+								<p>V aplikaci jsou zachyceny pouze prostřední tři kroky. Sběr úkolů je nutné provádět průběžně, tzn. nemusí to být v dosahu počítače. Tomuto účelu bohatě postačí nějaký papírový zápisník, příp. poznámky uložené v telefonu. Poslední krok \uv{vykonání} je zase plně v režii člověka, tam už žádná aplikace nepomůže.</p>
+								<p>V kroku \uv{zpracování} dochází k přesunu úkolů z různých zdrojů (zápisník, poznámky) do jedné schránky - aplikace. Nesplnitelné úkoly se buď zahodí nebo se uloží na později. Splnitelné úkoly se buď vykonají, přiřadí někomu jinému nebo se uloží na později. O tom, zda se úkol vykoná hned nebo se uloží, rozhoduje pravidlo 2 minut. Pokud vykonání úkolu zabere víc času než tyto dvě minuty, je uložen k pozdějšímu zpracování. Zároveň pokud je krok komplexnější a k jeho splnění je potřeba víc než jeden krok, je tento rozdělen na víc částí a uložen jako projekt.</p>
+								<p>V další fázi - zorganizování - dochází k rozdělení úkolů do těchto pěti oblastí:</p>
+
+								<ul>
+									<li>další kroky - realizovatelné, fyzicky viditelné činnosti, které vedou k nějakému výsledku</li>
+									<li>delegované úkoly - přiřazené jiným lidem, u kterých čekáme na zpracování</li>
+									<li>projektové úkoly</li>
+									<li>úkoly uložené na později</li>
+									<li>naplánované úkoly - mají pevně dané datum splnění (deadline)</li>
+								</ul>
+
+								<p>Čtvrtá fáze, která je zde označena jako zhodnocení, probíhá paralelně se všemi ostatními. Během ní člověk přehodnocuje, zda dělá to, co by dělat měl. K tomu mu poslouží seznam nesplněných úkolů a projektů. Ke zhodnocení dochází také jednou za týden, kdy se upravuje seznam úkolů tak, aby byl aktuální.</p>
+
+								<h3>Důvody zvolení desktopové aplikace</h3>
+								<p>V dnešní době už desktopové aplikace vycházejí z módy. Všechna data a aplikace se přesouvají do webového prostoru, kde je obsah přístupný odkudkoliv a je jedno přes jaké zařízení se k němu přistupuje. Dokumenty tak lze vytvářet na stolním počítači a pak je možné upravovat je na svém smartphonu, který má připojení k internetu. Používání webových úložišť má ale i svá úskalí - bezpečnost a spolehlivost.</p>
+
+								<h4>Bezpečnost</h4>
+								<p>Data na internetu jsou uložena na nějakém vzdáleném serveru a člověk nemá jistotu v tom, že k nim nemá přístup někdo nepovolaný. U desktopových aplikací lze bezpečnost snadno ohlídat minimálně pomocí hesla, příp. šifrováním obsahu na pevném disku. Záleží tedy na uživateli, zda se spolehne na zabezpečení vzdáleného serveru nebo bude mít radši vše pod přímou kontrolou na svém vlastním počítači. Dalším faktorem, který může rozhodování ovlivnit, je zálohování dat. Pokud je obsah uložený na jednom pevném disku, zvyšuje se pravděpodobnost ztráty dat, takže je nutné pravidelné zálohování. U vzdálených serverů je obvykle o zálohování postaráno automaticky.</p>
+								<p>Jak vidno, obě varianty mají svá pro a proti. Důvody pro zvolení desktopové aplikace jsou v zásadě dva - rešerše práce s vývojovým prostředím Titanium Studio a experiment, zda je možné napsat kompletní aplikaci pouze pomocí JavaScriptu.</p>
+
+								<h4>Využití JavaScriptu</h4>
+								<p>JavaScript se v poslední době opět vrací na výsluní a je k nalezení téměř na každé webové stránce či webové aplikaci. Na rozdíl od ostatních technologií jako je Flash \cite{flash} nebo Silverlight \cite{silverlight}, není závislý na platformě a funguje stejně dobře na operačním systému Windows, Linux nebo Mac. Jeho podpora je pevně zabudována do drtivé většiny webových prohlížečů a v poslední době se jeho podpora rozšiřuje i na mobilní zařízení. Žádná jiná technologie nemá takovou podporu. JavaScript je nejsnadnější způsob, jak udělat stránku interaktivní. Změnit to může snad jedině větší rozšíření HTML 5, ale to bude ještě nějakou dobu trvat.</p>
+							</div>
+						</div>

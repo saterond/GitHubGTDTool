@@ -1,0 +1,228 @@
+						<div class="post">
+							<h2 class="title">Analýza</h2>
+							<div class="entry">
+<p>Pro vývoj aplikace v této bakalářské práci byla zvolena novější - agilní - metodika vývoje, která je v mnoha ohledech jednodušší než dříve používaný Rational Unified Process (RUP)\cite{rup}. Hlavní výhoda spočívá v tom, že se nevytváří hromady dokumentů, jejichž vytvoření zabere spoustu času a ve finále je většina z nich zbytečná. RUP má smysl spíše u velkých projektů, na kterých pracuje větší tým lidí a které jsou hodně rozsáhlé.
+<p>RUP a agilní metodiky se liší už ve způsobu sběru požadavků. Zatímco RUP je orientovaný na use-case modely, vytvářené obvykle v jazyce Unified Modeling Language (UML)\cite{uml}, agilní metodiky evidují požadavky v podobě tzv. user stories \cite{userstory}.
+
+<h3>User stories</h3>
+<p>Požadavky v rámci agilních metodik se nezapisují jako prosté úkoly, ale mají formát tzv. user story. Jejich tvar je pevně daný a skládá se ze tří částí:
+<p>Jako <strong>Uživatel</strong>, chci <strong>Funkcionalitu</strong> abych dostal <strong>Bussiness Value</strong>
+<p>Takto formulovaný požadavek je pro člověka mnohem srozumitelnější, protože vidí proč daný úkol splnit a jaký je jeho přínos. Má tak jistotu, že nedělá něco zbytečného. User story je takový krátký příbeh a jako takový je lidským mozkem snáz vnímatelný.
+<p>User stories poslouží i po ukončení vývoje - při akceptačních testech. Stačí projít seznam user stories a pokud je v aplikace nalezen jejich \uv{odraz}, test byl úspěšný. Proto je lepší, aby user stories prošly schválením od zadavatele ještě před začátkem vývoje aplikace.
+<p>V rámci této bakalářské práce byl vytvořen následující seznam user stories, který je pro lepší přehlednost rozdělen do bloků podle cílové skupiny. Každý blok je uveden názvem role, kde lomítko značí \uv{dědičnost}. Jsou v něm zachyceny všechny požadavky, které by měla aplikace po ukončení vývoje splňovat.
+
+<h4>Uživatel</h4>
+<p>Jako uživatel chci:
+
+<ul>
+<li>používat aplikaci co nejjednodušeji, abych se mohl plně soustředit na přesné zadání úkolu
+<li>vytvářet úkoly, abych na nic nezapomněl
+<li>vytvářet projekty, abych si mohl úkoly třídit
+<li>vkládat okažité nápady do inboxu s tím, že je později zatřídím do projektu
+<li>označit úkol jako splněný
+<li>uložit úkol do archivu, kdybych se k němu chtěl někdy později vrátit
+<li>vyhodit úkol do koše, pokud se rozhodnu, že ho nebudu realizovat
+<li>přidávat úkolům štítky, abych si mohl odfiltrovat úkoly z určité oblasti
+<li>na konci týdne vědět, co všechno jsem za týden stihl, abych si mohl lépe naplánovat úkoly na příští týden
+<li>své nápady, na které teď nemám čas, přiřadit do skupiny s delším časovým horizontem, abych na ně nezapomněl a mohl je později rozvíjet
+<li>vytisknout svoje úkoly, abych je mohl mít neustále na očích
+</ul>
+
+<h4>Uživatel / vývojář</h4>
+<p>Jako vývojář chci:
+
+<ul>
+<li>importovat projekty a úkoly z verzovacích serverů
+<li>být informován o blížící se deadline úkolů
+<li>aby aplikace neumožňovala přístup neoprávněným osobám k mým úkolům
+<li>spárovat úkol s konkrétním commitem do repozitáře
+<li>exportovat úkol a poslat ho jednoduše kolegovi v týmu, aby ho nemusel ručně přepisovat
+</ul>
+
+<h4>Uživatel / vývojář / senior</h4>
+<p>Jako senior vývojář chci:
+
+<ul>
+<li>párovat repozitáře z verzovacích serverů s mými projekty, abych mohl sledovat, jak práce na projektu pokračuje
+<li>párovat issues ze serveru s mými úkoly, abych s nimi mohl párovat commity
+<li>nastavit úkolům čas, kdy mají být splněny
+<li>delegovat úkoly junior vývojářům
+<li>přiřadit úkol do konkrétního milníku, abych měl přehled o tom, kolik toho ještě zbývá dokončit
+<li>být informován o změnách v mých repozitářích na serverech
+<li>uzavřít projekt, po jeho dokončení příp. předčasném ukončení
+<li>přidávat štítky k úkolům, abych je mohl lépe třídit a filtrovat
+<li>být upozorněn na neaktivní otevřené projekty, abych mohl urgovat dokončení úkolů na junior vývojářích
+<li>mazat úkoly, které se nakonec realizovat nebudou
+<li>zpřesňovat zadání úkolů, pokud dojde k nejasnostem
+</ul>
+
+<h4>Uživatel / vývojář / junior</h4>
+<p>Jako junior vývojář chci:
+
+<ul>
+<li>být informován o nově přiřazených úkolech od senior vývojářů
+<li>označit úkol jako splněný
+</ul>
+
+<h3>Doménový model</h3>
+<p>Z výše zmíněných user stories byl v dalším kroku vytvořen seznam entit, které byly logicky provázány asociacemi. Pro lepší znázornění těchto entit a vztahů mezi nimi byl vytvořen doménové model v jazyce UML.
+
+<p>
+\begin{figure}[h]
+	\includegraphics[keepaspectratio,width=16cm]{figures/domain-model}
+	\caption{Doménový model}
+	\label{fig:domain-model}
+\end{figure}
+</p>
+
+<h4>Issue</h4>
+<p>Entita reprezentující jeden úkol, uložený v aplikaci. Má definované jméno (název problému) a popis, který obsahuje konkrétní popis problému
+
+<h4>IssueState</h4>
+<p>Úkoly (issues) existují v aplikaci v různých stavech. Každý stav určuje jak bude aplikace s daným úkolem zacházet \ref{tab:issueState}.
+
+<p>
+\begin{table}[h]
+\begin{center}
+	\begin{tabular}{|c|l|}
+	\hline
+	Atributy & Poznámky \\
+	\hline
+	active & na úkolu se pracuje \\
+	completed & úkol byl splněn \\
+	archived & úkol byl uložen do archivu \\
+	deleted & úkol byl smazán \\
+	trashed & úkol byl přesunout do koše \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Vlastnosti entity IssueState}
+\label{tab:issueState}
+\end{table}
+</p>
+
+<h4>Label</h4>
+<p>Štítky (label) slouží k filtraci úkolů (issues) a projektů (projects). Obvykle popisují nějakou obecnější vlastnost dané entity, podle které má smysl je filtrovat. To může být například priorita, programovací jazyk nebo náročnost \ref{tab:label}.
+
+<p>
+\begin{table}[h]
+\begin{center}
+	\begin{tabular}{|c|l|}
+	\hline
+	Atributy & Poznámky \\
+	\hline
+	title & text štítku \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Vlastnosti entity Label}
+\label{tab:label}
+\end{table}
+</p>
+
+<h4>Milestone</h4>
+<p>Milestone se do češtiny překládá jako milník. Je to nějaký bod v čase, do kterého musí být dokončená určitá množina úkolů (issues). Lze sledovat procentuální dokončení \ref{tab:milestone}.
+
+<p>
+\begin{table}[h]
+\begin{center}
+	\begin{tabular}{|c|l|}
+	\hline
+	Atributy & Poznámky \\
+	\hline
+	title & název milníku \\
+	dueDate & do kdy musí být milník splněn \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Vlastnosti entity Milestone}
+\label{tab:milestone}
+\end{table}
+</p>
+
+<h4>User</h4>
+<p>Uživatel (User) vystupuje v aplikaci jako člen týmu, kterému je možné přiřadit nějaký úkol (Issue) \ref{tab:user}.
+
+<p>
+\begin{table}[h]
+\begin{center}
+	\begin{tabular}{|c|l|}
+	\hline
+	Atributy & Poznámky \\
+	\hline
+	username & uživatelské jméno \\
+	email & e-mailová adresa uživatele \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Vlastnosti entity User}
+\label{tab:user}
+\end{table}
+</p>
+
+<h4>Project</h4>
+<p>Úkoly (issues) jsou uspořádané do projektů, které mají definované jméno a popis. I z úkolu se může stát projekt pokud je k jeho dokončení potřeba víc než jeden krok (podle GTD) \ref{tab:project}.
+
+<p>
+\begin{table}[h]
+\begin{center}
+	\begin{tabular}{|c|l|}
+	\hline
+	Atributy & Poznámky \\
+	\hline
+	name & název projektu \\
+	description & popis projektu \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Vlastnosti entity Project}
+\label{tab:project}
+\end{table}
+</p>
+
+<h4>ProjectState</h4>
+<p>Projekt může být buď aktivní, tzn. že se na něm pracuje, nebo dokončený \ref{tab:projectState}.
+
+<p>
+\begin{table}[h]
+\begin{center}
+	\begin{tabular}{|c|l|}
+	\hline
+	Atributy & Poznámky \\
+	\hline
+	active & aktivní \\
+	completed & dokončený \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Vlastnosti entity ProjectState}
+\label{tab:projectState}
+\end{table}
+</p>
+
+<h4>ProjectType</h4>
+<p>Každý projekt má definovaný nějaký typ, podle kterého se určí na jaký server se má synchronizovat. Pokud jde o obyčejný projekt (default) nesynchronizuje se nikam, všechny úkoly zůstávají pouze na lokálním úložišti \ref{tab:projectType}.
+
+<p>
+\begin{table}[h]
+\begin{center}
+	\begin{tabular}{|c|l|}
+	\hline
+	Atributy & Poznámky \\
+	\hline
+	default & obyčejný GTD projekt \\
+	Assembla & projekt hostovaný na serveru Assembla.com \\
+	GoogleCode & projekt hostovaný na serveru Google Code \\
+	GitHub & projekt hostovaný na serveru GitHub.com \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Vlastnosti entity ProjectType}
+\label{tab:projectType}
+\end{table}
+</p>
+
+<h4>Area</h4>
+<p>Projekty (project) lze zařadit do nějaké oblasti (area), což může být např. škola, práce, vzdělávání apod. Cílem je zpřehlednění seznamu projektů.
+							</div>
+						</div>
