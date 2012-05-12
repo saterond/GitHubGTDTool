@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2012.4.29)  12 MAY 2012 00:12
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2012.4.29)  12 MAY 2012 16:52
 entering extended mode
 **Saterond-thesis-2012.tex
 (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.tex
@@ -596,8 +596,12 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (D:\git\GitHubGTDTool\texts\latex\includes/uvod.tex
 Kapitola 1.
 
-Package natbib Warning: Citation `titanium' on page 1 undefined on input line 3
+Package natbib Warning: Citation `titanium' on page 1 undefined on input line 7
 .
+
+
+Package natbib Warning: Citation `gtdtoolweb' on page 1 undefined on input line
+ 9.
 
 ) [1
 
@@ -829,10 +833,10 @@ Package rerunfilecheck Info: File `Saterond-thesis-2012.out' has not changed.
 (rerunfilecheck)             Checksum: 6FA993051544C66A26CB7D863474A025;9576.
  ) 
 Here is how much of TeX's memory you used:
- 7562 strings out of 494019
- 107069 string characters out of 3143876
+ 7563 strings out of 494019
+ 107081 string characters out of 3143876
  188420 words of memory out of 3000000
- 10491 multiletter control sequences out of 15000+200000
+ 10492 multiletter control sequences out of 15000+200000
  18842 words of font info for 40 fonts, out of 3000000 for 9000
  718 hyphenation exceptions out of 8191
  31i,10n,30p,1521b,471s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -855,7 +859,7 @@ ta\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\p
 ecbx2488.pk><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
 y10.pfb>
-Output written on Saterond-thesis-2012.pdf (43 pages, 2715209 bytes).
+Output written on Saterond-thesis-2012.pdf (43 pages, 2716675 bytes).
 PDF statistics:
  1413 PDF objects out of 1440 (max. 8388607)
  168 named destinations out of 1000 (max. 500000)
