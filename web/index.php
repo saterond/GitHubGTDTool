@@ -10,6 +10,7 @@ Released for free under a Creative Commons Attribution 2.5 License
 <meta name="keywords" content="<?php echo $keys ?>" />
 <meta name="description" content="<?php echo $desc ?>" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
 <title><?php echo $title ?></title>
 <link href="http://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
