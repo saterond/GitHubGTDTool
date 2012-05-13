@@ -70,17 +70,17 @@ Event.observe(window, 'load', function() {
 			alert("Not ready yet");
 		});
 		
-		var tests = Titanium.UI.createMenuItem("Run tests");
+		/*var tests = Titanium.UI.createMenuItem("Run tests");
 		tests.addItem("Model", handleRunModelTest);
 		tests.addItem("Viewer", handleRunViewerTest);
 		tests.addItem("App", handleRunApplicationTest);
-		tests.addItem("Load", handleRunLoadTest);
+		tests.addItem("Load", handleRunLoadTest);*/
 		
 		menu.appendItem(app);
 		menu.appendItem(sync);
 		menu.appendItem(reviews);
 		menu.appendItem(help);
-		menu.appendItem(tests);
+		//menu.appendItem(tests);
 	    
 	    Titanium.UI.setMenu(menu);				
 	} else {

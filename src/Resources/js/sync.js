@@ -9,10 +9,16 @@ var Sync = Class.create({
 		this.config = config;
 		this.db = database;		
 		this.model = model;
-		//this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
-		//this.gcode.username = this.config.gcode.name;
-		this.assembla = new AssemblaAPI(this.config.assembla.name, this.config.assembla.password, this.config.assembla.user_id);
-		this.github = new GitHubAPI(this.config.github.name, this.config.github.auth);
+		if (this.config.gcode.email != "") {
+			this.gcode = new GCodeAPI(this.config.gcode.email, this.config.gcode.password);
+			this.gcode.username = this.config.gcode.name;	
+		}
+		if (this.config.assembla.name != "") {
+			this.assembla = new AssemblaAPI(this.config.assembla.name, this.config.assembla.password, this.config.assembla.user_id);
+		}
+		if (this.config.github.name != "") {
+			this.github = new GitHubAPI(this.config.github.name, this.config.github.auth);
+		}
 	},
 	showMessage: function(message) {
 		var viewer = Titanium.API.get("viewer");
