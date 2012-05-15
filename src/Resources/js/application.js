@@ -17,11 +17,12 @@ var GTDApplication = Class.create({
         	configFile.touch();        	
         	var result = configFile.write(skeleton);
     	}
-        var configJSON = configFile.read();        
+        var configJSON = configFile.read();
         this.config = Titanium.JSON.parse(configJSON);       
 	},
 	connectToDatabase: function() {
-		this.db = Titanium.Database.open(this.config.database);
+		//this.db = Titanium.Database.open(this.config.database);
+		this.db = Titanium.Database.openFile(Titanium.Filesystem.getResourcesDirectory()+"/gtdtool.db");
 		this.dbOk = true;
 	},
 	getDb: function() {
