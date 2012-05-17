@@ -14,6 +14,10 @@ Warning--to sort, need author or key in gcode
 Warning--to sort, need author or key in assembla
 Warning--to sort, need author or key in github
 Warning--to sort, need author or key in gtd:web
+Warning--to sort, need author or key in titanium
+Warning--to sort, need author or key in gtdtoolweb
+Warning--to sort, need author or key in rest
+Warning--to sort, need author or key in json
 Warning--to sort, need author or key in silverlight
 Warning--to sort, need author or key in rup
 Warning--to sort, need author or key in uml
@@ -23,10 +27,12 @@ Warning--to sort, need author or key in assemblaauth
 Warning--to sort, need author or key in github:summary
 Warning--to sort, need author or key in github:oauth
 Warning--to sort, need author or key in googleauth
+Warning--to sort, need author or key in titanium:api
 Warning--to sort, need author or key in sqlite
 Warning--to sort, need author or key in debian
 Warning--to sort, need author or key in mac
 Warning--to sort, need author or key in zivotnicyklus
+Warning--to sort, need author or key in selenium
 Warning--to sort, need author or key in jsunity
 Warning--to sort, need author or key in mustache
 Warning--to sort, need author or key in coffeescript

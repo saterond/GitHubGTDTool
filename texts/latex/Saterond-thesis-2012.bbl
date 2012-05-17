@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{31}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -51,6 +51,15 @@
 \newblock Dostupn{\'{e}} z:
   \url{http://www.mitvsehotovo.cz/2008/09/metoda-gtd-getting-things-done/}.
 
+\bibitem[gtd(2012)]{gtdtoolweb}
+\emph{GTDTool - vývojářský úkolovník} [online]. 2012.
+  [cit.~12.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://gtdtool.satera.cz}.
+
+\bibitem[jso(2012)]{json}
+\emph{Introducing JSON} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://www.json.org/}.
+
 \bibitem[jsu(2012)]{jsunity}
 \emph{jsUnity - Lightweight Universal JavaScript Unit Testing Framework}
   [online]. 2012. [cit.~9.\,5.\,2012].
@@ -69,6 +78,11 @@
 \emph{Prototype JavaScript framework} [online]. 2012. [cit.~9.\,5.\,2012].
 \newblock Dostupn{\'{e}} z: \url{http://www.prototypejs.org/}.
 
+\bibitem[res(2019)]{rest}
+\emph{REST: architektura pro webové API} [online]. 2019. [cit.~3.\,8.\,2009].
+\newblock Dostupn{\'{e}} z:
+  \url{http://www.zdrojak.cz/clanky/rest-architektura-pro-webove-api/}.
+
 \bibitem[rup(2012)]{rup}
 \emph{RUP – Rational Unified Process} [online]. 2012. [cit.~9.\,5.\,2012].
 \newblock Dostupn{\'{e}} z:
@@ -79,6 +93,10 @@
   [cit.~9.\,5.\,2012].
 \newblock Dostupn{\'{e}} z: \url{http://script.aculo.us/}.
 
+\bibitem[sel(2012)]{selenium}
+\emph{Selenium - Web Browser Automation} [online]. 2012. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://seleniumhq.org/}.
+
 \bibitem[sil(2012)]{silverlight}
 \emph{Microsoft® Silverlight™} [online]. 2012. [cit.~9.\,5.\,2012].
 \newblock Dostupn{\'{e}} z:
@@ -87,6 +105,17 @@
 \bibitem[sql(2012)]{sqlite}
 \emph{SQLite} [online]. 2012. [cit.~9.\,5.\,2012].
 \newblock Dostupn{\'{e}} z: \url{http://www.sqlite.org/}.
+
+\bibitem[tit(2012{\natexlab{a}})]{titanium}
+\emph{Introducing the Next-Generation Mobile Platform} [online].
+  2012{\natexlab{a}}. [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://www.appcelerator.com/platform}.
+
+\bibitem[tit(2012{\natexlab{b}})]{titanium:api}
+\emph{Titanium Desktop 1.1 - API Reference} [online]. 2012{\natexlab{b}}.
+  [cit.~9.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://developer.appcelerator.com/apidoc/desktop/latest/}.
 
 \bibitem[uml(2012)]{uml}
 \emph{The Unified Modeling Language™} [online]. 2012. [cit.~9.\,5.\,2012].

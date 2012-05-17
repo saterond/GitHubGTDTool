@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2012.4.29)  13 MAY 2012 17:48
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2012.4.29)  17 MAY 2012 11:35
 entering extended mode
 **Saterond-thesis-2012.tex
 (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.tex
@@ -595,14 +595,6 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 ]
 (D:\git\GitHubGTDTool\texts\latex\includes/uvod.tex
 Kapitola 1.
-
-Package natbib Warning: Citation `titanium' on page 1 undefined on input line 7
-.
-
-
-Package natbib Warning: Citation `gtdtoolweb' on page 1 undefined on input line
- 9.
-
 ) [1
 
 
@@ -614,13 +606,6 @@ Kapitola 2.
 
 
 ]
-
-Package natbib Warning: Citation `rest' on page 3 undefined on input line 32.
-
-
-Package natbib Warning: Citation `json' on page 3 undefined on input line 32.
-
-
 Overfull \hbox (2.0341pt too wide) in paragraph at lines 42--59
  [] 
  []
@@ -631,7 +616,7 @@ Kapitola 3.
 
 
 
-] [7] <figures/domain-model.pdf, id=497, 482.0409pt x 350.7504pt>
+] [7] <figures/domain-model.pdf, id=493, 482.0409pt x 350.7504pt>
 File: figures/domain-model.pdf Graphic file (type pdf)
 
 <use figures/domain-model.pdf>
@@ -667,14 +652,14 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 ) [10] [11] (D:\git\GitHubGTDTool\texts\latex\includes/architektura.tex
 Kapitola 4.
-<figures/screenshot.pdf, id=536, 716.77785pt x 453.25635pt>
+<figures/screenshot.pdf, id=532, 716.77785pt x 453.25635pt>
 File: figures/screenshot.pdf Graphic file (type pdf)
 
 <use figures/screenshot.pdf>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/class-model.pdf, id=538, 597.23125pt x 845.1575pt>
+<figures/class-model.pdf, id=534, 597.23125pt x 845.1575pt>
 File: figures/class-model.pdf Graphic file (type pdf)
 
 <use figures/class-model.pdf>
@@ -686,17 +671,12 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 ] [13 <D:/git/GitHubGTDTool/texts/latex/figures/screenshot.pdf>] [14 <D:/git/Gi
-tHubGTDTool/texts/latex/figures/class-model.pdf>] [15]
-
-Package natbib Warning: Citation `titanium:api' on page 16 undefined on input l
-ine 106.
-
-[16]
+tHubGTDTool/texts/latex/figures/class-model.pdf>] [15] [16]
 
 Package natbib Warning: Citation `sameorigin' on page 17 undefined on input lin
 e 139.
 
-[17] [18] <figures/vyuziti-api.pdf, id=594, 597.23125pt x 845.1575pt>
+[17] [18] <figures/vyuziti-api.pdf, id=592, 597.23125pt x 845.1575pt>
 File: figures/vyuziti-api.pdf Graphic file (type pdf)
 
 <use figures/vyuziti-api.pdf>
@@ -710,24 +690,20 @@ Kapitola 5.
 
 
 
-] (D:\git\GitHubGTDTool\texts\latex\includes/testovani.tex
+] [22] (D:\git\GitHubGTDTool\texts\latex\includes/testovani.tex
 Kapitola 6.
-
-Package natbib Warning: Citation `selenium' on page 22 undefined on input line 
-5.
-
-[22
+[23
 
 
 
-] <figures/async-tests.pdf, id=635, 597.23125pt x 845.1575pt>
+] <figures/async-tests.pdf, id=639, 597.23125pt x 845.1575pt>
 File: figures/async-tests.pdf Graphic file (type pdf)
 
-<use figures/async-tests.pdf> [23 <D:/git/GitHubGTDTool/texts/latex/figures/asy
-nc-tests.pdf>] <figures/zatezove-testy.pdf, id=646, 597.23125pt x 845.1575pt>
+<use figures/async-tests.pdf> [24 <D:/git/GitHubGTDTool/texts/latex/figures/asy
+nc-tests.pdf>] <figures/zatezove-testy.pdf, id=650, 597.23125pt x 845.1575pt>
 File: figures/zatezove-testy.pdf Graphic file (type pdf)
 
-<use figures/zatezove-testy.pdf> [24 <D:/git/GitHubGTDTool/texts/latex/figures/
+<use figures/zatezove-testy.pdf> [25 <D:/git/GitHubGTDTool/texts/latex/figures/
 zatezove-testy.pdf>]
 Underfull \hbox (badness 1527) in paragraph at lines 68--69
 []\T1/cmr/m/n/10.95 P°ehled com-mit· lze zís-kat
@@ -748,15 +724,15 @@ Overfull \hbox (5.99623pt too wide) in paragraph at lines 63--77
  [] 
  []
 
-) [25] (D:\git\GitHubGTDTool\texts\latex\includes/zaver.tex
+) [26] (D:\git\GitHubGTDTool\texts\latex\includes/zaver.tex
 Kapitola 7.
-[26
+[27
 
 
 
-] [27] [28]
+] [28] [29]
 Kapitola 8.
-) [29
+) [30
 
 ] (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.bbl
 LaTeX Font Info:    Try loading font information for T1+cmtt on input line 10.
@@ -769,99 +745,55 @@ Underfull \hbox (badness 3514) in paragraph at lines 18--21
 -vaScript \T1/cmr/m/n/10.95 [on-line]. 2012.
  []
 
+[31
 
-Underfull \hbox (badness 10000) in paragraph at lines 73--76
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 87--90
 \T1/cmtt/m/n/10.95 testovanisoftwaru . cz / manualni-[]testovani / modely-[]ziv
 otniho-[]cyklu-[]softwaru /
  []
 
-[30
-
-
-]
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 83.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 101.
 
-Underfull \hbox (badness 1242) in paragraph at lines 96--99
+Underfull \hbox (badness 1242) in paragraph at lines 125--128
 []\T1/cmr/m/it/10.95 šivotní cyk-lus pro-duktu \T1/cmr/m/n/10.95 [on-line]. 201
 2. [cit. 9.5.2012].  Do-stupné z: <[][]$\T1/cmtt/m/n/10.95 http : / /
  []
 
 
-Overfull \hbox (15.45334pt too wide) in paragraph at lines 107--112
+Overfull \hbox (15.45334pt too wide) in paragraph at lines 136--141
 \T1/cmtt/m/n/10.95 2012020900-[]titanium-[]studio-[]napiste-[]si-[]desktopovou-
 []aplikaci-[]v-[]javascriptu/$[][]\T1/cmr/m/n/10.95 >. 
  []
 
-) [31]
+) [32]
 Kapitola 9.
-[32
+[33
 
 ]
 Kapitola 10.
-<figures/install/01.png, id=759, 421.575pt x 328.97906pt>
-File: figures/install/01.png Graphic file (type png)
+[34
 
-<use figures/install/01.png>
-<figures/install/02.png, id=761, 408.02437pt x 322.20375pt>
-File: figures/install/02.png Graphic file (type png)
-
-<use figures/install/02.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<figures/install/03.png, id=762, 402.75468pt x 316.93407pt>
-File: figures/install/03.png Graphic file (type png)
-
-<use figures/install/03.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<figures/install/04.png, id=763, 398.99063pt x 316.93407pt>
-File: figures/install/04.png Graphic file (type png)
-
-<use figures/install/04.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<figures/install/05.png, id=764, 403.5075pt x 318.43968pt>
-File: figures/install/05.png Graphic file (type png)
-
-<use figures/install/05.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<figures/install/06.png, id=765, 402.75468pt x 317.68687pt>
-File: figures/install/06.png Graphic file (type png)
-
-<use figures/install/06.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[33
-
- <D:/git/GitHubGTDTool/texts/latex/figures/install/01.png>] [34 <D:/git/GitHubG
-TDTool/texts/latex/figures/install/02.png> <D:/git/GitHubGTDTool/texts/latex/fi
-gures/install/03.png>] [35 <D:/git/GitHubGTDTool/texts/latex/figures/install/04
-.png> <D:/git/GitHubGTDTool/texts/latex/figures/install/05.png>] [36 <D:/git/Gi
-tHubGTDTool/texts/latex/figures/install/06.png>]
+]
 Kapitola 11.
 
-Package natbib Warning: Citation `infodp' on page 37 undefined on input line 32
-1.
+Package natbib Warning: Citation `infodp' on page 35 undefined on input line 27
+3.
 
-<figures/seznamcd.pdf, id=789, 793.96625pt x 539.01375pt>
+<figures/seznamcd.pdf, id=778, 793.96625pt x 539.01375pt>
 File: figures/seznamcd.pdf Graphic file (type pdf)
 
 <use figures/seznamcd.pdf>
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 331.
-[37
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 283.
+[35
 
  <D:/git/GitHubGTDTool/texts/latex/figures/seznamcd.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 331.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 283.
 
 (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.aux
 (D:\git\GitHubGTDTool\texts\latex\includes/uvod.aux)
@@ -871,19 +803,15 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 331.
 (D:\git\GitHubGTDTool\texts\latex\includes/nasazeni.aux)
 (D:\git\GitHubGTDTool\texts\latex\includes/testovani.aux)
 (D:\git\GitHubGTDTool\texts\latex\includes/zaver.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 331.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 283.
 Package rerunfilecheck Info: File `Saterond-thesis-2012.out' has not changed.
-(rerunfilecheck)             Checksum: 6FA993051544C66A26CB7D863474A025;9576.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
+(rerunfilecheck)             Checksum: 697011A5B87FC07F5B4E900222AE1429;9494.
  ) 
 Here is how much of TeX's memory you used:
- 7609 strings out of 494019
- 107958 string characters out of 3143876
- 188751 words of memory out of 3000000
- 10522 multiletter control sequences out of 15000+200000
+ 7582 strings out of 494019
+ 107388 string characters out of 3143876
+ 188562 words of memory out of 3000000
+ 10504 multiletter control sequences out of 15000+200000
  18842 words of font info for 40 fonts, out of 3000000 for 9000
  718 hyphenation exceptions out of 8191
  31i,10n,30p,1521b,471s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -906,9 +834,9 @@ ta\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\p
 ecbx2488.pk><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
 y10.pfb>
-Output written on Saterond-thesis-2012.pdf (46 pages, 2983541 bytes).
+Output written on Saterond-thesis-2012.pdf (44 pages, 2725925 bytes).
 PDF statistics:
- 1457 PDF objects out of 1728 (max. 8388607)
- 177 named destinations out of 1000 (max. 500000)
- 639 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1451 PDF objects out of 1728 (max. 8388607)
+ 175 named destinations out of 1000 (max. 500000)
+ 609 words of extra memory for PDF output out of 10000 (max. 10000000)
 
