@@ -1,7 +1,7 @@
 % One-page layout: (proof-)reading on display
-\documentclass[11pt,oneside,a4paper]{book}
+%%\documentclass[11pt,oneside,a4paper]{book}
 % Two-page layout: final printing
-%%\documentclass[11pt,twoside,a4paper]{book}   
+\documentclass[11pt,twoside,a4paper]{book}   
 %=-=-=-=-=-=-=-=-=-=-=-=--=%
 % The user of this template may find useful to have an alternative to these 
 % officially suggested packages:
@@ -133,17 +133,17 @@ unicode=true,
 % zakomentujte nebo odstrante. 
 % Ve vysledne svazane praci bude nahrazena skutecnym 
 % oficialnim zadanim vasi prace.
-{
-\pagenumbering{roman} \cleardoublepage \thispagestyle{empty}
-\chapter*{Na tomto místě bude oficiální zadání vaší práce}
-\begin{itemize}
-\item Toto zadání je podepsané děkanem a vedoucím katedry,
-\item musíte si ho vyzvednout na studiijním oddělení Katedry počítačů na Karlově náměstí,
-\item v jedné odevzdané práci bude originál tohoto zadání (originál zůstává po obhajobě na katedře),
-\item ve druhé bude na stejném místě neověřená kopie tohoto dokumentu (tato se vám vrátí po obhajobě).
-\end{itemize}
-\newpage
-}
+%{
+%\pagenumbering{roman} \cleardoublepage \thispagestyle{empty}
+%\chapter*{Na tomto místě bude oficiální zadání vaší práce}
+%\begin{itemize}
+%\item Toto zadání je podepsané děkanem a vedoucím katedry,
+%\item musíte si ho vyzvednout na studiijním oddělení Katedry počítačů na Karlově náměstí,
+%\item v jedné odevzdané práci bude originál tohoto zadání (originál zůstává po obhajobě na katedře),
+%\item ve druhé bude na stejném místě neověřená kopie tohoto dokumentu (tato se vám vrátí po obhajobě).
+%\end{itemize}
+%\newpage
+%}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%    Titulni stranka / Title page 
 
@@ -153,11 +153,11 @@ unicode=true,
 
 \acknowledgements
 \noindent
-Zde můžete napsat své poděkování, pokud chcete a máte komu děkovat.
+Chtěl bych poděkovat vedoucímu mé bakalářské práce Ing. Ondřeji Mackovi za vstřícný přístup a bezproblémovou komunikaci.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%   Prohlaseni / Declaration 
 
-\declaration{V~Jihlavě dne 29.\,4.\,2012}
+\declaration{V~Jihlavě dne 20.\,5.\,2012}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%    Abstract 
  
@@ -268,16 +268,43 @@ Instalační příručka je součástí příloh na přiloženém CD.
 
 %*****************************************************************************
 \chapter{Obsah přiloženého CD}
-\textbf{\large Tato příloha je povinná pro každou práci. Každá práce musí totiž obsahovat přiložené CD. Viz dále.}
 
-Může vypadat například takto. Váš seznam samozřejmě bude odpovídat typu vaší práce. (viz \cite{infodp}):
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=14cm]{figures/seznamcd}
-\caption{Seznam přiloženého CD --- příklad}
-\label{fig:seznamcd}
-\end{center}
-\end{figure}
+\begin{description}
+\item[instalacni-prirucka] \hfill \\
+	instalační příručka aplikace
+	\begin{itemize}
+	\item prirucka.pdf
+	\end{itemize}
+\item[install] \hfill \\
+	instalační soubory pro Windows a Mac OS X
+	\begin{itemize}
+	\item GTDTool.dmg
+	\item GTDTool.msi
+	\end{itemize}
+\item[src] \hfill \\
+	zdrojové kódy aplikace
+\item[testy] \hfill \\
+	hrubá data z testů
+	\begin{itemize}
+	\item zatezove-testy.ods
+	\item zatezove-testy.xls
+	\item zatezove-testy.xlsx	
+	\end{itemize}
+\item[text] \hfill \\
+	vlastní text bakalářské práce
+	\begin{itemize}
+	\item figures - obrázky použité v práci
+	\item includes - jednotlivé kapitoly práce
+	\item csplainnat.bst - soubor s dodatečnými funkcemi pro {\LaTeX}
+	\item reference.bib - použitá literatura
+	\item Saterond-thesis-2012.pdf
+	\item Saterond-thesis-2012.tex
+	\end{itemize}
+\item[uml] \hfill \\
+	modely v jazyce UML ve formátu *.eap pro aplikaci Enterprise Architect
+	\begin{itemize}
+	\item GTDTool.eap
+	\end{itemize}
+\end{description}
 
 \end{document}

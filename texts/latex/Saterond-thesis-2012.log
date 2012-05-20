@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2012.4.29)  17 MAY 2012 11:35
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2012.4.29)  20 MAY 2012 18:18
 entering extended mode
 **Saterond-thesis-2012.tex
 (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.tex
@@ -308,7 +308,7 @@ File: pdftex.def 2010/09/14 v0.05b Graphics/color for pdfTeX
 \Gin@req@width=\dimen105
 )
 (D:\git\GitHubGTDTool\texts\latex\k336_thesis_macros.sty
-One side layout redefined.
+Two side layout redefined.
 (D:\git\GitHubGTDTool\texts\latex\hyphen.tex))
 Bakalarska prace
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
@@ -547,29 +547,23 @@ Nazev prace: GTD v\IeC {\'y}voj\IeC {\'a}\IeC {\v r}sk\IeC {\'y} \IeC {\'u}kolo
 vn\IeC {\'\i }k
 Vedouci prace: Ing. Macek Ond\IeC {\v r}ej
 ***************************************************
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 140.
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
-File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 140.
- [1
-
-
-
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<figures/LogoCVUT.pdf, id=284, 93.34875pt x 70.2625pt>
+<figures/LogoCVUT.pdf, id=275, 93.34875pt x 70.2625pt>
 File: figures/LogoCVUT.pdf Graphic file (type pdf)
 
 <use figures/LogoCVUT.pdf> [3
 
- <D:/git/GitHubGTDTool/texts/latex/figures/LogoCVUT.pdf>] [4
 
-] [5
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map} <D:/git/GitHubGTDTool/text
+s/latex/figures/LogoCVUT.pdf>] [4
 
-] [6
+] [5] [6
 
+]
+[7] [8
+
+] [9
+
+] [10
 
 ] (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -579,18 +573,18 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 5.
 
-[7
-
-])
+[11])
 \tf@toc=\write4
- [8] (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.lof)
+ [12] (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.lof)
 \tf@lof=\write5
- [9
+ [13
 
 ]
-(D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.lot)
+[14
+
+] (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.lot)
 \tf@lot=\write6
- [10
+ [15] [16
 
 ]
 (D:\git\GitHubGTDTool\texts\latex\includes/uvod.tex
@@ -598,25 +592,30 @@ Kapitola 1.
 ) [1
 
 
-
-] (D:\git\GitHubGTDTool\texts\latex\includes/motivace.tex
-Kapitola 2.
-[2
+] (D:\git\GitHubGTDTool\texts\latex\includes/motivace.tex [2
 
 
 
 ]
+Kapitola 2.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 12.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 12.
+ [3]
 Overfull \hbox (2.0341pt too wide) in paragraph at lines 42--59
  [] 
  []
 
-[3] [4]) [5] (D:\git\GitHubGTDTool\texts\latex\includes/analyza.tex
+[4] [5]) [6] (D:\git\GitHubGTDTool\texts\latex\includes/analyza.tex
 Kapitola 3.
-[6
+[7
 
 
 
-] [7] <figures/domain-model.pdf, id=493, 482.0409pt x 350.7504pt>
+] [8] <figures/domain-model.pdf, id=516, 482.0409pt x 350.7504pt>
 File: figures/domain-model.pdf Graphic file (type pdf)
 
 <use figures/domain-model.pdf>
@@ -636,7 +635,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[8]
+[9]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -646,64 +645,60 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[9 <D:/git/GitHubGTDTool/texts/latex/figures/domain-model.pdf>]
+[10 <D:/git/GitHubGTDTool/texts/latex/figures/domain-model.pdf>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [10] [11] (D:\git\GitHubGTDTool\texts\latex\includes/architektura.tex
+) [11] [12] (D:\git\GitHubGTDTool\texts\latex\includes/architektura.tex
 Kapitola 4.
-<figures/screenshot.pdf, id=532, 716.77785pt x 453.25635pt>
+<figures/screenshot.pdf, id=555, 716.77785pt x 453.25635pt>
 File: figures/screenshot.pdf Graphic file (type pdf)
 
 <use figures/screenshot.pdf>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/class-model.pdf, id=534, 597.23125pt x 845.1575pt>
+<figures/class-model.pdf, id=557, 597.23125pt x 845.1575pt>
 File: figures/class-model.pdf Graphic file (type pdf)
 
 <use figures/class-model.pdf>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[12
+[13
 
 
 
-] [13 <D:/git/GitHubGTDTool/texts/latex/figures/screenshot.pdf>] [14 <D:/git/Gi
-tHubGTDTool/texts/latex/figures/class-model.pdf>] [15] [16]
-
-Package natbib Warning: Citation `sameorigin' on page 17 undefined on input lin
-e 139.
-
-[17] [18] <figures/vyuziti-api.pdf, id=592, 597.23125pt x 845.1575pt>
+] [14 <D:/git/GitHubGTDTool/texts/latex/figures/screenshot.pdf>] [15 <D:/git/Gi
+tHubGTDTool/texts/latex/figures/class-model.pdf>] [16] [17] [18] [19]
+<figures/vyuziti-api.pdf, id=617, 597.23125pt x 845.1575pt>
 File: figures/vyuziti-api.pdf Graphic file (type pdf)
 
 <use figures/vyuziti-api.pdf>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [19] [20 <D:/git/GitHubGTDTool/texts/latex/figures/vyuziti-api.pdf>]
-(D:\git\GitHubGTDTool\texts\latex\includes/nasazeni.tex
+) [20] [21 <D:/git/GitHubGTDTool/texts/latex/figures/vyuziti-api.pdf>]
+(D:\git\GitHubGTDTool\texts\latex\includes/nasazeni.tex [22
+
+
+
+]
 Kapitola 5.
-) [21
-
-
-
-] [22] (D:\git\GitHubGTDTool\texts\latex\includes/testovani.tex
+) [23] [24] (D:\git\GitHubGTDTool\texts\latex\includes/testovani.tex
 Kapitola 6.
-[23
+[25
 
 
 
-] <figures/async-tests.pdf, id=639, 597.23125pt x 845.1575pt>
+] <figures/async-tests.pdf, id=668, 597.23125pt x 845.1575pt>
 File: figures/async-tests.pdf Graphic file (type pdf)
 
-<use figures/async-tests.pdf> [24 <D:/git/GitHubGTDTool/texts/latex/figures/asy
-nc-tests.pdf>] <figures/zatezove-testy.pdf, id=650, 597.23125pt x 845.1575pt>
+<use figures/async-tests.pdf> [26 <D:/git/GitHubGTDTool/texts/latex/figures/asy
+nc-tests.pdf>] <figures/zatezove-testy.pdf, id=679, 597.23125pt x 845.1575pt>
 File: figures/zatezove-testy.pdf Graphic file (type pdf)
 
-<use figures/zatezove-testy.pdf> [25 <D:/git/GitHubGTDTool/texts/latex/figures/
+<use figures/zatezove-testy.pdf> [27 <D:/git/GitHubGTDTool/texts/latex/figures/
 zatezove-testy.pdf>]
 Underfull \hbox (badness 1527) in paragraph at lines 68--69
 []\T1/cmr/m/n/10.95 P°ehled com-mit· lze zís-kat
@@ -724,17 +719,20 @@ Overfull \hbox (5.99623pt too wide) in paragraph at lines 63--77
  [] 
  []
 
-) [26] (D:\git\GitHubGTDTool\texts\latex\includes/zaver.tex
+) [28] (D:\git\GitHubGTDTool\texts\latex\includes/zaver.tex
 Kapitola 7.
-[27
+[29
 
 
 
-] [28] [29]
+] [30]
 Kapitola 8.
-) [30
+) [31
 
-] (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.bbl
+] (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.bbl [32
+
+
+]
 LaTeX Font Info:    Try loading font information for T1+cmtt on input line 10.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
@@ -745,10 +743,7 @@ Underfull \hbox (badness 3514) in paragraph at lines 18--21
 -vaScript \T1/cmr/m/n/10.95 [on-line]. 2012.
  []
 
-[31
-
-
-]
+[33]
 Underfull \hbox (badness 10000) in paragraph at lines 87--90
 \T1/cmtt/m/n/10.95 testovanisoftwaru . cz / manualni-[]testovani / modely-[]ziv
 otniho-[]cyklu-[]softwaru /
@@ -757,45 +752,33 @@ otniho-[]cyklu-[]softwaru /
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 101.
 
-Underfull \hbox (badness 1242) in paragraph at lines 125--128
+Underfull \hbox (badness 1242) in paragraph at lines 130--133
 []\T1/cmr/m/it/10.95 šivotní cyk-lus pro-duktu \T1/cmr/m/n/10.95 [on-line]. 201
 2. [cit. 9.5.2012].  Do-stupné z: <[][]$\T1/cmtt/m/n/10.95 http : / /
  []
 
 
-Overfull \hbox (15.45334pt too wide) in paragraph at lines 136--141
+Overfull \hbox (15.45334pt too wide) in paragraph at lines 141--146
 \T1/cmtt/m/n/10.95 2012020900-[]titanium-[]studio-[]napiste-[]si-[]desktopovou-
 []aplikaci-[]v-[]javascriptu/$[][]\T1/cmr/m/n/10.95 >. 
  []
 
-) [32]
+) [34]
 Kapitola 9.
-[33
+[35
+
+] [36
 
 ]
 Kapitola 10.
-[34
+[37] [38
 
 ]
 Kapitola 11.
-
-Package natbib Warning: Citation `infodp' on page 35 undefined on input line 27
-3.
-
-<figures/seznamcd.pdf, id=778, 793.96625pt x 539.01375pt>
-File: figures/seznamcd.pdf Graphic file (type pdf)
-
-<use figures/seznamcd.pdf>
-
-Package natbib Warning: There were undefined citations.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 283.
-[35
-
- <D:/git/GitHubGTDTool/texts/latex/figures/seznamcd.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 283.
-
-(D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.aux
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
+[39]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
+ (D:\git\GitHubGTDTool\texts\latex\Saterond-thesis-2012.aux
 (D:\git\GitHubGTDTool\texts\latex\includes/uvod.aux)
 (D:\git\GitHubGTDTool\texts\latex\includes/motivace.aux)
 (D:\git\GitHubGTDTool\texts\latex\includes/analyza.aux)
@@ -803,18 +786,18 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 283.
 (D:\git\GitHubGTDTool\texts\latex\includes/nasazeni.aux)
 (D:\git\GitHubGTDTool\texts\latex\includes/testovani.aux)
 (D:\git\GitHubGTDTool\texts\latex\includes/zaver.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 283.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
 Package rerunfilecheck Info: File `Saterond-thesis-2012.out' has not changed.
 (rerunfilecheck)             Checksum: 697011A5B87FC07F5B4E900222AE1429;9494.
  ) 
 Here is how much of TeX's memory you used:
- 7582 strings out of 494019
- 107388 string characters out of 3143876
- 188562 words of memory out of 3000000
- 10504 multiletter control sequences out of 15000+200000
+ 7585 strings out of 494019
+ 107380 string characters out of 3143876
+ 188568 words of memory out of 3000000
+ 10500 multiletter control sequences out of 15000+200000
  18842 words of font info for 40 fonts, out of 3000000 for 9000
  718 hyphenation exceptions out of 8191
- 31i,10n,30p,1521b,471s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 31i,10n,30p,1528b,471s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\p4nther\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi60
 0\ecti0800.pk> <C:\Users\p4nther\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknap
 pen\ec\dpi600\ecrm0800.pk> <C:\Users\p4nther\AppData\Local\MiKTeX\2.9\fonts\pk\
@@ -824,19 +807,19 @@ cal\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Users\p4nthe
 r\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecsl1095.pk> <C:\
 Users\p4nther\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1
 095.pk> <C:\Users\p4nther\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\
-dpi600\ecrm0600.pk> <C:\Users\p4nther\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\
-jknappen\ec\dpi600\ecbx2074.pk> <C:\Users\p4nther\AppData\Local\MiKTeX\2.9\font
-s\pk\ljfour\jknappen\ec\dpi600\ecti1440.pk> <C:\Users\p4nther\AppData\Local\MiK
-TeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk> <C:\Users\p4nther\AppDa
-ta\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\p
-4nther\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk>
+dpi600\ecbx2488.pk> <C:\Users\p4nther\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\
+jknappen\ec\dpi600\ecrm0600.pk> <C:\Users\p4nther\AppData\Local\MiKTeX\2.9\font
+s\pk\ljfour\jknappen\ec\dpi600\ecbx2074.pk> <C:\Users\p4nther\AppData\Local\MiK
+TeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk> <C:\Users\p4nther\AppDa
+ta\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1440.pk> <C:\Users\p
+4nther\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk>
  <C:\Users\p4nther\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\
-ecbx2488.pk><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+ecrm1200.pk><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
 y10.pfb>
-Output written on Saterond-thesis-2012.pdf (44 pages, 2725925 bytes).
+Output written on Saterond-thesis-2012.pdf (53 pages, 2645343 bytes).
 PDF statistics:
- 1451 PDF objects out of 1728 (max. 8388607)
- 175 named destinations out of 1000 (max. 500000)
- 609 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1497 PDF objects out of 1728 (max. 8388607)
+ 183 named destinations out of 1000 (max. 500000)
+ 604 words of extra memory for PDF output out of 10000 (max. 10000000)
 

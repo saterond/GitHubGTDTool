@@ -8,7 +8,6 @@ A level-1 auxiliary file: includes/testovani.aux
 A level-1 auxiliary file: includes/zaver.aux
 The style file: csplainnat.bst
 Database file #1: reference.bib
-Warning--I didn't find a database entry for "sameorigin"
 Warning--I didn't find a database entry for "infodp"
 Warning--to sort, need author or key in gcode
 Warning--to sort, need author or key in assembla
@@ -29,6 +28,7 @@ Warning--to sort, need author or key in github:oauth
 Warning--to sort, need author or key in googleauth
 Warning--to sort, need author or key in titanium:api
 Warning--to sort, need author or key in sqlite
+Warning--to sort, need author or key in wiki:sameorigin
 Warning--to sort, need author or key in debian
 Warning--to sort, need author or key in mac
 Warning--to sort, need author or key in zivotnicyklus

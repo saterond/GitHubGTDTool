@@ -1,4 +1,4 @@
-\begin{thebibliography}{31}
+\begin{thebibliography}{32}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -120,6 +120,11 @@
 \bibitem[uml(2012)]{uml}
 \emph{The Unified Modeling Language™} [online]. 2012. [cit.~9.\,5.\,2012].
 \newblock Dostupn{\'{e}} z: \url{http://www.uml.org/}.
+
+\bibitem[wik(2012)]{wiki:sameorigin}
+\emph{{Přispěvatelé Wikipedie}} [online]. 2012. [cit.~28.\,3.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://en.wikipedia.org/wiki/Same_origin_policy}.
 
 \bibitem[ziv(2012)]{zivotnicyklus}
 \emph{Životní cyklus produktu} [online]. 2012. [cit.~9.\,5.\,2012].

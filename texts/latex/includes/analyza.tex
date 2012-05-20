@@ -1,6 +1,6 @@
 \chapter{Analýza}
 
-Pro vývoj aplikace v této bakalářské práci byla zvolena novější - agilní - metodika vývoje, která je v mnoha ohledech jednodušší než dříve používaný Rational Unified Process (RUP)\cite{rup}. Hlavní výhoda spočívá v tom, že se nevytváří hromady dokumentů, jejichž vytvoření zabere spoustu času a ve finále je většina z nich zbytečná. RUP má smysl spíše u velkých projektů, na kterých pracuje větší tým lidí a které jsou hodně rozsáhlé. 
+Pro vývoj aplikace v této bakalářské práci byla zvolena novější - agilní - metodika vývoje, která je v mnoha ohledech jednodušší než dříve používaný Rational Unified Process (RUP)\cite{rup}. Hlavní výhoda spočívá v tom, že se nevytváří velké množství dokumentů, jejichž vytvoření zabere mnoho času a většina z nichž je ve finále zbytečná. RUP má smysl spíše u~velkých projektů, na kterých pracuje větší tým lidí a které jsou hodně rozsáhlé. 
 
 RUP a agilní metodiky se liší už ve způsobu sběru požadavků. Zatímco RUP je orientovaný na use-case modely, vytvářené obvykle v jazyce Unified Modeling Language (UML)\cite{uml}, agilní metodiky evidují požadavky v podobě tzv. user stories \cite{userstory}.
 
@@ -8,12 +8,12 @@ RUP a agilní metodiky se liší už ve způsobu sběru požadavků. Zatímco RU
 
 Požadavky v rámci agilních metodik se nezapisují jako prosté úkoly, ale mají formát tzv. user story. Jejich tvar je pevně daný a skládá se ze tří částí:
 \begin{quote}
-Jako \textbf{Uživatel}, chci \textbf{Funkcionalitu} abych dostal \textbf{Bussiness Value}
+Jako \textbf{Uživatel}, chci \textbf{Funkcionalitu}, abych dostal \textbf{Bussiness Value}
 \end{quote}
 
-Takto formulovaný požadavek je pro člověka mnohem srozumitelnější, protože vidí proč daný úkol splnit a jaký je jeho přínos. Má tak jistotu, že nedělá něco zbytečného. User story je takový krátký příbeh a jako takový je lidským mozkem snáz vnímatelný.
+Takto formulovaný požadavek je pro člověka mnohem srozumitelnější, protože vidí, proč daný úkol splnit a jaký je jeho přínos. Má tak jistotu, že nedělá něco zbytečného. User story je takový krátký příběh a jako takový je lidským mozkem snáz vnímatelný.
 
-User stories poslouží i po ukončení vývoje - při akceptačních testech. Stačí projít seznam user stories a pokud je v aplikace nalezen jejich \uv{odraz}, test byl úspěšný. Proto je lepší, aby user stories prošly schválením od zadavatele ještě před začátkem vývoje aplikace.
+User stories poslouží i po ukončení vývoje - při akceptačních testech. Stačí projít seznam user stories, a pokud je v aplikaci nalezen jejich \uv{odraz}, test byl úspěšný. Proto je lepší, aby user stories prošly schválením od zadavatele ještě před začátkem vývoje aplikace.
 
 V rámci této bakalářské práce byl vytvořen následující seznam user stories, který je pro lepší přehlednost rozdělen do bloků podle cílové skupiny. Každý blok je uveden názvem role, kde lomítko značí \uv{dědičnost}. Jsou v něm zachyceny všechny požadavky, které by měla aplikace po ukončení vývoje splňovat.
 
@@ -25,11 +25,11 @@ Jako uživatel chci:
 \item používat aplikaci co nejjednodušeji, abych se mohl plně soustředit na přesné zadání úkolu
 \item vytvářet úkoly, abych na nic nezapomněl
 \item vytvářet projekty, abych si mohl úkoly třídit
-\item vkládat okažité nápady do inboxu s tím, že je později zatřídím do projektu
+\item vkládat okamžité nápady do inboxu s tím, že je později zatřídím do projektu
 \item označit úkol jako splněný
-\item uložit úkol do archivu, kdybych se k němu chtěl někdy později vrátit
+\item uložit úkol do archivu pro případ, že bych se k němu chtěl někdy později vrátit
 \item vyhodit úkol do koše, pokud se rozhodnu, že ho nebudu realizovat
-\item přidávat úkolům štítky, abych si mohl odfiltrovat úkoly z určité oblasti
+\item přiřazovat úkolům štítky, abych si mohl odfiltrovat úkoly z určité oblasti
 \item na konci týdne vědět, co všechno jsem za týden stihl, abych si mohl lépe naplánovat úkoly na příští týden
 \item své nápady, na které teď nemám čas, přiřadit do skupiny s delším časovým horizontem, abych na ně nezapomněl a mohl je později rozvíjet
 \item vytisknout svoje úkoly, abych je mohl mít neustále na očích
@@ -58,8 +58,8 @@ Jako senior vývojář chci:
 \item delegovat úkoly junior vývojářům
 \item přiřadit úkol do konkrétního milníku, abych měl přehled o tom, kolik toho ještě zbývá dokončit
 \item být informován o změnách v mých repozitářích na serverech
-\item uzavřít projekt, po jeho dokončení příp. předčasném ukončení
-\item přidávat štítky k úkolům, abych je mohl lépe třídit a filtrovat
+\item uzavřít projekt po jeho dokončení příp. předčasném ukončení
+\item přiřazovat štítky k úkolům, abych je mohl lépe třídit a filtrovat
 \item být upozorněn na neaktivní otevřené projekty, abych mohl urgovat dokončení úkolů na junior vývojářích
 \item mazat úkoly, které se nakonec realizovat nebudou
 \item zpřesňovat zadání úkolů, pokud dojde k nejasnostem
@@ -75,7 +75,7 @@ Jako junior vývojář chci:
 \end{itemize}
 
 \section{Doménový model}
-Z výše zmíněných user stories byl v dalším kroku vytvořen seznam entit, které byly logicky provázány asociacemi. Pro lepší znázornění těchto entit a vztahů mezi nimi byl vytvořen doménové model v jazyce UML.
+Z výše zmíněných user stories byl v dalším kroku vytvořen seznam entit, které byly logicky provázány asociacemi. Pro lepší znázornění těchto entit a vztahů mezi nimi byl vytvořen doménový model v jazyce UML.
 
 \begin{figure}[h]
 	\includegraphics[keepaspectratio,width=16cm]{figures/domain-model}
@@ -84,10 +84,10 @@ Z výše zmíněných user stories byl v dalším kroku vytvořen seznam entit, 
 \end{figure}
 
 \subsection{Issue}
-Entita reprezentující jeden úkol, uložený v aplikaci. Má definované jméno (název problému) a popis, který obsahuje konkrétní popis problému
+Entita reprezentující jeden úkol, uložený v aplikaci. Má definované jméno (název problému) a popis, který obsahuje konkrétní charakteristiku problému
 
 \subsection{IssueState}
-Úkoly (issues) existují v aplikaci v různých stavech. Každý stav určuje jak bude aplikace s daným úkolem zacházet \ref{tab:issueState}.
+Úkoly (issues) existují v aplikaci v různých stavech. Každý stav určuje, jak bude aplikace s daným úkolem zacházet \ref{tab:issueState}.
 
 \begin{table}[h]
 \begin{center}
@@ -125,7 +125,7 @@ Entita reprezentující jeden úkol, uložený v aplikaci. Má definované jmén
 \end{table}
 
 \subsection{Milestone}
-Milestone se do češtiny překládá jako milník. Je to nějaký bod v čase, do kterého musí být dokončená určitá množina úkolů (issues). Lze sledovat procentuální dokončení \ref{tab:milestone}.
+Milestone se do češtiny překládá jako milník. Je to nějaký bod v čase, do kterého musí být dokončena určitá množina úkolů (issues). Lze sledovat procentuální dokončení \ref{tab:milestone}.
 
 \begin{table}[h]
 \begin{center}
@@ -161,7 +161,7 @@ Uživatel (User) vystupuje v aplikaci jako člen týmu, kterému je možné při
 \end{table}
 
 \subsection{Project}
-Úkoly (issues) jsou uspořádané do projektů, které mají definované jméno a popis. I z úkolu se může stát projekt pokud je k jeho dokončení potřeba víc než jeden krok (podle GTD) \ref{tab:project}.
+Úkoly (issues) jsou uspořádané do projektů, které mají definované jméno a popis. I z úkolu se může stát projekt, pokud je k jeho dokončení potřeba víc než jeden krok (podle GTD) \ref{tab:project}.
 
 \begin{table}[h]
 \begin{center}
@@ -198,7 +198,7 @@ Projekt může být buď aktivní, tzn. že se na něm pracuje, nebo dokončený
 
 \subsection{ProjectType}
 
-Každý projekt má definovaný nějaký typ, podle kterého se určí na jaký server se má synchronizovat. Pokud jde o obyčejný projekt (default) nesynchronizuje se nikam, všechny úkoly zůstávají pouze na lokálním úložišti \ref{tab:projectType}.
+Každý projekt má definovaný nějaký typ, podle kterého se určí, na jaký server se má synchronizovat. Pokud jde o obyčejný projekt (default), nesynchronizuje se nikam, všechny úkoly zůstávají pouze na lokálním úložišti \ref{tab:projectType}.
 
 \begin{table}[h]
 \begin{center}
