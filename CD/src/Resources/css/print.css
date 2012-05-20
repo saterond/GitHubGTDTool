@@ -1,0 +1,14 @@
+.hidden {display: none}
+.clear {display: block; width: 100%; clear: both}
+.divider {width: 100%; display: block; height: 1px; background: #a0a0a0; margin: 10px 0}
+
+#sidebar {display: none}
+#content .inner {padding-left: 0}
+
+.labels {display: none}
+.issue {margin-bottom: 10px}
+.issue .title {font-size: 120%; font-weight: bold}
+.issue .description {padding-left: 10px; font-style: italic}
+
+button {display: none}
+input {display: none}

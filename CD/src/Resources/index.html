@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<title>GTD Tool</title>		
+		<link rel="stylesheet" href="css/typography.css" media="screen"/>
+		<link rel="stylesheet" href="css/screen.css" media="screen"/>
+		<link rel="stylesheet" href="css/print.css" media="print" />
+		<script type="text/javascript" src="js/base64.js"></script>
+		<script type="text/javascript" src="js/prototype.js"></script>
+		<script type="text/javascript" src="js/scriptaculous/scriptaculous.js"></script>
+	    <script type="text/javascript" src="js/graphs/prototype-adapter.js"></script>
+	    <script type="text/javascript" src="js/graphs/highcharts.js"></script>
+		<script type="text/javascript" src="js/objects.js"></script>
+		<script type="text/javascript" src="js/abstractClasses.js"></script>
+		<script type="text/javascript" src="js/rest_client.js"></script>
+		<script type="text/javascript" src="js/ajax_client.js"></script>
+		<script type="text/javascript" src="js/gcode_api.js"></script>
+		<script type="text/javascript" src="js/assembla_api.js"></script>
+		<script type="text/javascript" src="js/github_api.js"></script>
+		<script type="text/javascript" src="js/model.js"></script>
+		<script type="text/javascript" src="js/application.js"></script>
+		<script type="text/javascript" src="js/sync.js"></script>
+		<script type="text/javascript" src="js/handlers.js"></script>
+		<script type="text/javascript" src="js/viewer.js"></script>						
+		<script type="text/javascript" src="js/main.js"></script>	    
+	</head>
+	<body>
+		<div id="sidebar">
+			<ul class="items">
+				<li class="selection" data-key="1">INBOX</li>
+				<li class="selection" data-key="5">Today</li>
+				<li class="selection" data-key="6">Scheduled</li>
+			</ul>
+			<button class="cupid-green" id="saveNewProject">Create new project</button>
+			<span class="divider"> </span>
+			<h3>Projects</h3>
+			<ul class="items" id="projects">				
+			</ul>			
+			<span class="divider"> </span>
+			<button class="button-big selection" data-key="8">Archive</button>
+			<button class="button-big selection" data-key="9">Trash</button>
+			<button class="button-big" id="trash-empty">Empty trash</button>
+		</div>
+		
+		<div id="content">
+	    	<div class="inner">
+	    		<div class="projectButtons"></div>
+	    		<div class="projectHeader">
+					<h2>GTD Tool</h2>
+				</div>							
+				<span class="divider"> </span>
+				<button class="cupid-green" id="saveNewIssue">Add new issue</button>
+				<button class="cupid-green" id="editProjectButton" data-key="0">Edit project</button>
+				<br>
+				<div id="issues">
+				    <p>No news</p>
+				</div>
+			</div>
+			<div class="notifications" id="notifications" style="display: none"></div>
+		</div>									
+	</body>
+</html>

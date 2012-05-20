@@ -1,0 +1,108 @@
+\chapter{Motivace}
+
+V této kapitole je popsána motivace, kvůli které je tento nástroj vyvíjen. Obsahuje hrubé představení poskytované funkcionality a popis verzovacích serverů, jejichž API je v aplikaci využíváno.
+
+\section{Očekávaná funkcionalita}
+
+Stěžejním úkolem aplikace je správa úkolů a jejich třídění do projektů. Úkoly lze filtrovat podle jim přiřazených štítků a je možné si zvolený výběr vytisknout pro další zpracování. K~úkolům lze přiřadit uživatele, kteří mají na starosti splnění daného úkolu. Zároveň je možné sledovat procentuální splnění jednotlivých projektů pomocí grafů a přehledů.
+
+V tomto nástroji existují v zásadě čtyři typy projektů:
+
+\begin{itemize}
+\item obyčejný projekt
+\item projekt hostovaný na serveru Assembla
+\item projekt hostovaný na serveru Google Code
+\item projekt hostovaný na serveru GitHub
+\end{itemize}
+
+V další části jsou tyto typy projektů popsány podrobněji.
+
+\subsection{Obyčejný projekt}
+
+Obyčejný projekt neposkytuje žádné speciální funkce, poskytuje pouze možnost roztřídit si úkoly podle nějaké jejich společné vlastnosti. Uživatel si tak může například rozdělit nějaký rozsáhlejší úkol na menší části. Tento projekt ani nemusí souviset s vývojem software.
+
+\subsection{Hostované projekty}
+
+Projekty, které jsou uloženy na některém ze serverů. Tyto jsou vždy pevně svázány s některým z repozitářů, uložených na daném serveru. Poskytují tak možnost synchronizace úkolů, uložených na serveru, s těmi v aplikaci. Při synchronizaci se zároveň stáhne seznam uživatelů, milníků a štítků, které je pak možné dále využívat. Například je možné do milníku přiřadit nový úkol a změna se automaticky projeví i na serveru. To samé je možné při přiřazování úkolů uživatelům.
+
+\subsubsection{Porovnání verzovacích serverů}
+
+Každý ze serverů poskytuje jiné funkce, tzn. že i API jednotlivých služeb budou jiná. To přináší komplikace při vývoji nástroje, který má v sobě integrovat správu všech tří služeb.
+
+Každé z trojice používaných API poskytuje jiný přístup k datům uloženým na serveru. Assembla a Google Code se spoléhá na rozhraní typu REST\cite{rest}. Github používá pro přenos dat JSON\cite{json} pole, která jsou snadněji zpracovatelná JavaScriptem a pomalu se dostávají i do jiných programovacích jazyků. Nejlépe zdokumentované rozhraní má jednoznačně Github. V dokumentaci lze najít i chybové hlášky a všechny typy návratových polí. Github zároveň poskytuje největší paletu nabízených služeb a klientská aplikace se tak dostane kamkoliv. Samotná webová aplikace Githubu běží nad tímto API.
+
+Nejhůře je na tom s dokumentací Assembla, kde polovina údajů chybí a postup práce s~API je tak spíše pokus-omyl. Nikde například nejsou k nalezení chybové hlášky, které API vrací, pokud požadavek z nějakého důvodu nevyhovuje. Vývojáři tak nezbývá nic jiného, než odpověď hledat pomocí vyhledávače.
+
+Google Code má dokumentaci obstojnou, i když pod úrovní dokumentace na Githubu. Některé informace jsou zapsány poměrně nelogicky a v místech, kde by je člověk nehledal. Svůj účel ale dokumentace plní a na většinu otázek dokáže odpovědět.
+
+Služby jsou rozdílné i z jiného úhlu pohledu - z pohledu uživatele. Pro lepší přehlednost jsou tyto rozdíly uvedeny v následující tabulce \ref{tab:versionSystemsDifference}:
+
+\begin{table}
+\begin{center}
+	\begin{tabular}{|c||l|l|l|}
+	\hline
+	Funkce & Assembla & GitHub & Google Code \\
+	\hline
+	\hline
+	Definování milníku & ano & ano & ano \\
+	Přiřazení štítků k issue & ne & ano & ano \\
+	Více různých stavů issue & ano & ne & ano \\
+	Nastavení priority & ano & ne & ano \\
+	Uložení aktivity u issue & ano & ne & ne \\
+	Přidání přílohy k issue & ano & ne & ano \\
+	Sledování aktivity v issues & ano & ne & ano \\
+	\hline
+	Cena za měsíc & od 9 (1GB) & od 7 (0,6GB) & - \\
+	(pro komerční projekty) & do 99 dolarů (20GB) & do 22 dolarů (2,4GB) & \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Rozdíly mezi verzovacími servery}
+\label{tab:versionSystemsDifference}
+\end{table}
+
+Kvůli těmto rozdílům jsou nutné různé kompromisy, aby bylo možné aplikaci používat konzistentně bez ohledu na to, kde je projekt hostován. Ukazuje se, že GitHub má sice nejlepší dokumentaci, ale ve funkcionalitě pokulhává. Assembla, jejíž dokumentace je nejhorší, naopak poskytuje mnoho funkcí navíc. Assembla je však více zaměřená na komerční projekty, kdežto zbylé dvě služby jsou orientovány spíše na open-source vývojáře. Google Code neumožňuje hostovat komerční projekty vůbec. GitHub má i placený hosting projektů, ale jeho možnosti jsou mnohem menší než u konkurenční Assembly.
+
+\subsection{Getting Things Done}
+
+Tato metoda byla vytvořena americkým koučem Davidem Allenem, který ji popsal ve stejnojmenné knize \cite{gtd:book}. Neslouží přímo k organizaci času, ale orientuje se spíše na organizaci práce a její plánování. Hlavní myšlenkou Allenovy práce je fakt, že lidský mozek není diář a není uzpůsoben k tomu, aby si pamatoval každý úkol a závazek, který je nutno splnit. Člověk pracuje lépe, pokud se nemusí zatěžovat přemýšlením, co všechno musí udělat. Jádrem této metody jsou proto různé seznamy zahrnující úkoly, které je nutno vyřešit. Mozek se tak může soustředit čistě na práci a není rozptylován vzpomínáním na jiné nesouvisející úkoly.
+
+Celou metodu lze rozdělit do pěti kroků\cite{gtd:wiki}:
+
+\begin{itemize}
+\item sběr úkolů
+\item zpracování
+\item zorganizování
+\item zhodnocení
+\item vykonání
+\end{itemize}
+
+V aplikaci jsou zachyceny pouze prostřední tři kroky. Sběr úkolů je nutné provádět průběžně, tzn. nemusí to být v dosahu počítače. Tomuto účelu bohatě postačí papírový zápisník, příp. poznámky uložené v telefonu. Poslední krok \uv{vykonání} je zase plně v režii člověka, tam už žádná aplikace nepomůže.
+
+V kroku \uv{zpracování} dochází k přesunu úkolů z různých zdrojů (zápisník, poznámky) do jedné schránky - aplikace. Nesplnitelné úkoly se buď zahodí nebo se uloží na později. Splnitelné úkoly se buď vykonají, přiřadí někomu jinému nebo uloží na později. O tom, zda se úkol vykoná hned nebo uloží, rozhoduje pravidlo 2 minut. Pokud vykonání úkolu zabere víc času než tyto dvě minuty, je uložen k pozdějšímu zpracování. Zároveň pokud je krok komplexnější a k jeho splnění je potřeba víc než jeden krok, je tento rozdělen na víc částí a uložen jako projekt.
+
+V další fázi - zorganizování - dochází k rozdělení úkolů do těchto pěti oblastí:
+
+\begin{itemize}
+\item další kroky - realizovatelné, fyzicky viditelné činnosti, které vedou k nějakému výsledku
+\item delegované úkoly - přiřazené jiným lidem, u kterých čekáme na zpracování
+\item projektové úkoly
+\item úkoly uložené na později
+\item naplánované úkoly - mají pevně dané datum splnění (deadline)
+\end{itemize}
+
+Čtvrtá fáze, která je zde označena jako zhodnocení, probíhá paralelně se všemi ostatními. Během ní člověk přehodnocuje, zda dělá to, co by dělat měl. K tomu mu poslouží seznam nesplněných úkolů a projektů. Ke zhodnocení dochází také jednou za týden, kdy se upravuje seznam úkolů tak, aby byl aktuální.
+
+\section{Důvody zvolení desktopové aplikace}
+
+V dnešní době už desktopové aplikace vycházejí z módy. Všechna data a aplikace se přesouvají do webového prostoru, kde je obsah přístupný odkudkoliv a je jedno, přes jaké zařízení se k~němu přistupuje. Dokumenty tak lze vytvářet na stolním počítači a pak je upravovat je na~svém smartphonu, který má připojení k internetu. Používání webových úložišť má ale i svá úskalí - bezpečnost a spolehlivost.
+
+\subsection{Bezpečnost}
+
+Data na internetu jsou uložena na vzdáleném serveru a není jisté, že k nim nemá přístup někdo nepovolaný. U desktopových aplikací lze bezpečnost snadno zajistit minimálně pomocí hesla, příp. šifrováním obsahu na pevném disku. Záleží tedy na uživateli, zda se spolehne na~zabezpečení vzdáleného serveru nebo bude mít raději vše pod přímou kontrolou na vlastním počítači. Dalším faktorem, který může rozhodování ovlivnit, je zálohování dat. Pokud je obsah uložen na jednom pevném disku, zvyšuje se pravděpodobnost ztráty dat, takže je nutné pravidelné zálohování. U vzdálených serverů je obvykle o zálohování postaráno automaticky. 
+
+Jak vidno, obě varianty mají svá pro i proti. Důvody pro zvolení desktopové aplikace jsou v zásadě dva - rešerše práce s vývojovým prostředím Titanium Studio a experiment, zda je možné napsat kompletní aplikaci pouze pomocí JavaScriptu. 
+
+\subsection{Využití JavaScriptu}
+
+JavaScript se v poslední době opět vrací na výsluní a lze jej nalézt téměř na každé webové stránce či webové aplikaci. Na rozdíl od ostatních technologií, jako je Flash \cite{flash} nebo Silverlight \cite{silverlight}, není závislý na platformě a funguje stejně dobře na operačním systému Windows, Linux nebo Mac. Jeho podpora je pevně zabudována do drtivé většiny webových prohlížečů a v poslední době se jeho podpora rozšiřuje i na mobilní zařízení. Žádná jiná technologie nemá takovou podporu. JavaScript je nejsnadnější způsob, jak udělat stránku interaktivní. Změnit to může snad jedině větší rozšíření HTML 5, ale to bude ještě nějakou dobu trvat.

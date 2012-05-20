@@ -1,0 +1,310 @@
+% One-page layout: (proof-)reading on display
+%%\documentclass[11pt,oneside,a4paper]{book}
+% Two-page layout: final printing
+\documentclass[11pt,twoside,a4paper]{book}   
+%=-=-=-=-=-=-=-=-=-=-=-=--=%
+% The user of this template may find useful to have an alternative to these 
+% officially suggested packages:
+\usepackage[czech, english]{babel}
+\usepackage[T1]{fontenc} % pouzije EC fonty 
+% pripadne pisete-li cesky, pak lze zkusit take:
+% \usepackage[OT1]{fontenc} 
+\usepackage[utf8]{inputenc}
+%=-=-=-=-=-=-=-=-=-=-=-=--=%
+% In case of problems with PDF fonts, one may try to uncomment this line:
+%\usepackage{lmodern}
+%=-=-=-=-=-=-=-=-=-=-=-=--=%
+%=-=-=-=-=-=-=-=-=-=-=-=--=%
+% Depending on your particular TeX distribution and version of conversion tools 
+% (dvips/dvipdf/ps2pdf), some (advanced | desperate) users may prefer to use 
+% different settings.
+% Please uncomment the following style and use your CSLaTeX (cslatex/pdfcslatex) 
+% to process your work. Note however, this file is in UTF-8 and a conversion to 
+% your native encoding may be required. Some settings below depend on babel 
+% macros and should also be modified. See \selectlanguage \iflanguage.
+%\usepackage{czech}  %%%%%\usepackage[T1]{czech} %%%%[IL2] [T1] [OT1]
+%=-=-=-=-=-=-=-=-=-=-=-=--=%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Styles required in your work follow %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+%\usepackage{indentfirst} %1. odstavec jako v cestine.
+
+\usepackage{k336_thesis_macros} % specialni makra pro formatovani DP a BP
+ % muzete si vytvorit i sva vlastni v souboru k336_thesis_macros.sty
+ % najdete  radu jednoduchych definic, ktere zde ani nejsou pouzity
+ % napriklad: 
+ % \newcommand{\bfig}{\begin{figure}\begin{center}}
+ % \newcommand{\efig}{\end{center}\end{figure}}
+ % umoznuje pouzit prikaz \bfig namisto \begin{figure}\begin{center} atd.
+
+\newcommand\TypeOfWork{Bakalářská práce}  \typeout{Bakalarska prace}
+\newcommand\StudProgram{Softwarové technologie a management, Bakalářský}
+\newcommand\StudBranch{Softwarové inženýrství}            %pro STM
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Vyplnte nazev prace, autora a vedouciho
+% Set up Work Title, Author and Supervisor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand\WorkTitle{GTD vývojářský úkolovník}
+\newcommand\FirstandFamilyName{Ondřej Šatera}
+\newcommand\Supervisor{Ing. Macek Ondřej}
+
+
+% Pouzijete-li pdflatex, tak je prijemne, kdyz bude mit vase prace
+% funkcni odkazy i v pdf formatu
+\usepackage[
+pdftitle={\WorkTitle},
+pdfauthor={\FirstandFamilyName},
+bookmarks=true,
+colorlinks=true,
+breaklinks=true,
+urlcolor=red,
+citecolor=blue,
+linkcolor=blue,
+unicode=true,
+]
+{hyperref}
+
+
+
+% Extension posted by Petr Dlouhy in order for better sources reference (\cite{} command) especially in Czech.
+% April 2010
+% See comment over \thebibliography command for details.
+
+\usepackage[square, numbers]{natbib}             % sazba pouzite literatury
+%\usepackage{url}
+%\DeclareUrlCommand\url{\def\UrlLeft{<}\def\UrlRight{>}\urlstyle{tt}}  %rm/sf/tt
+%\renewcommand{\emph}[1]{\textsl{#1}}    % melo by byt kurziva nebo sklonene,
+\let\oldUrl\url
+\renewcommand\url[1]{<\texttt{\oldUrl{#1}}>}
+
+
+
+
+\begin{document}
+\selectlanguage{czech}
+
+% prikaz \typeout vypise vyse uvedena nastaveni v prikazovem okne
+% pro pohodlne ladeni prace
+
+
+\iflanguage{czech}{
+	 \typeout{************************************************}
+	 \typeout{Zvoleny jazyk: cestina}
+	 \typeout{Typ prace: \TypeOfWork}
+	 \typeout{Studijni program: \StudProgram}
+	 \typeout{Obor: \StudBranch}
+	 \typeout{Jmeno: \FirstandFamilyName}
+	 \typeout{Nazev prace: \WorkTitle}
+	 \typeout{Vedouci prace: \Supervisor}
+	 \typeout{***************************************************}
+	 \newcommand\Department{Katedra počítačů}
+	 \newcommand\Faculty{Fakulta elektrotechnická}
+	 \newcommand\University{České vysoké učení technické v Praze}
+	 \newcommand\labelSupervisor{Vedoucí práce}
+	 \newcommand\labelStudProgram{Studijní program}
+	 \newcommand\labelStudBranch{Obor}
+}{
+	 \typeout{************************************************}
+	 \typeout{Language: english}
+	 \typeout{Type of Work: \TypeOfWork}
+	 \typeout{Study Program: \StudProgram}
+	 \typeout{Study Branch: \StudBranch}
+	 \typeout{Author: \FirstandFamilyName}
+	 \typeout{Title: \WorkTitle}
+	 \typeout{Supervisor: \Supervisor}
+	 \typeout{***************************************************}
+	 \newcommand\Department{Department of Computer Science and Engineering}
+	 \newcommand\Faculty{Faculty of Electrical Engineering}
+	 \newcommand\University{Czech Technical University in Prague}
+	 \newcommand\labelSupervisor{Supervisor}
+	 \newcommand\labelStudProgram{Study Programme} 
+	 \newcommand\labelStudBranch{Field of Study}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%    Poznamky ke kompletaci prace
+% Nasledujici pasaz uzavrenou v {} ve sve praci samozrejme 
+% zakomentujte nebo odstrante. 
+% Ve vysledne svazane praci bude nahrazena skutecnym 
+% oficialnim zadanim vasi prace.
+%{
+%\pagenumbering{roman} \cleardoublepage \thispagestyle{empty}
+%\chapter*{Na tomto místě bude oficiální zadání vaší práce}
+%\begin{itemize}
+%\item Toto zadání je podepsané děkanem a vedoucím katedry,
+%\item musíte si ho vyzvednout na studiijním oddělení Katedry počítačů na Karlově náměstí,
+%\item v jedné odevzdané práci bude originál tohoto zadání (originál zůstává po obhajobě na katedře),
+%\item ve druhé bude na stejném místě neověřená kopie tohoto dokumentu (tato se vám vrátí po obhajobě).
+%\end{itemize}
+%\newpage
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%    Titulni stranka / Title page 
+
+\coverpagestarts
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%    Podekovani / Acknowledgements 
+
+\acknowledgements
+\noindent
+Chtěl bych poděkovat vedoucímu mé bakalářské práce Ing. Ondřeji Mackovi za vstřícný přístup a bezproblémovou komunikaci.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%   Prohlaseni / Declaration 
+
+\declaration{V~Jihlavě dne 20.\,5.\,2012}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%    Abstract 
+ 
+\abstractpage
+The purpose of this work is to create tool for developers, which allows them to manage tasks from different services. The tool will be built on a platform of Titanium. An integral part of developing this application will be testing. The aim is to facilitate the application users' work with tasks from different resources / services.
+
+% Prace v cestine musi krome abstraktu v anglictine obsahovat i
+% abstrakt v cestine.
+\vglue60mm
+
+\noindent{\Huge \textbf{Abstrakt}}
+\vskip 2.75\baselineskip
+
+\noindent
+Obsahem této práce je vytvoření nástroje pro vývojáře, který umožní správu úkolů z různých služeb. Nástroj bude postavený na platformě Titanium. Nedílnou součástí vývoje bude i testování aplikace. Cílem aplikace je usnadnit uživateli práci s úkoly z různých zdrojů/služeb.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Obsah / Table of Contents 
+
+\tableofcontents
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Seznam obrazku / List of Figures 
+
+\listoffigures
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Seznam tabulek / List of Tables
+
+\listoftables
+
+
+%**************************************************************
+
+\mainbodystarts
+% horizontalní mezera mezi dvema odstavci
+%\parskip=5pt
+%11.12.2008 parskip + tolerance
+\normalfont
+\parskip=0.2\baselineskip plus 0.2\baselineskip minus 0.1\baselineskip
+
+%**************************************************************
+
+\include{includes/uvod}
+
+%*****************************************************************************
+%*****************************************************************************
+%*****************************************************************************
+
+\include{includes/motivace}
+
+%*****************************************************************************
+%*****************************************************************************
+%*****************************************************************************
+
+\include{includes/analyza}
+
+%*****************************************************************************
+%*****************************************************************************
+%*****************************************************************************
+
+\include{includes/architektura}
+
+%*****************************************************************************
+%*****************************************************************************
+%*****************************************************************************
+
+\include{includes/nasazeni}
+
+%*****************************************************************************
+%*****************************************************************************
+%*****************************************************************************
+
+\include{includes/testovani}
+
+%*****************************************************************************
+%*****************************************************************************
+%*****************************************************************************
+
+\include{includes/zaver}
+
+%*****************************************************************************
+% Seznam literatury je v samostatnem souboru reference.bib. Ten
+% upravte dle vlastnich potreb, potom zpracujte (a do textu
+% zapracujte) pomoci prikazu bibtex a nasledne pdflatex (nebo
+% latex). Druhy z nich alespon 2x, aby se poresily odkazy.
+
+\bibliographystyle{csplainnat}
+\bibliography{reference}
+
+%*****************************************************************************
+%*****************************************************************************
+\chapter{Seznam použitých zkratek}
+
+\begin{description}
+\item[IDE] Integrated Development Environment
+\item[GTD] Getting Things Done
+\item[API] Application Programming Interface
+\item[JSON] JavaScript Object Notation
+\item[REST] Representational State Transfer
+\item[HTML] HyperText Markup Language
+\item[RUP] Rational Unified Process
+\item[UML] Unified Modeling Language
+\end{description}
+
+%*****************************************************************************
+\chapter{Instalační příručka}
+Instalační příručka je součástí příloh na přiloženém CD.
+
+%*****************************************************************************
+\chapter{Obsah přiloženého CD}
+
+\begin{description}
+\item[instalacni-prirucka] \hfill \\
+	instalační příručka aplikace
+	\begin{itemize}
+	\item prirucka.pdf
+	\end{itemize}
+\item[install] \hfill \\
+	instalační soubory pro Windows a Mac OS X
+	\begin{itemize}
+	\item GTDTool.dmg
+	\item GTDTool.msi
+	\end{itemize}
+\item[src] \hfill \\
+	zdrojové kódy aplikace
+\item[testy] \hfill \\
+	hrubá data z testů
+	\begin{itemize}
+	\item zatezove-testy.ods
+	\item zatezove-testy.xls
+	\item zatezove-testy.xlsx	
+	\end{itemize}
+\item[text] \hfill \\
+	vlastní text bakalářské práce
+	\begin{itemize}
+	\item figures - obrázky použité v práci
+	\item includes - jednotlivé kapitoly práce
+	\item csplainnat.bst - soubor s dodatečnými funkcemi pro {\LaTeX}
+	\item reference.bib - použitá literatura
+	\item Saterond-thesis-2012.pdf
+	\item Saterond-thesis-2012.tex
+	\end{itemize}
+\item[uml] \hfill \\
+	modely v jazyce UML ve formátu *.eap pro aplikaci Enterprise Architect
+	\begin{itemize}
+	\item GTDTool.eap
+	\end{itemize}
+\end{description}
+
+\end{document}

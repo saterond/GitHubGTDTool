@@ -1,0 +1,37 @@
+<html>
+	<head>		
+		<link rel="stylesheet" href="../css/screen.css" />
+		<script src="../js/prototype.js" type="text/javascript" charset="utf-8"></script>
+		<title>Set your authentication hash</title>		
+	</head>	
+	<body class="dialog">
+		<form id="auth">
+			<label for="username">Username: </label><br/>
+			<input type="text" id="username" /><br/>		
+			<label for="password">Password: </label><br/>
+			<input type="password" id="password" /><br/>			
+			<button id="saveAuth">Save</button>
+		</form>
+		
+		<script type="text/javascript">
+			var handlerSyncIssues = document.on('click', 'button[id="saveAuth"]', function(event, element) {    	
+					var form = $('auth');
+					
+					field = form["username"];
+					var username = $(field).getValue();
+					
+					field = form["password"];
+					var password = $(field).getValue();
+					
+					var app = Titanium.API.get("app");				
+					app.saveAuth(username, password);
+					
+					var window = Titanium.UI.getCurrentWindow();
+					window.close();						
+			    }.bind(this)
+			); 
+			handlerSyncIssues.stop();
+			handlerSyncIssues.start();			
+		</script>
+	</body>
+</html>
